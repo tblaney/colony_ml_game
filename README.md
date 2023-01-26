@@ -1,1 +1,2 @@
-# colony_ml_game
+# Colony Game
+Colony Machine Learning Game in Unity
