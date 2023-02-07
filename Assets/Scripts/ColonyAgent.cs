@@ -4,8 +4,14 @@ using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using Random = UnityEngine.Random;
 
-public class ColonyAgent : MonoBehaviour\+
+public class ColonyAgent : Agent
 {
+
+    const int k_NoAction = 0;  // do nothing!
+    const int k_Up = 1;
+    const int k_Down = 2;
+    const int k_Left = 3;
+    const int k_Right = 4;
 
     public override void Initialize()
     {
@@ -34,7 +40,7 @@ public class ColonyAgent : MonoBehaviour\+
                 targetPos = transform.position + new Vector3(0, 0, -1f);
                 break;
             default:
-                throw new ArgumentException("Invalid action value")
+                throw new ArgumentException("Invalid action value");
         }
 
         var hit = Physics.OverlapBox(targetPos, new Vector3(0.3f, 0.3f, 0.3f));

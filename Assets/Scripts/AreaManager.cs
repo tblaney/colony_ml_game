@@ -10,7 +10,7 @@ public class AreaManager : MonoBehaviour
         Instance = this;
     }
 
-    #TODO Reset Game Area 
+    //#TODO Reset Game Area 
 
     
 }
