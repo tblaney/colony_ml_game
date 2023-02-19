@@ -1,0 +1,47 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1676831582",
+        "python_version": "3.8.6 (tags/v3.8.6:db45529, Sep 23 2020, 15:52:53) [MSC v.1927 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\alexa\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\mlagents-learn --torch-device cuda",
+        "mlagents_version": "0.26.0",
+        "mlagents_envs_version": "0.26.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "1.7.1+cu110",
+        "numpy_version": "1.21.2",
+        "end_time_seconds": "1676831589"
+    },
+    "total": 6.4814071,
+    "count": 1,
+    "self": 0.003008599999999362,
+    "children": {
+        "run_training.setup": {
+            "total": 0.18427950000000015,
+            "count": 1,
+            "self": 0.18427950000000015
+        },
+        "TrainerController.start_learning": {
+            "total": 6.294119,
+            "count": 1,
+            "self": 0.0004094000000005593,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 6.2936992,
+                    "count": 1,
+                    "self": 6.2936992
+                },
+                "trainer_threads": {
+                    "total": 1.0999999995320309e-06,
+                    "count": 1,
+                    "self": 1.0999999995320309e-06
+                },
+                "TrainerController._save_models": {
+                    "total": 9.300000000322939e-06,
+                    "count": 1,
+                    "self": 9.300000000322939e-06
+                }
+            }
+        }
+    }
+}
