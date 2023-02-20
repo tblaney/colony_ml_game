@@ -9,21 +9,24 @@ public class ColonyArea : MonoBehaviour
     public GameObject poison;
     public GameObject agent;
     public int areaIndex;
-    public List<Vector3> positionVecs;
 
-    void Awake(){
-        //plane = GetComponent<Renderer>();
-    }
+    public LayerMask mask;
+
+    public List<Vector3> positionVecs;
+    public List<Vector3> openVecs;
+
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Bounds bounds = plane.bounds;
+
         float xmin = bounds.min.x;
         float xmax = bounds.max.x;
         float zmin = bounds.min.z;
         float zmax = bounds.max.z;
         float y = bounds.center.y;
+
         for(int x=(int)xmin; x<(int)xmax; x++){
             for(int z=(int)zmin; z<(int)zmax; z++){
                 positionVecs.Add(new Vector3(x+0.5f, y+0.25f, z+0.5f));
@@ -31,37 +34,48 @@ public class ColonyArea : MonoBehaviour
         }
     }
 
-    public Vector3 GetRandomPosition(){
+    public Vector3 GetRandomPosition()
+    {
         return positionVecs[UnityEngine.Random.Range(0, positionVecs.Count)];
     }
 
-    public void ResetArea(){
+    public void ResetArea()
+    {
+        Debug.Log("Colony Area Reset");
         PlaceAgents();
         CreateFood(AreaManager.Instance.foodNum);
         CreatePoison(AreaManager.Instance.poisonNum);
     }
 
-    private void PlaceAgents(){
-        for (int i=0; i<AreaManager.Instance.foodNum; i++){
+    private void PlaceAgents()
+    {
+        for (int i=0; i<AreaManager.Instance.agentNum; i++)
+        {
             Vector3 newpos = positionVecs[UnityEngine.Random.Range(0, positionVecs.Count)];
             GameObject newAgent = Instantiate(agent, this.transform);
             newAgent.transform.position = newpos;
         }
     }
 
-    public void CreateFood(int amount){
-        List<Vector3> openVecs = new List<Vector3>();
-        foreach (Vector3 vec in positionVecs){
-                var hit = Physics.OverlapBox(vec, new Vector3(0.3f, 0.3f, 0.3f));
-                if (hit.Length > 0){
-                    continue;
-                } 
-                openVecs.Add(vec);
-            }
-        for (int i=0; i<amount; i++){
+    public void CreateFood(int amount)
+    {
+        openVecs = new List<Vector3>();
+        foreach (Vector3 vec in positionVecs)
+        {
+            var hit = Physics.OverlapBox(vec, new Vector3(0.3f, 0.3f, 0.3f), Quaternion.identity, mask);
+            if (hit.Length > 0)
+            {
+                continue;
+            } 
+            openVecs.Add(vec);
+        }
+
+        for (int i=0; i<amount; i++)
+        {
             int index = UnityEngine.Random.Range(0, openVecs.Count);
             Vector3 newpos = openVecs[index];
             openVecs.RemoveAt(index);
+
             GameObject newFood = Instantiate(food, this.transform);
             newFood.transform.position = newpos;
             FoodLogic foodLogic = newFood.GetComponent<FoodLogic>();
@@ -69,16 +83,20 @@ public class ColonyArea : MonoBehaviour
         }
     }
 
-    public void CreatePoison(int amount){
+    public void CreatePoison(int amount)
+    {
         List<Vector3> openVecs = new List<Vector3>();
-        foreach (Vector3 vec in positionVecs){
-                var hit = Physics.OverlapBox(vec, new Vector3(0.3f, 0.3f, 0.3f));
-                if (hit.Length > 0){
-                    continue;
-                } 
-                openVecs.Add(vec);
-            }
-        for (int i=0; i<amount; i++){
+        foreach (Vector3 vec in positionVecs)
+        {
+            var hit = Physics.OverlapBox(vec, new Vector3(0.3f, 0.3f, 0.3f), Quaternion.identity, mask);
+            if (hit.Length > 0)
+            {
+                continue;
+            } 
+            openVecs.Add(vec);
+        }
+        for (int i=0; i<amount; i++)
+        {
             int index = UnityEngine.Random.Range(0, openVecs.Count);
             Vector3 newpos = openVecs[index];
             openVecs.RemoveAt(index);

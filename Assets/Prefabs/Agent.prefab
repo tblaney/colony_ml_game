@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7998005736481719042}
   - component: {fileID: 7998005736481719043}
   - component: {fileID: -5172526951358469466}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Agent
   m_TagString: Agent
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 7998005737876803892}
   - component: {fileID: 7998005737876803894}
   - component: {fileID: 7998005737876803895}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AgentViewCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,8 +221,8 @@ Camera:
   m_GameObject: {fileID: 7998005737876803893}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

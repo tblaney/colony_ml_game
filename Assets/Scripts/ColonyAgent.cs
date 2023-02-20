@@ -14,6 +14,7 @@ public class ColonyAgent : Agent
     const int k_Down = 2;
     const int k_Left = 3;
     const int k_Right = 4;
+
     private EnvironmentParameters m_ResetParams;
 
     public override void Initialize()
@@ -74,24 +75,27 @@ public class ColonyAgent : Agent
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        var continuousActionsOut = actionsOut.ContinuousActions;
+        var action = actionsOut.DiscreteActions[0];
+
         if (Input.GetKey(KeyCode.D))
         {
-            continuousActionsOut[2] = 1;
-        }
+            action = k_Right;
+        } else
         if (Input.GetKey(KeyCode.W))
         {
-            continuousActionsOut[0] = 1;
-        }
+            action = k_Up;
+        } else
         if (Input.GetKey(KeyCode.A))
         {
-            continuousActionsOut[2] = -1;
-        }
+            action = k_Left;
+        } else
         if (Input.GetKey(KeyCode.S))
         {
-            continuousActionsOut[0] = -1;
+            action = k_Down;
+        } else
+        {
+            action = 0;
         }
-        var discreteActionsOut = actionsOut.DiscreteActions;
-        discreteActionsOut[0] = Input.GetKey(KeyCode.Space) ? 1 : 0;
+
     }
 }

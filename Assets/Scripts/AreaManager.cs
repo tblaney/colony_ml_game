@@ -14,13 +14,29 @@ public class AreaManager : MonoBehaviour
     public int foodNum;
     public int poisonNum;
 
-    void Awake(){
-        Academy.Instance.OnEnvironmentReset += EnvironmentReset;
+    void Awake()
+    {
         Instance = this;
         timer = 0f;
     }
 
-    void Update(){
+    void Start()
+    {
+        //EnvironmentReset();
+    }
+
+    void OnEnable()
+    {
+        Academy.Instance.OnEnvironmentReset += EnvironmentReset;
+    }
+
+    void OnDisable()
+    {
+        //Academy.Instance.OnEnvironmentReset -= EnvironmentReset;
+    }
+
+    void Update()
+    {
         timer += Time.deltaTime;
     }
 
@@ -36,14 +52,16 @@ public class AreaManager : MonoBehaviour
         }
     }
 
-    void ClearObjects(string objTag){
+    void ClearObjects(string objTag)
+    {
         GameObject[] objs = GameObject.FindGameObjectsWithTag(objTag);
         foreach (GameObject o in objs){
             Destroy(o);
         }
     }
 
-    public void SpawnFood(int index){
+    public void SpawnFood(int index)
+    {
         ColonyArea[] listArea = FindObjectsOfType<ColonyArea>();
         foreach (var fa in listArea)
         {
@@ -53,7 +71,8 @@ public class AreaManager : MonoBehaviour
         }
     }
 
-    public void SpawnPoison(int index){
+    public void SpawnPoison(int index)
+    {
         ColonyArea[] listArea = FindObjectsOfType<ColonyArea>();
         foreach (var fa in listArea)
         {
