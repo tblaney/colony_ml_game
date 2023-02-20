@@ -12,7 +12,7 @@ public class ColonyArea : MonoBehaviour
     public List<Vector3> positionVecs;
 
     void Awake(){
-        plane = GetComponent<Renderer>();
+        //plane = GetComponent<Renderer>();
     }
 
     // Start is called before the first frame update
