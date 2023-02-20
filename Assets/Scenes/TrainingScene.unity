@@ -421,7 +421,7 @@ MonoBehaviour:
   areaIndex: 1
   mask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   positionVecs: []
   openVecs: []
 --- !u!1 &1245306362

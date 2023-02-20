@@ -75,27 +75,23 @@ public class ColonyAgent : Agent
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        var action = actionsOut.DiscreteActions[0];
-
+        var discreteActionsOut = actionsOut.DiscreteActions;
+        discreteActionsOut[0] = k_NoAction;
         if (Input.GetKey(KeyCode.D))
         {
-            action = k_Right;
-        } else
+            discreteActionsOut[0] = k_Right;
+        }
         if (Input.GetKey(KeyCode.W))
         {
-            action = k_Up;
-        } else
+            discreteActionsOut[0] = k_Up;
+        }
         if (Input.GetKey(KeyCode.A))
         {
-            action = k_Left;
-        } else
+            discreteActionsOut[0] = k_Left;
+        }
         if (Input.GetKey(KeyCode.S))
         {
-            action = k_Down;
-        } else
-        {
-            action = 0;
+            discreteActionsOut[0] = k_Down;
         }
-
     }
 }
