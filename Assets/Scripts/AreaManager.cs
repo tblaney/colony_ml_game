@@ -6,6 +6,7 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 
+//
 public class AreaManager : MonoBehaviour
 {
     public static AreaManager Instance;
@@ -14,6 +15,9 @@ public class AreaManager : MonoBehaviour
     public int foodNum;
     public int poisonNum;
 
+    //Called once only when Agent
+    //is first created
+    //not when resetting
     void Awake(){
         Academy.Instance.OnEnvironmentReset += EnvironmentReset;
         Instance = this;
@@ -26,6 +30,9 @@ public class AreaManager : MonoBehaviour
 
     public void EnvironmentReset()
     {
+        //When resetting the environment
+        //clear all foods and poison
+        //then, reset every game board
         ClearObjects("Food");
         ClearObjects("Poison");
 
@@ -43,6 +50,8 @@ public class AreaManager : MonoBehaviour
         }
     }
 
+    //spawn food in a random cell 
+    //in a given game board
     public void SpawnFood(int index){
         ColonyArea[] listArea = FindObjectsOfType<ColonyArea>();
         foreach (var fa in listArea)
@@ -53,6 +62,9 @@ public class AreaManager : MonoBehaviour
         }
     }
 
+
+    //spawn poison in a random cell 
+    //in a given game board
     public void SpawnPoison(int index){
         ColonyArea[] listArea = FindObjectsOfType<ColonyArea>();
         foreach (var fa in listArea)

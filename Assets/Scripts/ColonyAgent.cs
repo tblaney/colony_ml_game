@@ -22,13 +22,22 @@ public class ColonyAgent : Agent
     }
 
     //TODO: Make reward cumulative across all agents. (look up SharedReward() ML agents method)
+    
+    //actionBuffers contains the action ]
+    //to be performed according to the ML agent
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
         var action = actionBuffers.DiscreteActions[0];
         var targetPos = transform.position;
 
+        
+        //Add a tiny -ve reward as time passes 
+        //to ensure the agent isn't stationary
         AddReward(-0.005f);
 
+        
+        //Calculate the next position based on the action 
+        //could be 1 cell forward, backward, left or right
         switch (action)
         {
             case k_NoAction:
@@ -49,6 +58,9 @@ public class ColonyAgent : Agent
                 throw new ArgumentException("Invalid action value");
         }
 
+        //Check if there's no wall at the new position
+        //and move there, consume food or poison there
+        //and get corresponding reward (+1/-1)
         Collider[] hit = Physics.OverlapBox(targetPos, new Vector3(0.3f, 0.3f, 0.3f));
         if (hit.Where(col => col.gameObject.CompareTag("Wall")).ToArray().Length == 0)
         {
@@ -72,6 +84,7 @@ public class ColonyAgent : Agent
         }
     }
 
+    //Convert continuous action to discrete
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var continuousActionsOut = actionsOut.ContinuousActions;
