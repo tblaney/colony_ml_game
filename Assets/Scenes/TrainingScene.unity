@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 358055631}
   - component: {fileID: 358055630}
   - component: {fileID: 358055629}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Edgewall(1)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 739267457}
   - component: {fileID: 739267456}
   - component: {fileID: 739267455}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Edgewall
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -530,7 +530,7 @@ GameObject:
   - component: {fileID: 1481432018}
   - component: {fileID: 1481432017}
   - component: {fileID: 1481432016}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Edgewall(2)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -627,7 +627,7 @@ GameObject:
   - component: {fileID: 1579354529}
   - component: {fileID: 1579354528}
   - component: {fileID: 1579354527}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Edgewall(3)
   m_TagString: Wall
   m_Icon: {fileID: 0}

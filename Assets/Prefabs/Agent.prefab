@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DecisionPeriod: 5
+  DecisionPeriod: 1
   TakeActionsBetweenDecisions: 1
 --- !u!1 &7998005737876803893
 GameObject:
@@ -189,7 +189,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7998005737876803892}
   - component: {fileID: 7998005737876803894}
-  - component: {fileID: 7998005737876803895}
   m_Layer: 7
   m_Name: AgentViewCamera
   m_TagString: Untagged
@@ -255,11 +254,3 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &7998005737876803895
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7998005737876803893}
-  m_Enabled: 1
