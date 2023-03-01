@@ -14,6 +14,8 @@ public class AreaManager : MonoBehaviour
     public int foodNum;
     public int poisonNum;
 
+    public Camera overheadCamera;
+
     void Awake()
     {
         Instance = this;
@@ -58,6 +60,36 @@ public class AreaManager : MonoBehaviour
         foreach (GameObject o in objs){
             Destroy(o);
         }
+    }
+
+    public Vector3 GetClosestFood(int area_index, Vector3 current_position)
+    {   
+        ColonyArea area = GetArea(area_index);
+        List<GameObject> objs = area.GetFood();
+        Vector3 closest_position = default(Vector3);
+        float distance = 10000f;
+        foreach (GameObject obj in objs)
+        {
+            float dist = Vector3.Distance(obj.transform.position, current_position);
+            if (dist < distance)
+            {
+                distance = dist;
+                closest_position = obj.transform.position;
+            }
+        }
+        return closest_position;
+    }
+
+    ColonyArea GetArea(int index)
+    {
+        ColonyArea[] listArea = FindObjectsOfType<ColonyArea>();
+        foreach (var fa in listArea)
+        {
+            if (fa.areaIndex == index){
+                return fa;
+            }
+        }
+        return null;
     }
 
     public void SpawnFood(int index)
