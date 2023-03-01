@@ -15,6 +15,9 @@ public class ColonyArea : MonoBehaviour
     public List<Vector3> positionVecs;
     public List<Vector3> openVecs;
 
+    public List<FoodLogic> _foods;
+    public List<FoodLogic> _poisons;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -60,14 +63,22 @@ public class ColonyArea : MonoBehaviour
 
     public List<GameObject> GetFood()
     {
-        FoodLogic[] foods = GetComponentsInChildren<FoodLogic>();
-        List<GameObject> food_objs = new List<GameObject>();
-        foreach (FoodLogic logic in foods)
+        List<GameObject> objs = new List<GameObject>();
+        foreach (FoodLogic food in _foods)
         {
-            if (logic.gameObject.tag == "Food")
-                food_objs.Add(logic.gameObject);
+            objs.Add(food.gameObject);
         }
-        return food_objs;
+        return objs;
+    } 
+    
+    public List<GameObject> GetPoison()
+    {
+        List<GameObject> objs = new List<GameObject>();
+        foreach (FoodLogic food in _poisons)
+        {
+            objs.Add(food.gameObject);
+        }
+        return objs;
     }
 
     public void CreateFood(int amount)
@@ -102,7 +113,27 @@ public class ColonyArea : MonoBehaviour
             GameObject newFood = Instantiate(food, this.transform);
             newFood.transform.position = newpos;
             FoodLogic foodLogic = newFood.GetComponent<FoodLogic>();
-            foodLogic.areaIndex = areaIndex;
+            foodLogic.Setup(areaIndex, FoodLogic.Type.Food, DestroyFoodCallback);
+
+            if (_foods == null)
+                _foods = new List<FoodLogic>();
+            
+            _foods.Add(foodLogic);
+        }
+    }
+
+    void DestroyFoodCallback(FoodLogic food)
+    {
+        switch (food._type)
+        {
+            case FoodLogic.Type.Food:
+                if (_foods.Contains(food))
+                    _foods.Remove(food);
+                break;
+            case FoodLogic.Type.Poison:
+                if (_poisons.Contains(food))
+                    _poisons.Remove(food);
+                break;
         }
     }
 
@@ -137,7 +168,14 @@ public class ColonyArea : MonoBehaviour
             GameObject newFood = Instantiate(poison, this.transform);
             newFood.transform.position = newpos;
             FoodLogic foodLogic = newFood.GetComponent<FoodLogic>();
-            foodLogic.areaIndex = areaIndex;
+            foodLogic.Setup(areaIndex, FoodLogic.Type.Poison, DestroyFoodCallback);
+
+            
+            if (_poisons == null)
+                _poisons = new List<FoodLogic>();
+            
+            _poisons.Add(foodLogic);
+
         }
     }
 }

@@ -7,13 +7,15 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 
-public class ColonyAgent : Agent
+public class ColonyAgentAdvanced : Agent
 {
     const int k_NoAction = 0;  // do nothing!
     const int k_Up = 1;
     const int k_Down = 2;
     const int k_Left = 3;
     const int k_Right = 4;
+    const int k_Pickup = 5;
+    const int k_Drop = 6;
 
     LayerMask mask;
 
@@ -32,7 +34,10 @@ public class ColonyAgent : Agent
 
     private float _timer;
     public int _index;
-    public Vector3 _target;
+
+    public Vector3 _targetFood;
+    public Vector3 _targetPoison;
+    FoodLogic _foodHolding;
 
     //public bool _camera_follow = false;
 
@@ -51,11 +56,33 @@ public class ColonyAgent : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         // add a vector observation to closest food
-        if (_target == default(Vector3))
-            _target = AreaManager.Instance.GetClosestFood(_index, transform.position, FoodLogic.Type.Food);
-        Vector3 dir = (_target - transform.position).normalized;
+        if (_targetFood == default(Vector3) | _targetPoison == default(Vector3))
+            RefreshTargets();
 
-        sensor.AddObservation(dir);
+        Vector3 dir_food = (_targetFood - transform.position).normalized;
+        Vector3 dir_poison = (_targetPoison - transform.position).normalized;
+
+        sensor.AddObservation(dir_food);
+        sensor.AddObservation(dir_poison);
+    }
+
+    void RefreshTargets()
+    {
+        _targetFood = AreaManager.Instance.GetClosestFood(_index, transform.position, FoodLogic.Type.Food);
+        _targetPoison = AreaManager.Instance.GetClosestFood(_index, transform.position, FoodLogic.Type.Poison);
+    }
+
+    void RefreshTarget(FoodLogic.Type type)
+    {
+        switch (type)
+        {
+            case FoodLogic.Type.Food:
+                _targetFood = AreaManager.Instance.GetClosestFood(_index, transform.position, FoodLogic.Type.Food);
+                break;
+            case FoodLogic.Type.Poison:
+                _targetPoison = AreaManager.Instance.GetClosestFood(_index, transform.position, FoodLogic.Type.Poison);
+                break;
+        }
     }
 
     void SetupCamera()
@@ -106,14 +133,6 @@ public class ColonyAgent : Agent
     //TODO: Make reward cumulative across all agents. (look up SharedReward() ML agents method)
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-            
-        //if (cooldown_2)
-        //    return;
-
-        //_timer += Time.deltaTime/2f;
-        //AddReward(-_timer);
-        //AddReward(-0.001f);
-
         var action = actionBuffers.DiscreteActions[0];
         var targetPos = transform.position;
 
@@ -122,7 +141,6 @@ public class ColonyAgent : Agent
         switch (action)
         {
             case k_NoAction:
-                //AddReward(-0.005f);
                 break;
             case k_Right:
                 moving = true;
@@ -152,11 +170,6 @@ public class ColonyAgent : Agent
                 throw new ArgumentException("Invalid action value");
         }
 
-        //if (moving)
-        //{
-        //    Debug.Log("Colony Agent Action Received: " + (targetPos - transform.position));
-        //}
-
         Collider[] hit = Physics.OverlapBox(targetPos, new Vector3(0.3f, 0.3f, 0.3f), Quaternion.identity, mask);
         if (hit.Where(col => col.gameObject.CompareTag("Wall")).ToArray().Length == 0)
         {
@@ -167,37 +180,20 @@ public class ColonyAgent : Agent
                 //TODO: Gain reward for collecting food                
                 FoodLogic foodLogic = hit[0].gameObject.GetComponent<FoodLogic>();
                 foodLogic.ConsumeFood();
-                _timer = 0f;
-                if (Vector3.Equals(foodLogic.transform.position,_target))
-                {
-                    AddReward(1f);
-                    AreaManager.RewardTotal += 1f;
-                } else
-                {
-                    AddReward(1f);
-                    AreaManager.RewardTotal += 1f;
-                }
 
-                _target = AreaManager.Instance.GetClosestFood(_index, transform.position, FoodLogic.Type.Food);
+                AddReward(1f);
+                RefreshTarget(FoodLogic.Type.Food);
             }
             else if (hit.Where(col => col.gameObject.CompareTag("Poison")).ToArray().Length == 1)
             {   
                 //TODO: Gain negative reward for standing near or touching poison
-                //punishment should be proportional to distance (eventually)
                 FoodLogic foodLogic = hit[0].gameObject.GetComponent<FoodLogic>();
                 foodLogic.ConsumePoison();
-                AddReward(-1f);
-                AreaManager.RewardTotal -= 1f;
-            }
-        } else
-        {
-            //AddReward(-0.01f);
-        }
 
-        //if (cooldown && !cooldown_2)
-        //{
-        //    cooldown_2 = true;
-        //}//
+                AddReward(-1f);
+                RefreshTarget(FoodLogic.Type.Poison);
+            }
+        } 
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -209,7 +205,6 @@ public class ColonyAgent : Agent
 
         if (cooldown)
         {
-            //actionsOut.Clear();
             return;
         }
         

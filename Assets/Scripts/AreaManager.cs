@@ -14,7 +14,11 @@ public class AreaManager : MonoBehaviour
     public int foodNum;
     public int poisonNum;
 
+    public Bounds dropBounds;
+
     public Camera overheadCamera;
+
+    public static float RewardTotal;
 
     void Awake()
     {
@@ -62,10 +66,19 @@ public class AreaManager : MonoBehaviour
         }
     }
 
-    public Vector3 GetClosestFood(int area_index, Vector3 current_position)
+    public Vector3 GetClosestFood(int area_index, Vector3 current_position, FoodLogic.Type type)
     {   
         ColonyArea area = GetArea(area_index);
-        List<GameObject> objs = area.GetFood();
+        List<GameObject> objs = null;
+        switch (type)
+        {
+            case FoodLogic.Type.Food:
+                objs = area.GetFood();
+                break;
+            case FoodLogic.Type.Poison:
+                objs = area.GetPoison();
+                break;
+        }
         Vector3 closest_position = default(Vector3);
         float distance = 10000f;
         foreach (GameObject obj in objs)
@@ -112,5 +125,13 @@ public class AreaManager : MonoBehaviour
                 fa.CreatePoison(1);
             }
         }
+    }
+
+    public float GetRewardDrop(Vector3 position)
+    {
+        if (dropBounds.Contains(position))
+            return 1f;
+        
+        return -1f;
     }
 }
