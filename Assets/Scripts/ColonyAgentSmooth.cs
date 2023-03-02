@@ -60,11 +60,13 @@ public class ColonyAgentSmooth : Agent
                     RefreshTarget();
                 }
                 food.ConsumeFood();
+                AreaManager.RewardTotal += 1;
                 AddReward(1f);
                 break;
              case FoodLogic.Type.Poison:
                 food.ConsumePoison();
                 AddReward(-1f);
+                AreaManager.RewardTotal -= 1;
                 break;
         }
     }

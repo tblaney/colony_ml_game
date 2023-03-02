@@ -217,7 +217,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &512459262
 Transform:
   m_ObjectHideFlags: 0
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: 0
   agentNum: 1
-  foodNum: 10
+  foodNum: 2
   poisonNum: 10
   overheadCamera: {fileID: 1662073300}
 --- !u!4 &916418748
