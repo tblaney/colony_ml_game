@@ -14,8 +14,9 @@ public class ColonyAgentAdvanced : Agent
     const int k_Down = 2;
     const int k_Left = 3;
     const int k_Right = 4;
-    const int k_Pickup = 5;
-    const int k_Drop = 6;
+
+    const int k_Pickup = 1;
+    const int k_Drop = 2;
 
     LayerMask mask;
 
@@ -40,9 +41,18 @@ public class ColonyAgentAdvanced : Agent
     FoodLogic _foodHolding;
 
     //public bool _camera_follow = false;
+    public Bounds goalBounds;
+    public Bounds trashBounds;
 
 
     private EnvironmentParameters m_ResetParams;
+
+    public void Setup(int area_index, Bounds goal_bounds, Bounds trash_bounds)
+    {
+        _index = area_index;
+        goalBounds = goal_bounds;
+        trashBounds = trash_bounds;
+    }
 
     public override void Initialize()
     {
@@ -62,8 +72,22 @@ public class ColonyAgentAdvanced : Agent
         Vector3 dir_food = (_targetFood - transform.position).normalized;
         Vector3 dir_poison = (_targetPoison - transform.position).normalized;
 
+        Vector3 dir_goal = (goalBounds.center - transform.position).normalized;
+        Vector3 dir_trash = (trashBounds.center - transform.position).normalized;
+
         sensor.AddObservation(dir_food);
         sensor.AddObservation(dir_poison);
+
+        sensor.AddObservation(dir_goal);
+        sensor.AddObservation(dir_trash);
+
+        if (_foodHolding != null)
+        {
+            sensor.AddObservation(0);
+        } else
+        {
+            sensor.AddObservation(1);
+        }
     }
 
     void RefreshTargets()
@@ -134,8 +158,9 @@ public class ColonyAgentAdvanced : Agent
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
         var action = actionBuffers.DiscreteActions[0];
+        var drop_pickup = actionBuffers.DiscreteActions[1];
         var targetPos = transform.position;
-
+        Vector3 addition = default(Vector3);
         bool moving = false;
 
         switch (action)
@@ -145,24 +170,28 @@ public class ColonyAgentAdvanced : Agent
             case k_Right:
                 moving = true;
                 targetPos = transform.position + new Vector3(1f, 0, 0);
+                addition = new Vector3(1f, 0, 0);
                 if (textureType == Texture.POV)
                     transform.localEulerAngles = new Vector3(0f, 90f, 0f);
                 break;
             case k_Left:
                 moving = true;
                 targetPos = transform.position + new Vector3(-1f, 0, 0);
+                addition = new Vector3(-1f, 0, 0);
                 if (textureType == Texture.POV)
                     transform.localEulerAngles = new Vector3(0f, -90f, 0f);
                 break;
             case k_Up:
                 moving = true;
                 targetPos = transform.position + new Vector3(0, 0, 1f);
+                addition = new Vector3(0, 0, 1f);
                 if (textureType == Texture.POV)
                     transform.localEulerAngles = new Vector3(0f, 0f, 0f);
                 break;
             case k_Down:
                 moving = true;
                 targetPos = transform.position + new Vector3(0, 0, -1f);
+                addition = new Vector3(0, 0, -1f);
                 if (textureType == Texture.POV)
                     transform.localEulerAngles = new Vector3(0f, 180f, 0f);
                 break;
@@ -173,27 +202,163 @@ public class ColonyAgentAdvanced : Agent
         Collider[] hit = Physics.OverlapBox(targetPos, new Vector3(0.3f, 0.3f, 0.3f), Quaternion.identity, mask);
         if (hit.Where(col => col.gameObject.CompareTag("Wall")).ToArray().Length == 0)
         {
-            transform.position = targetPos;
+            //transform.position = targetPos;
 
             if (hit.Where(col => col.gameObject.CompareTag("Food")).ToArray().Length == 1)
             {
-                //TODO: Gain reward for collecting food                
+                //TODO: Gain reward for collecting food             
                 FoodLogic foodLogic = hit[0].gameObject.GetComponent<FoodLogic>();
-                foodLogic.ConsumeFood();
+                //foodLogic.ConsumeFood();
 
-                AddReward(1f);
-                RefreshTarget(FoodLogic.Type.Food);
+                //AddReward(1f);
+                
+                if (drop_pickup == k_Pickup)
+                {
+                    Carry(foodLogic);
+                    RefreshTarget(FoodLogic.Type.Food);
+                }
             }
             else if (hit.Where(col => col.gameObject.CompareTag("Poison")).ToArray().Length == 1)
             {   
                 //TODO: Gain negative reward for standing near or touching poison
                 FoodLogic foodLogic = hit[0].gameObject.GetComponent<FoodLogic>();
-                foodLogic.ConsumePoison();
+                //foodLogic.ConsumePoison();
 
-                AddReward(-1f);
-                RefreshTarget(FoodLogic.Type.Poison);
+                //AddReward(-1f);
+                //RefreshTarget(FoodLogic.Type.Poison);
+
+                if (drop_pickup == k_Pickup)
+                {
+                    Carry(foodLogic);
+                    RefreshTarget(FoodLogic.Type.Poison);
+                }
+                
+            } else
+            {
+                // before moving, need to confirm with the food holding too
+                if (_foodHolding != null)
+                {
+                    Collider[] hit_2 = Physics.OverlapBox(_foodHolding.transform.position + addition, new Vector3(0.3f, 0.3f, 0.3f), Quaternion.identity, mask);
+                    if (hit_2.Length == 0)
+                    {
+                        // can pass
+                        transform.position = targetPos;
+                    }
+                } else
+                {
+                    transform.position = targetPos;
+                }
             }
         } 
+
+        if (drop_pickup == k_Drop)
+        {
+            Drop();
+        }
+    }
+
+    public void Carry(FoodLogic food)
+    {
+        if (_foodHolding != null)
+        {
+            // already carrying food
+            AddReward(-0.005f);
+        } else
+        {
+            _foodHolding = food;
+            _foodHolding.Carry(this.transform);
+            AddReward(0.005f);
+        }
+    }
+
+    public void Drop()
+    {
+        if (_foodHolding != null)
+        {
+            bool in_zone;
+            float reward = GetRewardDrop(out in_zone);
+            AddReward(reward);
+
+            _foodHolding.Drop(in_zone);
+
+            switch (_foodHolding._type)
+            {
+                case FoodLogic.Type.Food:
+                    RefreshTarget(FoodLogic.Type.Food);
+                    break;
+                case FoodLogic.Type.Poison:
+                    RefreshTarget(FoodLogic.Type.Poison);
+                    break;
+            }
+
+            _foodHolding = null;
+        } else
+        {
+            // tried to drop with nothing
+            AddReward(-0.005f);
+        }
+    }
+
+    float GetRewardDrop(out bool in_zone)
+    {
+        in_zone = false;
+        switch (_foodHolding._type)
+        {
+            case FoodLogic.Type.Food:
+                if (goalBounds.Contains(_foodHolding.transform.position))
+                {
+                    in_zone = true;
+                    return 1f;
+                } else if (trashBounds.Contains(_foodHolding.transform.position))
+                {
+                    in_zone = true;
+                    return -1f;
+                } else
+                {
+                    /*
+                    float distance_to_target = Vector3.Distance(_foodHolding.transform.position, goalBounds.center);
+                    if (distance_to_target > 10f)
+                    {
+                        return -0.5f;
+                    } else
+                    {
+                        float reward = 1 - (distance_to_target/10f);
+                        if (reward > 0.5f)
+                            reward = 0.5f;
+                        return reward;
+                    }
+                    */
+                    return -0.005f;
+                }
+            case FoodLogic.Type.Poison:
+                if (trashBounds.Contains(_foodHolding.transform.position))
+                {
+                    in_zone = true;
+                    return 1f;
+                } else if (goalBounds.Contains(_foodHolding.transform.position))
+                {
+                    in_zone = true;
+                    return -1f;
+                } else
+                {
+                    /*
+                    float distance_to_target = Vector3.Distance(_foodHolding.transform.position, trashBounds.center);
+                    if (distance_to_target > 10f)
+                    {
+                        return -0.5f;
+                    } else
+                    {
+                        float reward = 1 - (distance_to_target/10f);
+                        if (reward > 0.5f)
+                            reward = 0.5f;
+                        return reward;
+                    }
+                    */
+                    return -0.005f;
+                }
+        }
+
+        return 0f;
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -226,6 +391,14 @@ public class ColonyAgentAdvanced : Agent
         if (Input.GetKey(KeyCode.S))
         {
             discreteActionsOut[0] = k_Down;
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            discreteActionsOut[1] = k_Pickup;
+        }
+        if (Input.GetKey(KeyCode.F))
+        {
+            discreteActionsOut[1] = k_Drop;
         }
     }
 

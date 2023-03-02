@@ -5,10 +5,15 @@ using UnityEngine;
 public class ColonyArea : MonoBehaviour
 {
     public Renderer plane;
+    //public Renderer planeGoal;
+    //public Renderer planeTrash;
     public GameObject food;
     public GameObject poison;
     public GameObject agent;
     public int areaIndex;
+
+    //public Bounds dropBoundsGoal;
+    //public Bounds dropBoundsTrash;
 
     public LayerMask mask;
 
@@ -29,6 +34,11 @@ public class ColonyArea : MonoBehaviour
         float zmin = bounds.min.z;
         float zmax = bounds.max.z;
         float y = bounds.center.y;
+
+        //dropBoundsGoal = planeGoal.bounds;
+        //d//ropBoundsGoal.extents = new Vector3(dropBoundsGoal.extents.x, 10f, dropBoundsGoal.extents.z);
+        //dropBoundsTrash = planeTrash.bounds;
+        //dropBoundsTrash.extents = new Vector3(dropBoundsTrash.extents.x, 10f, dropBoundsTrash.extents.z);
 
         for(int x=(int)xmin; x<(int)xmax; x++){
             for(int z=(int)zmin; z<(int)zmax; z++){
@@ -57,7 +67,7 @@ public class ColonyArea : MonoBehaviour
             Vector3 newpos = positionVecs[UnityEngine.Random.Range(0, positionVecs.Count)];
             GameObject newAgent = Instantiate(agent, this.transform);
             newAgent.transform.position = newpos;
-            newAgent.GetComponent<ColonyAgent>()._index = areaIndex;
+            newAgent.GetComponent<ColonyAgentSmooth>().Setup(areaIndex);
         }
     }
 

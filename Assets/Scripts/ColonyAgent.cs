@@ -48,6 +48,11 @@ public class ColonyAgent : Agent
         SetupCamera();
     }
 
+    public void Setup(int index)
+    {
+        _index = index;
+    }
+
     public override void CollectObservations(VectorSensor sensor)
     {
         // add a vector observation to closest food
