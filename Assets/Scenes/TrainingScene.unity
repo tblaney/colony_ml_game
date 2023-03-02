@@ -277,8 +277,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0
-  agentNum: 1
-  foodNum: 2
+  agentNum: 2
+  foodNum: 8
   poisonNum: 10
   overheadCamera: {fileID: 1662073300}
 --- !u!4 &916418748

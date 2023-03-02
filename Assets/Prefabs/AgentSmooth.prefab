@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 7998005737876803892}
   - component: {fileID: 7998005737876803894}
   - component: {fileID: 3457146266973510163}
+  - component: {fileID: 9041164107173266662}
   m_Layer: 7
   m_Name: AgentViewCamera
   m_TagString: Untagged
@@ -310,3 +311,17 @@ MonoBehaviour:
   m_ObservationType: 0
   m_ObservationStacks: 1
   m_Compression: 1
+--- !u!114 &9041164107173266662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7998005737876803893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25f2aebf48026ec49984c236f971847f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resWidth: 512
+  resHeight: 512
