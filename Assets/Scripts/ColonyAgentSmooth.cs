@@ -23,11 +23,13 @@ public class ColonyAgentSmooth : Agent
     float _speed;
     private EnvironmentParameters m_ResetParams;
 
+    public Action<float> _rewardFunc;
+
     //-------------------------------------------//
-    public void Setup(int area_index)
+    public void Setup(int area_index, Action<float> RewardFunc)
     {
         _index = area_index;
-
+        _rewardFunc = RewardFunc;
         _collisionController.OnFoodCollisionFunc = ConsumeFood;
     }
 
@@ -61,11 +63,27 @@ public class ColonyAgentSmooth : Agent
                 }
                 food.ConsumeFood();
                 AreaManager.RewardTotal += 1;
-                AddReward(1f);
+                //AddReward(1f);
+                if (_rewardFunc != null)
+                {
+                    _rewardFunc(1f);
+                    AddReward(1f);
+                } else
+                {
+                    AddReward(1f);
+                }
                 break;
              case FoodLogic.Type.Poison:
                 food.ConsumePoison();
-                AddReward(-1f);
+               // AddReward(-1f);
+                if (_rewardFunc != null)
+                {
+                    _rewardFunc(-1f);
+                    AddReward(-1f);
+                } else
+                {
+                    AddReward(-1f);
+                }
                 AreaManager.RewardTotal -= 1;
                 break;
         }
@@ -73,6 +91,9 @@ public class ColonyAgentSmooth : Agent
 
     void RefreshTarget()
     {
+        if (_targetFood != null)
+            _targetFood._targeted = false;
+        
         _targetFood = AreaManager.Instance.GetClosestFoodLogic(_index, transform.position, FoodLogic.Type.Food);
         //_targetFood.Activate();
     }
@@ -85,7 +106,7 @@ public class ColonyAgentSmooth : Agent
 
         AddReward(-0.005f);
 
-        Debug.Log("Colony Agent Smooth: " + move_forward + ", " + rotate);
+        //.Log("Colony Agent Smooth: " + move_forward + ", " + rotate);
         
         switch (rotate)
         {

@@ -109,6 +109,10 @@ public class AreaManager : MonoBehaviour
         float distance = 10000f;
         foreach (GameObject obj in objs)
         {
+            FoodLogic food = obj.GetComponent<FoodLogic>();
+            if (food._targeted)
+                continue;
+            
             float dist = Vector3.Distance(obj.transform.position, current_position);
             if (dist < distance)
             {
@@ -117,6 +121,7 @@ public class AreaManager : MonoBehaviour
                 closest_food = obj.GetComponent<FoodLogic>();
             }
         }
+        closest_food._targeted = true;
         return closest_food;
     }
 

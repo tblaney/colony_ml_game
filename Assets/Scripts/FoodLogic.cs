@@ -14,6 +14,8 @@ public class FoodLogic : MonoBehaviour
     Transform _carryer;
     Vector3 _offset;
 
+    public bool _targeted;
+
     public enum Type
     {
         Food,

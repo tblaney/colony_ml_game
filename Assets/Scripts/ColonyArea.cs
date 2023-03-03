@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.MLAgents;
 
 public class ColonyArea : MonoBehaviour
 {
@@ -23,6 +24,10 @@ public class ColonyArea : MonoBehaviour
     public List<FoodLogic> _foods;
     public List<FoodLogic> _poisons;
 
+    public int _runtime;
+    public bool _cooperative;
+
+    SimpleMultiAgentGroup _agentGroup;
 
     // Start is called before the first frame update
     void Awake()
@@ -47,6 +52,22 @@ public class ColonyArea : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+
+    }
+    
+    void Reward(float val)
+    {
+        if (_agentGroup != null)
+            _agentGroup.AddGroupReward(val);
+    }
+
+    public int GetRuntimeIdentifier()
+    {
+        return _runtime++;
+    }
+
     public Vector3 GetRandomPosition()
     {
         return positionVecs[UnityEngine.Random.Range(0, positionVecs.Count)];
@@ -62,12 +83,25 @@ public class ColonyArea : MonoBehaviour
 
     private void PlaceAgents()
     {
+        if (_cooperative)
+        {
+            if (_agentGroup == null)
+            {
+                _agentGroup = new SimpleMultiAgentGroup();
+            }
+        }
         for (int i=0; i<AreaManager.Instance.agentNum; i++)
         {
             Vector3 newpos = positionVecs[UnityEngine.Random.Range(0, positionVecs.Count)];
             GameObject newAgent = Instantiate(agent, this.transform);
             newAgent.transform.position = newpos;
-            newAgent.GetComponent<ColonyAgentSmooth>().Setup(areaIndex);
+            System.Action<float> reward_func = Reward;
+            if (!_cooperative)
+                reward_func = null;
+            newAgent.GetComponent<ColonyAgentSmooth>().Setup(areaIndex, reward_func);
+
+            if (_cooperative)
+                _agentGroup.RegisterAgent(newAgent.GetComponent<ColonyAgentSmooth>());
         }
     }
 
@@ -121,6 +155,7 @@ public class ColonyArea : MonoBehaviour
             openVecs.RemoveAt(index);
 
             GameObject newFood = Instantiate(food, this.transform);
+            //newFood.name = "Food" + GetRuntimeIdentifier().ToString();
             newFood.transform.position = newpos;
             FoodLogic foodLogic = newFood.GetComponent<FoodLogic>();
             foodLogic.Setup(areaIndex, FoodLogic.Type.Food, DestroyFoodCallback);
