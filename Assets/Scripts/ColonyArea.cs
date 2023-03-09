@@ -24,8 +24,13 @@ public class ColonyArea : MonoBehaviour
     public List<FoodLogic> _foods;
     public List<FoodLogic> _poisons;
 
-    public int _runtime;
     public bool _cooperative;
+
+    public int agentNum;
+
+    public int foodCount;
+    private int foodNum;
+    private int poisonNum;
 
     SimpleMultiAgentGroup _agentGroup;
 
@@ -50,22 +55,14 @@ public class ColonyArea : MonoBehaviour
                 positionVecs.Add(new Vector3(x+0.5f, y+0.5f, z+0.5f));
             }
         }
-    }
 
-    void Start()
-    {
-
+        PlaceAgents();
     }
     
     void Reward(float val)
     {
         if (_agentGroup != null)
             _agentGroup.AddGroupReward(val);
-    }
-
-    public int GetRuntimeIdentifier()
-    {
-        return _runtime++;
     }
 
     public Vector3 GetRandomPosition()
@@ -76,9 +73,27 @@ public class ColonyArea : MonoBehaviour
     public void ResetArea()
     {
         Debug.Log("Colony Area Reset");
-        PlaceAgents();
-        CreateFood(AreaManager.Instance.foodNum);
-        CreatePoison(AreaManager.Instance.poisonNum);
+        //If randnums is true get new random food, poison and agent nums
+        ClearObjects("Food");
+        ClearObjects("Poison");
+        if (AreaManager.Instance.randomnums)
+        {
+            foodNum = Random.Range(AreaManager.Instance.minFoodNum, AreaManager.Instance.maxFoodNum);
+            poisonNum = Random.Range(AreaManager.Instance.minPoisonNum, AreaManager.Instance.maxPoisonNum);
+        } else {
+            foodNum = AreaManager.Instance.foodNum;
+            poisonNum = AreaManager.Instance.poisonNum;
+        }
+        CreateFood(foodNum);
+        foodCount = foodNum;
+        CreatePoison(poisonNum);
+    }
+
+    public void UpdateFoodCount() {
+        foodCount -= 1;
+        if (foodCount <= 0) {
+            ResetArea();
+        }
     }
 
     private void PlaceAgents()
@@ -90,7 +105,7 @@ public class ColonyArea : MonoBehaviour
                 _agentGroup = new SimpleMultiAgentGroup();
             }
         }
-        for (int i=0; i<AreaManager.Instance.agentNum; i++)
+        for (int i=0; i<agentNum; i++)
         {
             Vector3 newpos = positionVecs[UnityEngine.Random.Range(0, positionVecs.Count)];
             GameObject newAgent = Instantiate(agent, this.transform);
@@ -98,7 +113,7 @@ public class ColonyArea : MonoBehaviour
             System.Action<float> reward_func = Reward;
             if (!_cooperative)
                 reward_func = null;
-            newAgent.GetComponent<ColonyAgentSmooth>().Setup(areaIndex, reward_func);
+            newAgent.GetComponent<ColonyAgentSmooth>().Setup(areaIndex, this, reward_func);
 
             if (_cooperative)
                 _agentGroup.RegisterAgent(newAgent.GetComponent<ColonyAgentSmooth>());
@@ -155,13 +170,12 @@ public class ColonyArea : MonoBehaviour
             openVecs.RemoveAt(index);
 
             GameObject newFood = Instantiate(food, this.transform);
-            //newFood.name = "Food" + GetRuntimeIdentifier().ToString();
             newFood.transform.position = newpos;
             FoodLogic foodLogic = newFood.GetComponent<FoodLogic>();
             foodLogic.Setup(areaIndex, FoodLogic.Type.Food, DestroyFoodCallback);
 
-            if (_foods == null)
-                _foods = new List<FoodLogic>();
+            // if (_foods == null)
+            //     _foods = new List<FoodLogic>();
             
             _foods.Add(foodLogic);
         }
@@ -216,11 +230,44 @@ public class ColonyArea : MonoBehaviour
             foodLogic.Setup(areaIndex, FoodLogic.Type.Poison, DestroyFoodCallback);
 
             
-            if (_poisons == null)
-                _poisons = new List<FoodLogic>();
+            // if (_poisons == null)
+            //     _poisons = new List<FoodLogic>();
             
             _poisons.Add(foodLogic);
 
+        }
+    }
+
+    public List<GameObject> FindChildObjectWithTag(string _tag)
+     {     
+        List<GameObject> retList = new List<GameObject>();
+        Transform parent = transform;
+        GetChildObject(parent, _tag, retList);
+        return retList;
+     }
+ 
+     public void GetChildObject(Transform parent, string _tag, List<GameObject> retList)
+     {
+         for (int i = 0; i < parent.childCount; i++)
+         {   
+            
+            Transform child = parent.GetChild(i);
+            if (child.tag == _tag)
+            {
+                retList.Add(child.gameObject);
+            }
+            if (child.childCount > 0)
+            {
+                GetChildObject(child, _tag, retList);
+            }
+         }
+     }
+
+    void ClearObjects(string objTag)
+    {
+        List<GameObject> objs = FindChildObjectWithTag(objTag);
+        foreach (GameObject o in objs){
+            Destroy(o);
         }
     }
 }

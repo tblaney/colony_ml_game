@@ -10,18 +10,30 @@ public class AreaManager : MonoBehaviour
 {
     public static AreaManager Instance;
     public float timer;
+    public bool randomnums;
+    public int minFoodNum;
+    public int maxFoodNum;
+    public int maxPoisonNum;
+    public int minPoisonNum;
     public int agentNum;
     public int foodNum;
     public int poisonNum;
+
+    private int maxSteps;
 
     public Camera overheadCamera;
 
     public static float RewardTotal;
 
+    public int resetSteps;
+
+    private ColonyArea[] areaList;
+
     void Awake()
     {
         Instance = this;
         timer = 0f;
+        areaList = FindObjectsOfType<ColonyArea>();
     }
 
     void Start()
@@ -45,85 +57,75 @@ public class AreaManager : MonoBehaviour
     }
 
     public void EnvironmentReset()
-    {
-        ClearObjects("Food");
-        ClearObjects("Poison");
-
-        ColonyArea[] listArea = FindObjectsOfType<ColonyArea>();
-        foreach (var fa in listArea)
+    {   
+        foreach (var fa in areaList)
         {
             fa.ResetArea();
         }
     }
 
-    void ClearObjects(string objTag)
-    {
-        GameObject[] objs = GameObject.FindGameObjectsWithTag(objTag);
-        foreach (GameObject o in objs){
-            Destroy(o);
-        }
-    }
+    
 
-    public Vector3 GetClosestFood(int area_index, Vector3 current_position, FoodLogic.Type type)
-    {   
-        ColonyArea area = GetArea(area_index);
-        List<GameObject> objs = null;
-        switch (type)
-        {
-            case FoodLogic.Type.Food:
-                objs = area.GetFood();
-                break;
-            case FoodLogic.Type.Poison:
-                objs = area.GetPoison();
-                break;
-        }
-        Vector3 closest_position = default(Vector3);
-        float distance = 10000f;
-        foreach (GameObject obj in objs)
-        {
-            float dist = Vector3.Distance(obj.transform.position, current_position);
-            if (dist < distance)
-            {
-                distance = dist;
-                closest_position = obj.transform.position;
-            }
-        }
-        return closest_position;
-    }
+    // public Vector3 GetClosestFood(int area_index, Vector3 current_position, FoodLogic.Type type)
+    // {   
+    //     ColonyArea area = GetArea(area_index);
+    //     List<GameObject> objs = null;
+    //     switch (type)
+    //     {
+    //         case FoodLogic.Type.Food:
+    //             objs = area.GetFood();
+    //             break;
+    //         case FoodLogic.Type.Poison:
+    //             objs = area.GetPoison();
+    //             break;
+    //     }
+    //     Vector3 closest_position = default(Vector3);
+    //     float distance = 10000f;
+    //     foreach (GameObject obj in objs)
+    //     {
+    //         float dist = Vector3.Distance(obj.transform.position, current_position);
+    //         if (dist < distance)
+    //         {
+    //             distance = dist;
+    //             closest_position = obj.transform.position;
+    //         }
+    //     }
+    //     return closest_position;
+    // }
 
-    public FoodLogic GetClosestFoodLogic(int area_index, Vector3 current_position, FoodLogic.Type type)
-    {   
-        ColonyArea area = GetArea(area_index);
-        List<GameObject> objs = null;
-        switch (type)
-        {
-            case FoodLogic.Type.Food:
-                objs = area.GetFood();
-                break;
-            case FoodLogic.Type.Poison:
-                objs = area.GetPoison();
-                break;
-        }
-        Vector3 closest_position = default(Vector3);
-        FoodLogic closest_food = null;
-        float distance = 10000f;
-        foreach (GameObject obj in objs)
-        {
-            FoodLogic food = obj.GetComponent<FoodLogic>();
-            if (food._targeted)
-                continue;
+    // public FoodLogic GetClosestFoodLogic(int area_index, Vector3 current_position, FoodLogic.Type type)
+    // {   
+    //     ColonyArea area = GetArea(area_index);
+    //     List<GameObject> objs = null;
+    //     switch (type)
+    //     {
+    //         case FoodLogic.Type.Food:
+    //             objs = area.GetFood();
+    //             break;
+    //         case FoodLogic.Type.Poison:
+    //             objs = area.GetPoison();
+    //             break;
+    //     }
+    //     Vector3 closest_position = default(Vector3);
+    //     FoodLogic closest_food = null;
+    //     float distance = 10000f;
+    //     foreach (GameObject obj in objs)
+    //     {
+    //         FoodLogic food = obj.GetComponent<FoodLogic>();
+    //         if (food._targeted)
+    //             continue;
             
-            float dist = Vector3.Distance(obj.transform.position, current_position);
-            if (dist < distance)
-            {
-                distance = dist;
-                closest_position = obj.transform.position;
-                closest_food = obj.GetComponent<FoodLogic>();
-            }
-        }
-        closest_food._targeted = true;
-        return closest_food;
-    }
+    //         float dist = Vector3.Distance(obj.transform.position, current_position);
+    //         if (dist < distance)
+    //         {
+    //             distance = dist;
+    //             closest_position = obj.transform.position;
+    //             closest_food = obj.GetComponent<FoodLogic>();
+    //         }
+    //     }
+    //     closest_food._targeted = true;
+    //     return closest_food;
+    // }
 
     ColonyArea GetArea(int index)
     {

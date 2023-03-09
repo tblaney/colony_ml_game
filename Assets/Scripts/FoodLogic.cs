@@ -8,7 +8,7 @@ public class FoodLogic : MonoBehaviour
     public int areaIndex;
     BoxCollider _collider;
 
-    public Action<FoodLogic> OnDestroyFunc;
+    // public Action<FoodLogic> OnDestroyFunc;
 
     bool _carrying;
     Transform _carryer;
@@ -36,7 +36,7 @@ public class FoodLogic : MonoBehaviour
     {
         areaIndex = index;
         _type = type;
-        this.OnDestroyFunc = callback;
+        // this.OnDestroyFunc = callback;
 
         //f (_type == Type.Food)
             //Activate(false);
@@ -56,15 +56,15 @@ public class FoodLogic : MonoBehaviour
     }
 
     public void ConsumeFood(){
-        if (OnDestroyFunc != null)
-            OnDestroyFunc(this);
+        // if (OnDestroyFunc != null)
+        //     OnDestroyFunc(this);
         Destroy(this.gameObject);
-        AreaManager.Instance.SpawnFood(areaIndex);
+        // AreaManager.Instance.SpawnFood(areaIndex);
     }
 
     public void ConsumePoison(){
-        if (OnDestroyFunc != null)
-            OnDestroyFunc(this);
+        // if (OnDestroyFunc != null)
+        //     OnDestroyFunc(this);
         Destroy(this.gameObject);
         AreaManager.Instance.SpawnPoison(areaIndex);
     }

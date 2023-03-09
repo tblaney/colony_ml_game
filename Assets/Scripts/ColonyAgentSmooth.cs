@@ -16,7 +16,7 @@ public class ColonyAgentSmooth : Agent
     [SerializeField] private Camera _cam;
 
     public int _index;
-    public FoodLogic _targetFood;
+    // public FoodLogic _targetFood;
 
     LayerMask _mask;
     Rigidbody _rb;
@@ -25,10 +25,13 @@ public class ColonyAgentSmooth : Agent
 
     public Action<float> _rewardFunc;
 
+    public ColonyArea _area;
+
     //-------------------------------------------//
-    public void Setup(int area_index, Action<float> RewardFunc)
+    public void Setup(int area_index, ColonyArea area, Action<float> RewardFunc)
     {
         _index = area_index;
+        _area = area;
         _rewardFunc = RewardFunc;
         _collisionController.OnFoodCollisionFunc = ConsumeFood;
     }
@@ -44,59 +47,57 @@ public class ColonyAgentSmooth : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         // add a vector observation to closest food
-        if (_targetFood == null)
-            RefreshTarget();
+        // if (_targetFood == null)
+        //     RefreshTarget();
 
-        Vector3 dir_food = (_targetFood.transform.position - transform.position).normalized;
+        // Vector3 dir_food = (_targetFood.transform.position - transform.position).normalized;
 
-        sensor.AddObservation(dir_food);
+        // sensor.AddObservation(dir_food);
     }
 
     void ConsumeFood(FoodLogic food)
     {
-        switch (food._type)
-        {
-            case FoodLogic.Type.Food:
-                if (_targetFood != food)
+        if (food != null) {
+            switch (food._type)
                 {
-                    RefreshTarget();
+                    case FoodLogic.Type.Food:
+                        food.ConsumeFood();
+                        _area.UpdateFoodCount();
+                        AreaManager.RewardTotal += 1;
+                        //AddReward(1f);
+                        if (_rewardFunc != null)
+                        {
+                            _rewardFunc(1f);
+                            AddReward(1f);
+                        } else
+                        {
+                            AddReward(1f);
+                        }
+                        break;
+                    case FoodLogic.Type.Poison:
+                        if (_rewardFunc != null)
+                        {
+                            _rewardFunc(-1f);
+                            AddReward(-1f);
+                        } else
+                        {
+                            AddReward(-1f);
+                        }
+                        AreaManager.RewardTotal -= 1;
+                        break;
                 }
-                food.ConsumeFood();
-                AreaManager.RewardTotal += 1;
-                //AddReward(1f);
-                if (_rewardFunc != null)
-                {
-                    _rewardFunc(1f);
-                    AddReward(1f);
-                } else
-                {
-                    AddReward(1f);
-                }
-                break;
-             case FoodLogic.Type.Poison:
-                food.ConsumePoison();
-               // AddReward(-1f);
-                if (_rewardFunc != null)
-                {
-                    _rewardFunc(-1f);
-                    AddReward(-1f);
-                } else
-                {
-                    AddReward(-1f);
-                }
-                AreaManager.RewardTotal -= 1;
-                break;
+            }
         }
-    }
-
-    void RefreshTarget()
-    {
-        if (_targetFood != null)
-            _targetFood._targeted = false;
         
-        _targetFood = AreaManager.Instance.GetClosestFoodLogic(_index, transform.position, FoodLogic.Type.Food);
-        //_targetFood.Activate();
-    }
+
+    // void RefreshTarget()
+    // {
+    //     if (_targetFood != null)
+    //         _targetFood._targeted = false;
+        
+    //     _targetFood = AreaManager.Instance.GetClosestFoodLogic(_index, transform.position, FoodLogic.Type.Food);
+    //     //_targetFood.Activate();
+    // }
 
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
