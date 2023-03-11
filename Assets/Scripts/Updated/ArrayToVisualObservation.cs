@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ArrayToVisualObservation : MonoBehaviour
 {
+    /*
     public List<MeshRenderer> cubes;
 
     public static List<Vector3> positions;
@@ -25,4 +26,5 @@ public class ArrayToVisualObservation : MonoBehaviour
             i++;
         }
     }
+    */
 }
