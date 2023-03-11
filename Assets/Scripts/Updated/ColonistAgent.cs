@@ -52,6 +52,10 @@ public class ColonistAgent : Agent
         
     }
 
+    public void Damage(float amount) {
+        colonist.health -= amount;
+    }
+
     //TODO: Make reward cumulative across all agents. (look up SharedReward() ML agents method)
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
