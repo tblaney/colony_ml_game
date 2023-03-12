@@ -32,7 +32,7 @@ States:
   --> Agent wanders in random motion until an enemy enters its viewing radius, at which point it begins to attack
 - Heal (TODO)
   --> Agent finds other agents with less-than-perfect health, and travels to them to administer a health regen
-- Collect (TODO)
+- Collect
   --> Agent moves to nearest (and not busy) food object and collects it by breaking it down
 ##### ColonistTraits (class)
 Class storing specific and uneditable traits of a colonist, which alters the effectiveness of a colonist performing a specific task.
