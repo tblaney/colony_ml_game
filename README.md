@@ -7,8 +7,14 @@ Stretch Goal: Develop and train a countering brain agent to spawn in unique thre
 ## Scripts
 #### ColonyHandler.cs
 Every script is executed from this script (EnvironmentReset method, or Initialize method). This handles all the different training areas and communication from agent to area.
+##### ColonyParameters (class)
+Contains the hyperparameters for the game environment
+##### RewardWeight (struct)
+Contains the reward values and weights for the reward structure of the game. Basically an agent, or colonist area will communicate with ColonyHandler to get the weights when it wants to add a reward - this way we can just change these values here for easy model-tuning.
 #### ColonyArea.cs
 Performs spawning/despawning of agents and enemies, and receives commands from ColonyHandler. 
+##### Colony (class)
+Contains information on the colony, including its colonists.
 #### ColonyProcessor.cs
 Linked to ColonyArea and performs spawning/despawning of food/rock objects around the map based on colonist interaction.
 #### ColonistAgent.cs
