@@ -60,6 +60,8 @@ public class ColonistAgent : Agent, IDamageable
         
         if (currentBehaviour != null)
             currentBehaviour.UpdateBehaviour();
+
+            
     }
 
     void FixedUpdate()
@@ -74,8 +76,14 @@ public class ColonistAgent : Agent, IDamageable
             RequestAction();
             timer = 0f;
         }
+        
+        EnergyUpdate();
+    }
 
-       // colonist.currentPosition = transform.position;
+    void EnergyUpdate()
+    {
+        if (colonist > 0f)
+            colonist.energy -= Time.fixedDeltaTime/60f;
     }
 
 
