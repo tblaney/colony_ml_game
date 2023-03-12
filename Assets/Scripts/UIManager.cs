@@ -9,6 +9,6 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        _text.text = AreaManager.RewardTotal.ToString();
+        //_text.text = AreaManager.RewardTotal.ToString();
     }
 }
