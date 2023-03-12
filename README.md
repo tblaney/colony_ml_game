@@ -1,2 +1,3 @@
 # Colony Game
-Colony Machine Learning Game in Unity
+## Colony Machine Learning Game in Unity
+
