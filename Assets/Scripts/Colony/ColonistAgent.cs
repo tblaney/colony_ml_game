@@ -82,7 +82,7 @@ public class ColonistAgent : Agent, IDamageable
 
     void EnergyUpdate()
     {
-        if (colonist > 0f)
+        if (colonist.energy > 0f)
             colonist.energy -= Time.fixedDeltaTime/60f;
     }
 
