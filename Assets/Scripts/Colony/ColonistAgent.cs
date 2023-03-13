@@ -21,6 +21,17 @@ public class ColonistAgent : Agent, IDamageable
     public float timer;
     Action<ColonistAgent> OnDestroyFunc;
 
+    private Dictionary<Colonist.State, Color> colonistColor = new Dictionary<Colonist.State, Color>()
+    {
+    {Colonist.State.Idle, Color.gray},
+    {Colonist.State.Rest, Color.white},
+    {Colonist.State.Mine, Color.yellow},
+    {Colonist.State.Patrol, Color.cyan},
+    {Colonist.State.Heal, Color.magenta},
+    {Colonist.State.Collect, Color.blue},
+    };
+
+
     //--------------------------------------------------------------
 
     public override void Initialize()
@@ -48,7 +59,7 @@ public class ColonistAgent : Agent, IDamageable
                 SetState((int)Colonist.State.Patrol);
             } else
             {
-                SetState((int)Colonist.State.Collect);
+                SetState((int)Colonist.State.Heal);
             }
         }
     }
@@ -147,6 +158,12 @@ public class ColonistAgent : Agent, IDamageable
 
             currentBehaviour = GetBehaviour(state);
             currentBehaviour.StartBehaviour();
+
+            Material agentMat = this.GetComponent<Renderer>().material;
+            print("Setting material color");
+            agentMat.SetColor("_Color", colonistColor[state]);
+            print(colonistColor[state]);
+
         }
         colonist.state = state;
     }
@@ -192,12 +209,31 @@ public class ColonistAgent : Agent, IDamageable
     {
         float damage = (float)val/100f;
         colonist.health -= damage;
+        // if colonist heals above max health then set colonist health to max
+        if (colonist.health > 1.0f) {
+            colonist.health = 1.0f;
+        }
         Debug.Log("Colonist Damage: " + val + ", " + colonist.health);
         if (colonist.health <= 0)
         {
             // die
             Die();
         }
+    }
+    public bool IsInjured() {
+        if (colonist.health < 1.0f) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public void Energize(int val) {
+        float addedEnergy = (float)val/100f;
+        colonist.energy += addedEnergy;
+        if (colonist.energy > 1.0f){
+            colonist.energy = 1.0f;
+        }
+        Debug.Log("Colonist Energy: " + val + ", " + colonist.energy);
     }
     public void DestroyAgent()
     {
@@ -233,6 +269,7 @@ public class Colonist
         Heal,
         Collect,
     }
+
     public State state;
 
     List<RewardWeight> weights;

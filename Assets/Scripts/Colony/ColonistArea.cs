@@ -174,7 +174,7 @@ public class ColonistArea : MonoBehaviour
         ColonistAgent colonistAgent = null;
         foreach (ColonistAgent agent in colonistAgents)
         {
-            if (healthCheck && agent.colonist.health > 0.8f)
+            if (healthCheck && agent.colonist.health >= 1.0f)
                 continue;
             
             float distanceAgent = Vector3.Distance(agent.GetPosition(), position);

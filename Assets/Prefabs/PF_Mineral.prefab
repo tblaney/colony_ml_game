@@ -114,7 +114,7 @@ MonoBehaviour:
   active: 0
   type: 1
   amount: 1
-  health: 0
+  health: 200
 --- !u!208 &3823804231606973918
 NavMeshObstacle:
   m_ObjectHideFlags: 0

@@ -115,10 +115,21 @@ public class ColonyHandler : MonoBehaviour
         ColonistArea area = GetArea(areaIndex);
         return area.GetClosestColonist(position);
     }
+    public ColonistAgent GetClosestInjuredColonist(int areaIndex, Vector3 position)
+    {
+        ColonistArea area = GetArea(areaIndex);
+        return area.GetClosestColonist(position, true);
+    }
     public EnemyAgent GetClosestEnemy(int areaIndex, Vector3 position)
     {
         ColonistArea area = GetArea(areaIndex);
         return area.GetClosestEnemy(position);
+    }
+    public Vector3 GetRestPosition(int areaIndex) 
+    {
+        ColonistArea area = GetArea(areaIndex);
+        Vector3 restPosition = area.GetRestZone();
+        return restPosition;
     }
 }
 

@@ -504,7 +504,7 @@ MonoBehaviour:
   - _name: colony failure
     _val: -10
   parametersIn:
-    colonistAmountStart: 8
+    colonistAmountStart: 4
     colonistAmountMax: 20
     enemyAmountMax: 4
     enemySpawnRate: 30

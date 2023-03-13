@@ -29,7 +29,7 @@ public class Collectible : Node
                 ColonyHandler.Instance.AddWealth(areaIndex, amount);
                 break;
         }
-        //DestroyNode();
+        DestroyNode();
         Activate(false);
         time = Time.fixedTime + ColonyHandler.parameters.resourceRefreshTime;
         SetBusy(false);
@@ -37,7 +37,7 @@ public class Collectible : Node
 
     public void Damage(int val)
     {
-        //Debug.Log("Collectible Damage: " + val);
+        Debug.Log("Collectible Damage: " + val);
         health -= val;
         if (health <= 0)
         {

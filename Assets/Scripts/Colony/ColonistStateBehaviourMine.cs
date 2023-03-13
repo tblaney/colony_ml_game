@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColonistStateBehaviourFood : ColonistStateBehaviour
+public class ColonistStateBehaviourMine : ColonistStateBehaviour
 {   
     Collectible collectible;
     bool hittingTarget;
@@ -10,7 +10,7 @@ public class ColonistStateBehaviourFood : ColonistStateBehaviour
     public override void StartBehaviour()
     {
         // setup the target position
-        collectible = ColonyHandler.Instance.GetClosestCollectible(Collectible.Type.Food, agent.areaIndex, transform.position);
+        collectible = ColonyHandler.Instance.GetClosestCollectible(Collectible.Type.Mineral, agent.areaIndex, transform.position);
         if (collectible == null)
         {
             agent.SetState(0);
@@ -35,7 +35,7 @@ public class ColonistStateBehaviourFood : ColonistStateBehaviour
             StartBehaviour();
             return;
         } 
-        collectible.Damage((int)(agent.colonist.traits.nature * 10));
+        collectible.Damage((int)(agent.colonist.traits.mineStrength * 10));
         Invoke("CollectibleInteract", 0.5f);
     }
 
