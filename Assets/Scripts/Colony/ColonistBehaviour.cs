@@ -14,6 +14,7 @@ public abstract class ColonistStateBehaviour : MonoBehaviour
     {
         agent = GetComponent<ColonistAgent>();
         nav = GetComponent<NavigationController>();
+        nav.SetSpeed(agent.colonist.traits.speed*10f);
     } 
 
     public virtual void StartBehaviour()

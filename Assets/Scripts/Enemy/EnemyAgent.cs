@@ -17,6 +17,11 @@ public class EnemyAgent : MonoBehaviour, IDamageable
 
     public EnemyStateBehaviour currentState;
 
+    void Awake() {
+        //Need to initialize enemy stats on awake to properly set enemy behaviour
+        this.enemy.InitializeRandom();
+    }
+
     public void Setup(Enemy enemy, int areaIndex, Action<EnemyAgent> destroyFunc)
     {
         this.enemy = enemy;
@@ -109,11 +114,15 @@ public class Enemy
 {
     public int health;
     public int damage;
+    public float speed;
 
     public void InitializeRandom()
     {
         health = 100 + UnityEngine.Random.Range(-30, 30);
         damage = 10 + UnityEngine.Random.Range(0, 10);
+        //enemy speed (0.8 - 1.8) is higher on average than colonist speed (0.5-1.0). we can adjust this as needed.
+        speed = 0.8f + UnityEngine.Random.Range(0f, 1f);
+        Debug.Log("Enemy speed initialized to " + speed.ToString());
     }
 }
 

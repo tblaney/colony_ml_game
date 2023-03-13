@@ -9,6 +9,7 @@ public class NavigationController : MonoBehaviour
     NavMeshAgent navAgent;
     public Action OnDestinationFunc;
     public Vector3 destination;
+    public float speed;
     public bool pathing;
 
     public NavMeshPathStatus pathStatus;
@@ -17,10 +18,16 @@ public class NavigationController : MonoBehaviour
     {
         navAgent = GetComponent<NavMeshAgent>();
         navAgent.updateRotation = true;
+        speed = navAgent.speed;
     }
 
     void Update()
     {
+        if (navAgent.speed != speed){
+            Debug.Log("Old speed " + navAgent.speed.ToString());
+            navAgent.speed = speed;
+            Debug.Log("New speed " + navAgent.speed.ToString());
+        }
         if (navAgent.hasPath)
             pathStatus = navAgent.pathStatus;
         else
@@ -45,6 +52,10 @@ public class NavigationController : MonoBehaviour
         pathing = true;
     }
 
+    public void SetSpeed(float newSpeed)
+    {
+        this.speed = newSpeed;
+    }
 
     public void MoveTo(Vector3 target, Action destinationFunc)
     {

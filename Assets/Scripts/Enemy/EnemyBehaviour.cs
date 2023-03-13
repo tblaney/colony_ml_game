@@ -11,8 +11,10 @@ public abstract class EnemyStateBehaviour : MonoBehaviour
 
     void Awake()
     {
-        nav = GetComponent<NavigationController>();
         agent = GetComponent<EnemyAgent>();
+        nav = GetComponent<NavigationController>();
+        Debug.Log("Enemy speed before set speed " + agent.enemy.speed.ToString());
+        nav.SetSpeed(agent.enemy.speed*10f);
     }
 
     public virtual void Initialize(int areaIndex)
