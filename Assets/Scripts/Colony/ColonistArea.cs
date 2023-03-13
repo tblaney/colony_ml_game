@@ -45,13 +45,22 @@ public class ColonistArea : MonoBehaviour
     }
     void SetupColonists()
     {
-        colony.colonists = new List<Colonist>();
+        colony.colonists = new Dictionary<Colonist, Colonist.State>();
         // randomly generate starting colonistAgents
-        for (int i = 0; i < ColonyHandler.parameters.colonistAmountStart; i++)
+        CreateAgentsWithState(ColonyHandler.parameters.collectAmountStart, Colonist.State.Collect);
+        CreateAgentsWithState(ColonyHandler.parameters.mineAmountStart, Colonist.State.Mine);
+        CreateAgentsWithState(ColonyHandler.parameters.patrolAmountStart, Colonist.State.Patrol);
+        CreateAgentsWithState(ColonyHandler.parameters.restAmountStart, Colonist.State.Rest);
+        CreateAgentsWithState(ColonyHandler.parameters.idleAmountStart, Colonist.State.Idle);
+        CreateAgentsWithState(ColonyHandler.parameters.healAmountStart, Colonist.State.Heal);
+    }
+    void CreateAgentsWithState(int numColonists, Colonist.State state)
+    {
+        for (int i = 0; i < numColonists; i++)
         {
             Colonist colonist = new Colonist(){};
             colonist.Initialize();
-            colony.colonists.Add(colonist);
+            colony.colonists.Add(colonist, state);
         }
     }
     public void Reset()
@@ -66,9 +75,9 @@ public class ColonistArea : MonoBehaviour
         processor.Reset();
         ClearAll();
         // spawn agents
-        foreach (Colonist colonist in colony.colonists)
+        foreach (KeyValuePair<Colonist, Colonist.State> colonist in colony.colonists)
         {
-            SpawnColonist(colonist);
+            SpawnColonist(colonist.Key, colonist.Value);
         }
 
         //InvokeRepeating("SpawnEnemyRepeating", ColonyHandler.parameters.enemySpawnRate, ColonyHandler.parameters.enemySpawnRate);
@@ -100,7 +109,7 @@ public class ColonistArea : MonoBehaviour
         SpawnEnemy();
     }
     //---processing---//
-    public void SpawnColonist(Colonist colonist, Vector3 position = default(Vector3))
+    public void SpawnColonist(Colonist colonist, Colonist.State state, Vector3 position = default(Vector3))
     {
         if (position != default(Vector3))
         {
@@ -111,7 +120,7 @@ public class ColonistArea : MonoBehaviour
         }
         GameObject obj = Instantiate(agentPrefab, colonist.spawnPosition, Quaternion.identity, this.transform);
         ColonistAgent agent = obj.GetComponent<ColonistAgent>();
-        agent.Setup(colonist, areaIndex, DestroyColonist);
+        agent.Setup(colonist, areaIndex, DestroyColonist, state);
         agentGroup.RegisterAgent(agent);
         colonistAgents.Add(agent);
     }
@@ -251,5 +260,5 @@ public struct Colony
     public int wealth;
     public int wealthThreshold;
     public int food;
-    public List<Colonist> colonists;
+    public Dictionary<Colonist, Colonist.State> colonists;
 }

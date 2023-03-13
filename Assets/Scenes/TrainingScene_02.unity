@@ -504,7 +504,12 @@ MonoBehaviour:
   - _name: colony failure
     _val: -10
   parametersIn:
-    colonistAmountStart: 4
+    collectAmountStart: 1
+    healAmountStart: 1
+    restAmountStart: 1
+    patrolAmountStart: 1
+    mineAmountStart: 1
+    idleAmountStart: 1
     colonistAmountMax: 20
     enemyAmountMax: 4
     enemySpawnRate: 30
@@ -1794,7 +1799,6 @@ MonoBehaviour:
     wealth: 0
     wealthThreshold: 60
     food: 0
-    colonists: []
   agentPrefab: {fileID: 911526879165222238, guid: 7b91013da96934a42ae24e9f5b32e9ce, type: 3}
   enemyPrefab: {fileID: 5531459114273244970, guid: e77b579a0ed3a424d9e9785b8e9f5063, type: 3}
   enemySpawnLocations:

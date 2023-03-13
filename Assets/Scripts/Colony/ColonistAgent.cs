@@ -39,7 +39,7 @@ public class ColonistAgent : Agent, IDamageable
 
     }
 
-    public void Setup(Colonist colonist, int index, Action<ColonistAgent> OnDestroyFunc)
+    public void Setup(Colonist colonist, int index, Action<ColonistAgent> OnDestroyFunc, Colonist.State state)
     {
         this.colonist = colonist;
         areaIndex = index;
@@ -54,13 +54,7 @@ public class ColonistAgent : Agent, IDamageable
 
         if (heuristics)
         {
-            if (Tools.IsHit(0.5f))
-            {
-                SetState((int)Colonist.State.Patrol);
-            } else
-            {
-                SetState((int)Colonist.State.Heal);
-            }
+            SetState((int)state);
         }
     }
 
@@ -284,6 +278,8 @@ public class Colonist
 
         weights = ColonyHandler.Instance.weights;
     }
+
+    
 
     public float CalculateReward()
     {

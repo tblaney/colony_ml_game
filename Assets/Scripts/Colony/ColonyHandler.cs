@@ -143,8 +143,13 @@ public struct RewardWeight
 
 [Serializable]
 public class ColonyParameters
-{
-    public int colonistAmountStart = 8;
+{   
+    public int collectAmountStart = 0;
+    public int healAmountStart = 0;
+    public int restAmountStart = 0;
+    public int patrolAmountStart = 0;
+    public int mineAmountStart = 0;
+    public int idleAmountStart = 0;
     public int colonistAmountMax = 20;
     public int enemyAmountMax = 4;
     public float enemySpawnRate = 30f;
