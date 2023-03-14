@@ -503,6 +503,8 @@ MonoBehaviour:
     _val: 10
   - _name: colony failure
     _val: -10
+  - _name: agent death
+    _val: -5
   parametersIn:
     collectAmountStart: 2
     healAmountStart: 2

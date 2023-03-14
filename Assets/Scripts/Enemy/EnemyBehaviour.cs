@@ -14,7 +14,7 @@ public abstract class EnemyStateBehaviour : MonoBehaviour
         agent = GetComponent<EnemyAgent>();
         nav = GetComponent<NavigationController>();
         Debug.Log("Enemy speed before set speed " + agent.enemy.speed.ToString());
-        nav.SetSpeed(agent.enemy.speed*10f);
+        nav.SetSpeed(agent.enemy.speed*6f);
     }
 
     void OnDisable()

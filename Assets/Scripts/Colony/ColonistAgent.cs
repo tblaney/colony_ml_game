@@ -137,6 +137,7 @@ public class ColonistAgent : Agent, IDamageable
         Colonist.State state = (Colonist.State)stateIn;
         if (state != colonist.state)
         {
+            AddReward(-0.05f);
             // changing states
             if (currentBehaviour != null)
                 currentBehaviour.StopBehaviour();
@@ -278,7 +279,7 @@ public class Colonist
         float healthReward = health - 0.5f; // anything below half health will be seen as a negative reward
         if (healthReward > 0f)
             healthReward += 0.5f;
-        float energyReward = energy = 0.5f;
+        float energyReward = energy - 0.5f;
         if (energyReward > 0f)
             energyReward += 0.5f; 
         return ((weights[0]._val * healthReward) + (weights[1]._val * energyReward)) / weights.Count;
