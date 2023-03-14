@@ -28,6 +28,11 @@ public class ColonistStateBehaviourMine : ColonistStateBehaviour
         hittingTarget = true;
         nav.Stop();
         float distance = Vector3.Distance(transform.position, collectible.GetPosition());
+        if (distance > 2f)
+        {
+            StartBehaviour();
+            return;
+        }
         // interact with collectible, hit over time
         if (collectible == null | collectible.health <= 0)
         {

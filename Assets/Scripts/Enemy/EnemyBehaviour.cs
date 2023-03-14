@@ -17,6 +17,11 @@ public abstract class EnemyStateBehaviour : MonoBehaviour
         nav.SetSpeed(agent.enemy.speed*10f);
     }
 
+    void OnDisable()
+    {
+        CancelInvoke();
+    }
+
     public virtual void Initialize(int areaIndex)
     {
         this.areaIndex = areaIndex;

@@ -123,15 +123,6 @@ public class ColonistAgent : Agent, IDamageable
     {
         var state = actionBuffers.DiscreteActions[0];
         SetState(state);
-        var reproduce = actionBuffers.DiscreteActions[1];
-        switch (reproduce)
-        {
-            default:
-                break;
-            case 1:
-                // need to check if we have enough colonists and resources
-                break;
-        }
 
         AddReward(colonist.CalculateReward());
     }
@@ -174,6 +165,7 @@ public class ColonistAgent : Agent, IDamageable
 
     public List<float> GetStateDistances()
     {
+        // TODO: get a list of distances to targets in each state
         /*
         List<float> vals = new List<float>();
         Colonist.State stateCache = colonist.state;

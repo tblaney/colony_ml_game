@@ -25,9 +25,19 @@ public class ColonistStateBehaviourFood : ColonistStateBehaviour
 
     void CollectibleInteract()
     {
+        if (collectible == null)
+        {
+            StartBehaviour();
+            return;
+        }
         hittingTarget = true;
         nav.Stop();
         float distance = Vector3.Distance(transform.position, collectible.GetPosition());
+        if (distance > 2f)
+        {
+            StartBehaviour();
+            return;
+        }
         // interact with collectible, hit over time
         if (collectible == null | collectible.health <= 0)
         {
@@ -51,6 +61,11 @@ public class ColonistStateBehaviourFood : ColonistStateBehaviour
 
     public override void UpdateBehaviour()
     {
+        if (collectible == null)
+        {
+            StartBehaviour();
+            return;
+        }
         if (hittingTarget)
         {
             Vector3 targetPosition = collectible.GetPosition();

@@ -17,6 +17,11 @@ public abstract class ColonistStateBehaviour : MonoBehaviour
         nav.SetSpeed(agent.colonist.traits.speed*10f);
     } 
 
+    void OnDisable()
+    {
+        CancelInvoke();
+    }
+
     public virtual void StartBehaviour()
     {
 

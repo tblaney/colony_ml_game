@@ -76,6 +76,11 @@ public class ColonistStateBehaviourHeal : ColonistStateBehaviour
 
     void ChaseRefresh()
     {
+        if (targetAgent == null)
+        {
+            StartBehaviour();
+            return;
+        }
         positionCache = targetAgent.GetPosition();
         nav.MoveTo(positionCache, ChaseRefresh);
     }

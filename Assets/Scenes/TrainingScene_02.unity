@@ -504,18 +504,18 @@ MonoBehaviour:
   - _name: colony failure
     _val: -10
   parametersIn:
-    collectAmountStart: 1
-    healAmountStart: 1
+    collectAmountStart: 2
+    healAmountStart: 2
     restAmountStart: 1
     patrolAmountStart: 1
-    mineAmountStart: 1
-    idleAmountStart: 1
+    mineAmountStart: 2
+    idleAmountStart: 0
     colonistAmountMax: 20
     enemyAmountMax: 4
     enemySpawnRate: 30
     foodAmount: 80
     mineralAmount: 40
-    resourceRefreshTime: 10
+    resourceRefreshTime: 30
 --- !u!1 &925116993
 GameObject:
   m_ObjectHideFlags: 0
