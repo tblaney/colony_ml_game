@@ -36,23 +36,11 @@ public class ColonistStateBehaviourRest : ColonistStateBehaviour
 
     public override void StopBehaviour()
     {
-        // if (restPosition != null)
-        // {
-        //     Node node = restPosition as Node;
-        //     node.SetBusy(false);
-        // }
         base.StopBehaviour();
     }
 
     public override void UpdateBehaviour()
     {   
-        //Not sure what this is doing exactly but pretty sure we don't need it for rest
-        // if (hittingTarget)
-        // {
-        //     Vector3 targetPosition = collectible.GetPosition();
-        //     targetPosition.y = transform.position.y;
-        //     Quaternion targetRotation = Quaternion.LookRotation((targetPosition - transform.position), Vector3.up);
-        //     transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime*5f);
-        // }
+
     }
 }

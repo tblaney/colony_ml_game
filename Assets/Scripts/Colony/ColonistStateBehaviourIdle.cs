@@ -11,6 +11,6 @@ public class ColonistStateBehaviourIdle : ColonistStateBehaviour
     }
     public override void UpdateBehaviour()
     {
-        
+        nav.Stop();
     }
 }

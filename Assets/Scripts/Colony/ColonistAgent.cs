@@ -60,25 +60,25 @@ public class ColonistAgent : Agent, IDamageable
 
     void Update()
     {
+
+    }
+
+    void FixedUpdate()
+    {
         if (!Application.isPlaying)
             return;
         
         if (currentBehaviour != null)
             currentBehaviour.UpdateBehaviour();
 
-            
-    }
-
-    void FixedUpdate()
-    {
         if (heuristics)
             return;
 
         timer += Time.fixedDeltaTime;
-        if (timer > 5f)
+        if (timer > 10f)
         {
             RequestDecision();
-            RequestAction();
+            //RequestAction();
             timer = 0f;
         }
         

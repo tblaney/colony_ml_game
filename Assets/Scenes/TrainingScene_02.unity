@@ -514,7 +514,7 @@ MonoBehaviour:
     idleAmountStart: 0
     colonistAmountMax: 20
     enemyAmountMax: 4
-    enemySpawnRate: 30
+    enemySpawnRate: 120
     foodAmount: 80
     mineralAmount: 40
     resourceRefreshTime: 30

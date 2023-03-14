@@ -135,6 +135,11 @@ public class ColonistStateBehaviourHeal : ColonistStateBehaviour
 
     void HealTarget()
     {
+        if (targetAgent == null)
+        {
+            StartBehaviour();
+            return;
+        }
         // nav.Stop();
         if (targetAgent.IsInjured()){
             //Negative damage heals the target

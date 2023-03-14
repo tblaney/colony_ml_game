@@ -30,6 +30,7 @@ public abstract class ColonistStateBehaviour : MonoBehaviour
 
     public virtual void StopBehaviour()
     {
+        CancelInvoke();
         nav.Stop();
     }
     
