@@ -25,6 +25,11 @@ public class ColonistStateBehaviourMine : ColonistStateBehaviour
 
     void CollectibleInteract()
     {
+        if (collectible == null)
+        {
+            StartBehaviour();
+            return;
+        }
         hittingTarget = true;
         nav.Stop();
         float distance = Vector3.Distance(transform.position, collectible.GetPosition());
@@ -56,6 +61,11 @@ public class ColonistStateBehaviourMine : ColonistStateBehaviour
 
     public override void UpdateBehaviour()
     {
+        if (collectible == null)
+        {
+            StartBehaviour();
+            return;
+        }
         if (hittingTarget)
         {
             Vector3 targetPosition = collectible.GetPosition();

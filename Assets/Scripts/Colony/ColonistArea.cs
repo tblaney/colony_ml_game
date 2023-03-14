@@ -81,7 +81,7 @@ public class ColonistArea : MonoBehaviour
         }
 
         //InvokeRepeating("SpawnEnemyRepeating", ColonyHandler.parameters.enemySpawnRate, ColonyHandler.parameters.enemySpawnRate);
-        InvokeRepeating("SpawnEnemyRepeating", 0f, ColonyHandler.parameters.enemySpawnRate);
+        InvokeRepeating("SpawnEnemyRepeating", ColonyHandler.parameters.enemySpawnRate, ColonyHandler.parameters.enemySpawnRate);
     }   
     public void RefreshInactive()
     {
@@ -230,10 +230,13 @@ public class ColonistArea : MonoBehaviour
     {
         colony.wealth += amount;
         WealthCheck();
+
+        AddGroupReward(0.05f);
     }
     public void AddFood(int amount)
     {
         colony.food += amount;
+        AddGroupReward(0.05f);
     }
     public void UseFood(int amount)
     {

@@ -75,7 +75,7 @@ public class ColonistAgent : Agent, IDamageable
             return;
 
         timer += Time.fixedDeltaTime;
-        if (timer > 1f)
+        if (timer > 5f)
         {
             RequestDecision();
             RequestAction();
@@ -276,6 +276,7 @@ public class Colonist
 
     public float CalculateReward()
     {
+        /*
         float healthReward = health - 0.5f; // anything below half health will be seen as a negative reward
         if (healthReward > 0f)
             healthReward += 0.5f;
@@ -283,6 +284,17 @@ public class Colonist
         if (energyReward > 0f)
             energyReward += 0.5f; 
         return ((weights[0]._val * healthReward) + (weights[1]._val * energyReward)) / weights.Count;
+        */
+        float reward = 0f;
+        if (health < 0.5f)
+        {
+            reward -= 0.5f;
+        }
+        if (energy < 0.5f)
+        {
+            reward -= 0.5f;
+        }
+        return reward;
     }
 }
 
