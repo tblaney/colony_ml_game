@@ -237,6 +237,7 @@ public class ColonistArea : MonoBehaviour
     {
         colony.food += amount;
         AddGroupReward(0.05f);
+        FoodCheck();
     }
     public void UseFood(int amount)
     {
@@ -252,6 +253,19 @@ public class ColonistArea : MonoBehaviour
             // end game
             AddGroupReward(ColonyHandler.Instance.GetReward("colony success"));
             Reset();
+        }
+    }
+
+    void FoodCheck()
+    {
+        //if food collected > threshold, new agent spawns
+        if (colony.food > ColonyHandler.parameters.foodThreshold)
+        {
+            colony.food -= (int) ColonyHandler.parameters.foodThreshold;
+            Debug.Log("colony.food "+colony.food);
+            Colonist colonist = new Colonist(){};
+            colonist.Initialize();
+            SpawnColonist(colonist, Colonist.State.Collect);
         }
     }
 }

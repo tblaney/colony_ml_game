@@ -156,4 +156,5 @@ public class ColonyParameters
     public int foodAmount = 60;
     public int mineralAmount = 30; // will be clustered
     public float resourceRefreshTime = 60f;
+    public float foodThreshold = 5; //food to be collected to spawn new agent
 }
