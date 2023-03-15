@@ -20,6 +20,7 @@ public class ColonistAgent : Agent, IDamageable
     public ColonistStateBehaviour currentBehaviour;
     public float timer;
     Action<ColonistAgent> OnDestroyFunc;
+    public Action OnActionsFunc;
 
     private Dictionary<Colonist.State, Color> colonistColor = new Dictionary<Colonist.State, Color>()
     {
@@ -127,6 +128,11 @@ public class ColonistAgent : Agent, IDamageable
         SetState(state);
 
         AddReward(colonist.CalculateReward());
+
+        if (OnActionsFunc != null)
+        {
+            OnActionsFunc();
+        }
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -289,11 +295,11 @@ public class Colonist
         return ((weights[0]._val * healthReward) + (weights[1]._val * energyReward)) / weights.Count;
         */
         float reward = 0f;
-        if (health < 0.5f)
+        if (health < 0.2f)
         {
             reward -= 1f;
         }
-        if (energy < 0.5f)
+        if (energy < 0.2f)
         {
             reward -= 1f;
         }

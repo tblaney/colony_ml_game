@@ -80,7 +80,7 @@ public class ColonistArea : MonoBehaviour
             SpawnColonist(colonist.Key, colonist.Value);
         }
 
-        InvokeRepeating("SpawnEnemyRepeating", 0f, ColonyHandler.parameters.enemySpawnRate);
+        InvokeRepeating("SpawnEnemyRepeating", UnityEngine.Random.Range(0f, ColonyHandler.parameters.enemySpawnRate), ColonyHandler.parameters.enemySpawnRate);
     }   
     public void RefreshInactive()
     {
@@ -119,6 +119,7 @@ public class ColonistArea : MonoBehaviour
         }
         GameObject obj = Instantiate(agentPrefab, colonist.spawnPosition, Quaternion.identity, this.transform);
         ColonistAgent agent = obj.GetComponent<ColonistAgent>();
+        //agent.OnActionsFunc = () => { AddGroupReward(colony.CalculateReward()); };
         agent.Setup(colonist, areaIndex, DestroyColonist, state);
         agentGroup.RegisterAgent(agent);
         colonistAgents.Add(agent);
@@ -159,8 +160,7 @@ public class ColonistArea : MonoBehaviour
         {
             enemyAgents.Remove(agent);
         }
-        AddGroupReward(ColonyHandler.Instance.GetReward("enemy death"));
-
+        //AddGroupReward(ColonyHandler.Instance.GetReward("enemy death"));
     }
     //---gets---//
     public EnemyAgent GetClosestEnemy(Vector3 position)
@@ -240,7 +240,7 @@ public class ColonistArea : MonoBehaviour
         colony.wealth += amount;
         WealthCheck();
 
-        //AddGroupReward(0.05f);
+        AddGroupReward(1f);
     }
     public void AddFood(int amount)
     {
@@ -286,4 +286,11 @@ public struct Colony
     public int wealthThreshold;
     public int food;
     public Dictionary<Colonist, Colonist.State> colonists;
+
+    public float CalculateReward()
+    {
+        float reward = 0f;
+        reward = wealth / wealthThreshold;
+        return reward;
+    }
 }

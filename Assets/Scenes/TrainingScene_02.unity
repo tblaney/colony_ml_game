@@ -505,6 +505,8 @@ MonoBehaviour:
     _val: -10
   - _name: agent death
     _val: -5
+  - _name: enemy death
+    _val: 2
   parametersIn:
     collectAmountStart: 2
     healAmountStart: 2
@@ -1828,11 +1830,13 @@ MonoBehaviour:
     prefab: {fileID: 5274344004769295373, guid: 15f325ebfd1a7d345b73a0557ff51165, type: 3}
     amount: 0
     clusterAmount: 0
+    nodesList: []
   - name: minerals
     index: 2
     prefab: {fileID: 3823804231606973916, guid: 3842f408ebf160f44a15364b0609bfb9, type: 3}
     amount: 0
     clusterAmount: 16
+    nodesList: []
   plane: {fileID: 306302584750463621}
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
