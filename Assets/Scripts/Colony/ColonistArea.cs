@@ -66,15 +66,15 @@ public class ColonistArea : MonoBehaviour
     public void Reset()
     {
         Debug.Log("Colonist Area Reset");
-        // called at the beginning of the game, so we spawn everything in here
-        colony.wealth = 0;
-        colony.food = 0;
-
-        SetupColonists();
 
         CancelInvoke();
         processor.Reset();
         ClearAll();
+
+        // called at the beginning of the game, so we spawn everything in here
+        colony.wealth = 0;
+        colony.food = 0;
+        SetupColonists();
         // spawn agents
         foreach (KeyValuePair<Colonist, Colonist.State> colonist in colony.colonists)
         {
@@ -92,6 +92,7 @@ public class ColonistArea : MonoBehaviour
         // clear agents and enemies
         foreach (ColonistAgent agent in colonistAgents)
         {
+            agentGroup.UnregisterAgent(agent);
             agent.DestroyAgent();
         }
         colonistAgents.Clear();
