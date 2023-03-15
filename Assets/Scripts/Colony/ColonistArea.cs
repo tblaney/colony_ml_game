@@ -65,6 +65,7 @@ public class ColonistArea : MonoBehaviour
     }
     public void Reset()
     {
+        Debug.Log("Colonist Area Reset");
         // called at the beginning of the game, so we spawn everything in here
         colony.wealth = 0;
         colony.food = 0;
@@ -240,12 +241,12 @@ public class ColonistArea : MonoBehaviour
         colony.wealth += amount;
         WealthCheck();
 
-        AddGroupReward(1f);
+        AddGroupReward(0.2f);
     }
     public void AddFood(int amount)
     {
         colony.food += amount;
-        //AddGroupReward(0.05f);
+        AddGroupReward(0.1f);
         FoodCheck();
     }
     public void UseFood(int amount)
@@ -274,6 +275,7 @@ public class ColonistArea : MonoBehaviour
             Colonist colonist = new Colonist(){};
             colonist.Initialize();
             SpawnColonist(colonist, Colonist.State.Collect);
+            AddGroupReward(2f);
         }
     }
 }

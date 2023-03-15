@@ -136,7 +136,13 @@ public class ColonyHandler : MonoBehaviour
         ColonistArea area = GetArea(areaIndex);
         return area.GetEnemyCount();
     }
+    public int GetColonistAmount(int areaIndex)
+    {
+        ColonistArea area = GetArea(areaIndex);
+        return area.colony.colonists.Count;
+    }
 }
+
 
 [Serializable]
 public struct RewardWeight

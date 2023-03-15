@@ -15,9 +15,6 @@ public class ColonistStateBehaviourFood : ColonistStateBehaviour
             node = collectible as Node;
             node.SetBusy(false);
         }
-
-
-
         // setup the target position
         collectible = ColonyHandler.Instance.GetClosestCollectible(Collectible.Type.Food, agent.areaIndex, transform.position);
         if (collectible == null)

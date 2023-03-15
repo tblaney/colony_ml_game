@@ -86,12 +86,12 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
         EnemyAgent enemy = ColonyHandler.Instance.GetClosestEnemy(agent.areaIndex, transform.position);
         if (enemy != null)
         {
-            float distance = Vector3.Distance(transform.position, enemy.GetPosition());
-            if (distance < chaseRadius)
-            {
+            //float distance = Vector3.Distance(transform.position, enemy.GetPosition());
+            //if (distance < chaseRadius)
+            //{
                 targetAgent = enemy;
                 chasing = true;
-            }
+            //}
         }
     }
 

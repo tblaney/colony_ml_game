@@ -89,7 +89,12 @@ public class ColonistAgent : Agent, IDamageable
     void EnergyUpdate()
     {
         if (colonist.energy > 0f)
-            colonist.energy -= Time.fixedDeltaTime/60f;
+            colonist.energy -= Time.fixedDeltaTime/120f;
+
+        if (colonist.energy <= 0f)
+        {
+            Damage(Time.fixedDeltaTime/120f);
+        }
     }
 
 
@@ -107,6 +112,13 @@ public class ColonistAgent : Agent, IDamageable
         sensor.AddObservation(colonist.health);
         sensor.AddObservation(colonist.energy);
 
+        ColonistArea area = ColonyHandler.Instance.GetArea(areaIndex);
+        sensor.AddObservation(area.colony.wealth);
+        sensor.AddObservation(area.colony.food);
+        //sensor.AddObservation(area.colony.colonists.Count);
+        sensor.AddObservation(ColonyHandler.Instance.GetColonistAmount(areaIndex));
+        sensor.AddObservation(ColonyHandler.Instance.GetEnemyAmount(areaIndex));
+
         /*
         List<float> distances = GetStateDistances();
         foreach (float distance in distances)
@@ -114,11 +126,6 @@ public class ColonistAgent : Agent, IDamageable
             sensor.AddObservation(distance);
         }
         */
-        ColonistArea area = ColonyHandler.Instance.GetArea(areaIndex);
-        sensor.AddObservation(area.colony.wealth);
-        sensor.AddObservation(area.colony.food);
-        //sensor.AddObservation(area.colony.colonists.Count);
-        sensor.AddObservation(ColonyHandler.Instance.GetEnemyAmount(areaIndex));
     }
 
     //TODO: Make reward cumulative across all agents. (look up SharedReward() ML agents method)
@@ -203,7 +210,11 @@ public class ColonistAgent : Agent, IDamageable
     public void Damage(int val)
     {
         float damage = (float)val/100f;
-        colonist.health -= damage;
+        Damage(damage);
+    }
+    void Damage(float val)
+    {
+        colonist.health -= val;
         // if colonist heals above max health then set colonist health to max
         if (colonist.health > 1.0f) {
             colonist.health = 1.0f;
@@ -229,7 +240,7 @@ public class ColonistAgent : Agent, IDamageable
         if (colonist.energy > 1.0f){
             colonist.energy = 1.0f;
         }
-        Debug.Log("Colonist Energy: " + val + ", " + colonist.energy);
+        //Debug.Log("Colonist Energy: " + val + ", " + colonist.energy);
     }
     public void DestroyAgent()
     {
