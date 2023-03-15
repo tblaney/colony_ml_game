@@ -131,6 +131,11 @@ public class ColonyHandler : MonoBehaviour
         Vector3 restPosition = area.GetRestZone();
         return restPosition;
     }
+    public int GetEnemyAmount(int areaIndex)
+    {
+        ColonistArea area = GetArea(areaIndex);
+        return area.GetEnemyCount();
+    }
 }
 
 [Serializable]

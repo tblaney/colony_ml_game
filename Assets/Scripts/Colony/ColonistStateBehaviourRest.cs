@@ -31,6 +31,13 @@ public class ColonistStateBehaviourRest : ColonistStateBehaviour
         float distance = Vector3.Distance(transform.position, restPosition);
         //While in rest position heal over time
         agent.Energize((int)(agent.colonist.traits.laziness * 10));
+        if (agent.colonist.energy < 1f)
+        {
+            AddAgentReward(0.5f);
+        } else
+        {
+            AddAgentReward(-0.5f);
+        }
         Invoke("Rest", 0.5f);
     }
 

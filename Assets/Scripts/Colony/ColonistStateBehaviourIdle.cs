@@ -7,6 +7,7 @@ public class ColonistStateBehaviourIdle : ColonistStateBehaviour
     public override void StartBehaviour()
     {
         //mover.StopMovement();
+        AddAgentReward(-1f);
         nav.Stop();
     }
     public override void UpdateBehaviour()

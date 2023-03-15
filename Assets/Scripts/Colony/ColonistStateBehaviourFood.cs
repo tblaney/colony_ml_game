@@ -9,6 +9,12 @@ public class ColonistStateBehaviourFood : ColonistStateBehaviour
 
     public override void StartBehaviour()
     {
+        Node node = null;
+        if (collectible != null)
+        {
+            node = collectible as Node;
+            node.SetBusy(false);
+        }
         // setup the target position
         collectible = ColonyHandler.Instance.GetClosestCollectible(Collectible.Type.Food, agent.areaIndex, transform.position);
         if (collectible == null)
@@ -16,7 +22,7 @@ public class ColonistStateBehaviourFood : ColonistStateBehaviour
             agent.SetState(0);
             return;
         }
-        Node node = collectible as Node;
+        node = collectible as Node;
         node.SetBusy(true);
 
         nav.MoveTo(collectible.GetPosition(), CollectibleInteract);
@@ -45,7 +51,13 @@ public class ColonistStateBehaviourFood : ColonistStateBehaviour
             StartBehaviour();
             return;
         } 
-        collectible.Damage((int)(agent.colonist.traits.nature * 10));
+        bool collectible_alive = collectible.Damage((int)(agent.colonist.traits.nature * 10));
+        if (!collectible_alive)
+        {
+            // assign a reward for destroying something
+            AddAgentReward(1f);
+            collectible = null;
+        }
         Invoke("CollectibleInteract", 0.5f);
     }
 

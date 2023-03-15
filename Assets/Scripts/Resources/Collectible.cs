@@ -35,13 +35,15 @@ public class Collectible : Node
         SetBusy(false);
     }
 
-    public void Damage(int val)
+    public bool Damage(int val)
     {
-        Debug.Log("Collectible Damage: " + val);
+        // return true if still alive
         health -= val;
         if (health <= 0)
         {
             DestroyCollectible();
+            return false;
         }
+        return true;
     }
 }

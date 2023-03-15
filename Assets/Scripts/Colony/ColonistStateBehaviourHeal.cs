@@ -126,6 +126,7 @@ public class ColonistStateBehaviourHeal : ColonistStateBehaviour
         float distance = Vector3.Distance(transform.position, targetAgent.GetPosition());
         if (distance < 2f)
         {
+            AddAgentReward(1f);
             HealTarget();
         } else
         {

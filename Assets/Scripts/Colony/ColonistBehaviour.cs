@@ -33,6 +33,11 @@ public abstract class ColonistStateBehaviour : MonoBehaviour
         CancelInvoke();
         nav.Stop();
     }
+
+    protected void AddAgentReward(float val)
+    {
+        agent.AddReward(val);
+    }
     
     protected void UpdateRotation(Vector3 dir)
     {

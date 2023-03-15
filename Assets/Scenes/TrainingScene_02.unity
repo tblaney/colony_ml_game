@@ -518,6 +518,7 @@ MonoBehaviour:
     foodAmount: 80
     mineralAmount: 40
     resourceRefreshTime: 30
+    foodThreshold: 20
 --- !u!1 &925116993
 GameObject:
   m_ObjectHideFlags: 0

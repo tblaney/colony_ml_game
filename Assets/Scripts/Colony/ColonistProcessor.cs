@@ -256,10 +256,12 @@ public class Processor
 
     // runttime:
     public Dictionary<Vector3Int, Node> nodes;
+    public List<Node> nodesList;
 
     public void Initialize()
     {
         nodes = new Dictionary<Vector3Int, Node>();
+        nodesList = new List<Node>();
     }
 
     public Node GetNode(Vector3Int position)
@@ -273,12 +275,17 @@ public class Processor
     public void AddNode(Node node)
     {
         nodes.Add(node.GetPosition(), node);
+
+        nodesList.Add(node);
     }
     public void RemoveNode(Node node)
     {
         Node nodeTemp;
         if (nodes.TryGetValue(node.GetPosition(), out nodeTemp))
             nodes.Remove(node.GetPosition());
+
+        if (nodesList.Contains(node))
+            nodesList.Remove(node);
     }
 }
 
@@ -286,9 +293,7 @@ public class Processor
 public abstract class Node : MonoBehaviour
 {
     protected Vector3Int position;
-
-    bool busy = false;
-
+    public bool busy = false;
     protected int areaIndex;
     protected Action<Node> OnDestroyFunc;
     protected Node parentNode;
@@ -305,6 +310,7 @@ public abstract class Node : MonoBehaviour
 
         transform.position = position;
         active = true;
+        busy = false;
     }
 
     public GameObject GetGameObject()
@@ -316,6 +322,7 @@ public abstract class Node : MonoBehaviour
     {
         return position;
     }
+
 
     public void SetBusy(bool val)
     {

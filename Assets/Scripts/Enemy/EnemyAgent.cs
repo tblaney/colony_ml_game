@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class EnemyAgent : MonoBehaviour, IDamageable
+public class EnemyAgent : MonoBehaviour
 {
     [Header("Inputs:")]
     int areaIndex;
@@ -70,14 +70,16 @@ public class EnemyAgent : MonoBehaviour, IDamageable
   
     }
 
-    public void Damage(int val)
+    public bool Damage(int val)
     {
-        Debug.Log("Enemy Agent Damange: " + val);
+        // will return true if enemy is still alive
         enemy.health -= val;
         if (enemy.health <= 0)
         {
             Die();
+            return false;
         }
+        return true;
     }
 
     public EnemyStateBehaviour GetState(int priority)

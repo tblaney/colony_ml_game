@@ -116,6 +116,8 @@ public class ColonistAgent : Agent, IDamageable
         ColonistArea area = ColonyHandler.Instance.GetArea(areaIndex);
         sensor.AddObservation(area.colony.wealth);
         sensor.AddObservation(area.colony.food);
+        //sensor.AddObservation(area.colony.colonists.Count);
+        sensor.AddObservation(ColonyHandler.Instance.GetEnemyAmount(areaIndex));
     }
 
     //TODO: Make reward cumulative across all agents. (look up SharedReward() ML agents method)
@@ -204,6 +206,7 @@ public class ColonistAgent : Agent, IDamageable
         if (colonist.health <= 0)
         {
             // die
+            AddReward(-5f);
             Die();
         }
     }
@@ -288,11 +291,11 @@ public class Colonist
         float reward = 0f;
         if (health < 0.5f)
         {
-            reward -= 0.5f;
+            reward -= 1f;
         }
         if (energy < 0.5f)
         {
-            reward -= 0.5f;
+            reward -= 1f;
         }
         return reward;
     }

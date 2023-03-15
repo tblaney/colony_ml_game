@@ -2,8 +2,8 @@ behaviors:
   Agent:
     trainer_type: poca
     hyperparameters:
-      batch_size: 1024
-      buffer_size: 10240
+      batch_size: 64
+      buffer_size: 512
       learning_rate: 0.0003
       beta: 0.01
       epsilon: 0.2
@@ -20,6 +20,6 @@ behaviors:
         gamma: 0.99
         strength: 1.0
     keep_checkpoints: 5
-    max_steps: 1000000
-    time_horizon: 100
-    summary_freq: 10000
+    max_steps: 100000
+    time_horizon: 1
+    summary_freq: 512

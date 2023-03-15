@@ -80,8 +80,7 @@ public class ColonistArea : MonoBehaviour
             SpawnColonist(colonist.Key, colonist.Value);
         }
 
-        //InvokeRepeating("SpawnEnemyRepeating", ColonyHandler.parameters.enemySpawnRate, ColonyHandler.parameters.enemySpawnRate);
-        InvokeRepeating("SpawnEnemyRepeating", ColonyHandler.parameters.enemySpawnRate, ColonyHandler.parameters.enemySpawnRate);
+        InvokeRepeating("SpawnEnemyRepeating", 0f, ColonyHandler.parameters.enemySpawnRate);
     }   
     public void RefreshInactive()
     {
@@ -160,6 +159,8 @@ public class ColonistArea : MonoBehaviour
         {
             enemyAgents.Remove(agent);
         }
+        AddGroupReward(ColonyHandler.Instance.GetReward("enemy death"));
+
     }
     //---gets---//
     public EnemyAgent GetClosestEnemy(Vector3 position)
@@ -219,6 +220,14 @@ public class ColonistArea : MonoBehaviour
         Vector3 position_new = new Vector3(x, 0f, z);
         return position_new;
     }
+    public int GetEnemyCount()
+    {
+        if (enemyAgents != null)
+        {
+            return enemyAgents.Count;
+        }   
+        return 0;
+    }
     //---ML---//
     public void AddGroupReward(float val)
     {
@@ -231,12 +240,12 @@ public class ColonistArea : MonoBehaviour
         colony.wealth += amount;
         WealthCheck();
 
-        AddGroupReward(0.05f);
+        //AddGroupReward(0.05f);
     }
     public void AddFood(int amount)
     {
         colony.food += amount;
-        AddGroupReward(0.05f);
+        //AddGroupReward(0.05f);
         FoodCheck();
     }
     public void UseFood(int amount)
@@ -255,7 +264,6 @@ public class ColonistArea : MonoBehaviour
             Reset();
         }
     }
-
     void FoodCheck()
     {
         //if food collected > threshold, new agent spawns
