@@ -55,7 +55,7 @@ public class ColonistStateBehaviourFood : ColonistStateBehaviour
         if (!collectible_alive)
         {
             // assign a reward for destroying something
-            AddAgentReward(1f);
+            //AddAgentReward(1f);
             collectible = null;
         }
         Invoke("CollectibleInteract", 0.5f);
@@ -85,5 +85,23 @@ public class ColonistStateBehaviourFood : ColonistStateBehaviour
             Quaternion targetRotation = Quaternion.LookRotation((targetPosition - transform.position), Vector3.up);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime*5f);
         }
+    }
+
+    public override float GetStateDistance()
+    {
+        Collectible collectibleTemp = ColonyHandler.Instance.GetClosestCollectible(Collectible.Type.Food, agent.areaIndex, transform.position);
+        if (collectibleTemp != null)
+            return Vector3.Distance(transform.position, collectibleTemp.GetPosition());
+        
+        return -1f;
+    }
+
+    public override float CalculateDecisionReward()
+    {
+        int countFood = ColonyHandler.Instance.GetCollectibleCount(Collectible.Type.Food, agent.areaIndex);
+        if (countFood > 1)
+            return 1f;
+        
+        return -1f;
     }
 }

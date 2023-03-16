@@ -72,7 +72,7 @@ public class ColonistProcessor : MonoBehaviour
         Vector3Int key = new Vector3Int((int)pos.x, 0, (int)pos.z);
         obj.transform.position = key;
         Node node = obj.GetComponent<Node>();
-        node.Initialize(areaIndex, node, key, NodeDestroyCallback);
+        node.Initialize(areaIndex, key, NodeDestroyCallback, NodeActivateCallback, processor.name);
         processor.AddNode(node);
         if (processor.clusterAmount > 0)
         {
@@ -102,7 +102,7 @@ public class ColonistProcessor : MonoBehaviour
                 GameObject newObj = Instantiate(nodeIn, this.transform).gameObject;
                 newObj.transform.position = neighbourPosition;
                 Node node = newObj.GetComponent<Node>();
-                node.Initialize(areaIndex, node, neighbourPosition, NodeDestroyCallback);
+                node.Initialize(areaIndex, neighbourPosition, NodeDestroyCallback, NodeActivateCallback, processor.name);
                 nodeIn = node;
 
                 processor.AddNode(node);
@@ -118,6 +118,17 @@ public class ColonistProcessor : MonoBehaviour
         foreach (Processor processor in processors)
         {
             processor.RemoveNode(node);
+        }
+    }
+    void NodeActivateCallback(Node node)
+    {
+        Processor processor = GetProcessor(node.nameProcessor);
+        if (node.active)
+        {
+            processor.AddActiveNode(node);
+        } else
+        {
+            processor.RemoveActiveNode(node);
         }
     }
     Vector3 GetOpenPosition()
@@ -210,6 +221,15 @@ public class ColonistProcessor : MonoBehaviour
         }
         return null;
     }
+    public int GetNodeCount(string name, bool requireActive = true)
+    {
+        Processor processor = GetProcessor(name);
+        if (processor != null)
+        {
+            return processor.nodesActive.Count;
+        }
+        return 0;
+    }
     public Node GetClosestNode(string name, Vector3 position)
     {
         Processor processor = GetProcessor(name);
@@ -257,11 +277,13 @@ public class Processor
     // runttime:
     public Dictionary<Vector3Int, Node> nodes;
     public List<Node> nodesList;
+    public List<Node> nodesActive;
 
     public void Initialize()
     {
         nodes = new Dictionary<Vector3Int, Node>();
         nodesList = new List<Node>();
+        nodesActive = new List<Node>();
     }
 
     public Node GetNode(Vector3Int position)
@@ -287,6 +309,20 @@ public class Processor
         if (nodesList.Contains(node))
             nodesList.Remove(node);
     }
+
+    public void AddActiveNode(Node node)
+    {
+        if (nodesActive.Contains(node))
+            return;
+        
+        nodesActive.Add(node);
+    }
+
+    public void RemoveActiveNode(Node node)
+    {
+        if (nodesActive.Contains(node))
+            nodesActive.Remove(node);
+    }
 }
 
 [Serializable]
@@ -296,21 +332,25 @@ public abstract class Node : MonoBehaviour
     public bool busy = false;
     protected int areaIndex;
     protected Action<Node> OnDestroyFunc;
-    protected Node parentNode;
+    protected Action<Node> OnActivateFunc;
+    public string nameProcessor;
+
     [Header("Debug:")]
     public bool active = true;
     protected float time;
 
-    public virtual void Initialize(int areaIndex, Node node, Vector3Int position, Action<Node> OnDestroyFunc)
+    public virtual void Initialize(int areaIndex, Vector3Int position, Action<Node> OnDestroyFunc, Action<Node> OnActivateFunc, string nameProcessor)
     {
         this.position = position;
         this.areaIndex = areaIndex;
-        this.parentNode = node;
         this.OnDestroyFunc = OnDestroyFunc;
+        this.OnActivateFunc = OnActivateFunc;
+        this.nameProcessor = nameProcessor;
 
         transform.position = position;
-        active = true;
         busy = false;
+
+        Activate(true);
     }
 
     public GameObject GetGameObject()
@@ -337,7 +377,7 @@ public abstract class Node : MonoBehaviour
     public virtual void DestroyNode()
     {
         if (OnDestroyFunc!=null)
-            OnDestroyFunc(parentNode);
+            OnDestroyFunc(this);
         
         Destroy(this.gameObject);
     }
@@ -346,6 +386,8 @@ public abstract class Node : MonoBehaviour
     {
         this.gameObject.SetActive(active);
         this.active = active;
+
+        OnActivateFunc(this);
     }
 
     public void InactiveCheck()

@@ -50,6 +50,7 @@ public class ColonistAgent : Agent, IDamageable
         stateBehaviours = new List<ColonistStateBehaviour>();
         foreach (ColonistStateBehaviour behaviour in behaviours)
         {
+            behaviour.Initialize();
             stateBehaviours.Add(behaviour);
         }
 
@@ -119,23 +120,20 @@ public class ColonistAgent : Agent, IDamageable
         sensor.AddObservation(ColonyHandler.Instance.GetColonistAmount(areaIndex));
         sensor.AddObservation(ColonyHandler.Instance.GetEnemyAmount(areaIndex));
 
-        /*
         List<float> distances = GetStateDistances();
         foreach (float distance in distances)
         {
             sensor.AddObservation(distance);
         }
-        */
     }
 
     //TODO: Make reward cumulative across all agents. (look up SharedReward() ML agents method)
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
         var state = actionBuffers.DiscreteActions[0];
+        AddReward(GetBehaviour((Colonist.State)state).CalculateDecisionReward());
         SetState(state);
-
         AddReward(colonist.CalculateReward());
-
         if (OnActionsFunc != null)
         {
             OnActionsFunc();
@@ -182,21 +180,15 @@ public class ColonistAgent : Agent, IDamageable
     public List<float> GetStateDistances()
     {
         // TODO: get a list of distances to targets in each state
-        /*
         List<float> vals = new List<float>();
-        Colonist.State stateCache = colonist.state;
         foreach(Colonist.State state in Enum.GetValues(typeof(Colonist.State)))
         {
             if (state == Colonist.State.Idle)
                 vals.Add(-1f);
             
-            colonist.state = state;
-            vals.Add(Vector3.Distance(transform.position, GetTargetFunc(colonist)));
+            vals.Add(GetBehaviour(state).GetStateDistance());
         }
-        colonist.state = stateCache;
         return vals;
-        */
-        return null;
     }
 
     public void Die()

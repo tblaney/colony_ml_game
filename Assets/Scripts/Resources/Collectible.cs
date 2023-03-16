@@ -29,7 +29,7 @@ public class Collectible : Node
                 ColonyHandler.Instance.AddWealth(areaIndex, amount);
                 break;
         }
-        DestroyNode();
+        //DestroyNode();
         Activate(false);
         time = Time.fixedTime + ColonyHandler.parameters.resourceRefreshTime;
         SetBusy(false);

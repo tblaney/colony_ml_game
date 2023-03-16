@@ -137,7 +137,7 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
         bool enemy_alive = targetAgent.Damage((int)(agent.colonist.traits.attackStrength*20f));
         if (!enemy_alive)
         {
-            AddAgentReward(1f);
+            //AddAgentReward(1f);
         }
         cooldown = true;
         Invoke("CooldownCallback", 1f);
@@ -147,5 +147,25 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
     {
         cooldown = false;
         NavCallbackChase();
+    }
+
+    public override float GetStateDistance()
+    {
+        EnemyAgent enemy = ColonyHandler.Instance.GetClosestEnemy(agent.areaIndex, transform.position);
+        if (enemy != null)
+        {
+            return Vector3.Distance(transform.position, enemy.GetPosition());
+        }
+        return -1f;
+    }
+
+    public override float CalculateDecisionReward()
+    {
+        EnemyAgent enemy = ColonyHandler.Instance.GetClosestEnemy(agent.areaIndex, transform.position);
+        if (enemy != null)
+        {
+            return 1f;
+        }
+        return -1f;
     }
 }

@@ -14,8 +14,12 @@ public abstract class ColonistStateBehaviour : MonoBehaviour
     {
         agent = GetComponent<ColonistAgent>();
         nav = GetComponent<NavigationController>();
-        nav.SetSpeed(agent.colonist.traits.speed*10f);
     } 
+
+    public void Initialize()
+    {
+        nav.SetSpeed(agent.colonist.traits.speed*10f);
+    }
 
     void OnDisable()
     {
@@ -45,4 +49,7 @@ public abstract class ColonistStateBehaviour : MonoBehaviour
         Quaternion newRotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime*8f);
         transform.rotation = newRotation;
     }
+
+    public abstract float GetStateDistance();
+    public abstract float CalculateDecisionReward();
 }

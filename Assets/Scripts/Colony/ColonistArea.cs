@@ -230,6 +230,20 @@ public class ColonistArea : MonoBehaviour
         }   
         return 0;
     }
+    public int GetCollectibleCount(Collectible.Type type)
+    {
+        string name = "";
+        switch (type)
+        {
+            case Collectible.Type.Food:
+                name = "food";
+                break;
+            case Collectible.Type.Mineral:
+                name = "minerals";
+                break;
+        }
+        return processor.GetNodeCount(name);
+    }
     //---ML---//
     public void AddGroupReward(float val)
     {
@@ -272,7 +286,6 @@ public class ColonistArea : MonoBehaviour
         if (colony.food > ColonyHandler.parameters.foodThreshold)
         {
             colony.food -= (int) ColonyHandler.parameters.foodThreshold;
-            Debug.Log("colony.food "+colony.food);
             Colonist colonist = new Colonist(){};
             colonist.Initialize();
             SpawnColonist(colonist, Colonist.State.Collect);

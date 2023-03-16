@@ -23,11 +23,11 @@ public class NavigationController : MonoBehaviour
 
     void Update()
     {
-        if (navAgent.speed != speed){
-            Debug.Log("Old speed " + navAgent.speed.ToString());
+        if (navAgent.speed != speed)
+        {
             navAgent.speed = speed;
-            Debug.Log("New speed " + navAgent.speed.ToString());
         }
+        
         if (navAgent.hasPath)
             pathStatus = navAgent.pathStatus;
         else

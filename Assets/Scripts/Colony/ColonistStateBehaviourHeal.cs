@@ -126,7 +126,7 @@ public class ColonistStateBehaviourHeal : ColonistStateBehaviour
         float distance = Vector3.Distance(transform.position, targetAgent.GetPosition());
         if (distance < 2f)
         {
-            AddAgentReward(1f);
+            //AddAgentReward(1f);
             HealTarget();
         } else
         {
@@ -156,5 +156,25 @@ public class ColonistStateBehaviourHeal : ColonistStateBehaviour
     {
         cooldown = false;
         HealTarget();
+    }
+
+    public override float GetStateDistance()
+    {
+        ColonistAgent closestAgent = ColonyHandler.Instance.GetClosestInjuredColonist(agent.areaIndex, transform.position);
+        if (closestAgent != null)
+        {
+            return Vector3.Distance(transform.position, closestAgent.GetPosition());
+        }
+        return -1f;
+    }
+
+    public override float CalculateDecisionReward()
+    {
+        ColonistAgent closestAgent = ColonyHandler.Instance.GetClosestInjuredColonist(agent.areaIndex, transform.position);
+        if (closestAgent != null)
+        {
+            return 1f;
+        }
+        return -1f;
     }
 }

@@ -141,6 +141,11 @@ public class ColonyHandler : MonoBehaviour
         ColonistArea area = GetArea(areaIndex);
         return area.colony.colonists.Count;
     }
+    public int GetCollectibleCount(Collectible.Type type, int areaIndex)
+    {
+        ColonistArea area = GetArea(areaIndex);
+        return area.GetCollectibleCount(type);
+    }
 }
 
 

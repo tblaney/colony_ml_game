@@ -54,7 +54,7 @@ public class ColonistStateBehaviourMine : ColonistStateBehaviour
         bool collectible_alive = collectible.Damage((int)(agent.colonist.traits.mineStrength * 10));
         if (!collectible_alive)
         {
-            AddAgentReward(1f);
+            //AddAgentReward(1f);
             collectible = null;
         }
         Invoke("CollectibleInteract", 0.5f);
@@ -84,5 +84,23 @@ public class ColonistStateBehaviourMine : ColonistStateBehaviour
             Quaternion targetRotation = Quaternion.LookRotation((targetPosition - transform.position), Vector3.up);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime*5f);
         }
+    }
+
+    public override float GetStateDistance()
+    {
+        Collectible collectibleTemp = ColonyHandler.Instance.GetClosestCollectible(Collectible.Type.Mineral, agent.areaIndex, transform.position);
+        if (collectibleTemp != null)
+            return Vector3.Distance(transform.position, collectibleTemp.GetPosition());
+        
+        return -1f;
+    }
+
+    public override float CalculateDecisionReward()
+    {
+        int countMineral = ColonyHandler.Instance.GetCollectibleCount(Collectible.Type.Mineral, agent.areaIndex);
+        if (countMineral > 1)
+            return 1f;
+        
+        return -1f;
     }
 }
