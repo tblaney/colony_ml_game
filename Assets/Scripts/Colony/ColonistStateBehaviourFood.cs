@@ -57,6 +57,8 @@ public class ColonistStateBehaviourFood : ColonistStateBehaviour
             // assign a reward for destroying something
             //AddAgentReward(1f);
             collectible = null;
+            agent.RequestDecision();
+            return;
         }
         Invoke("CollectibleInteract", 0.5f);
     }
@@ -99,7 +101,8 @@ public class ColonistStateBehaviourFood : ColonistStateBehaviour
     public override float CalculateDecisionReward()
     {
         int countFood = ColonyHandler.Instance.GetCollectibleCount(Collectible.Type.Food, agent.areaIndex);
-        if (countFood > 1)
+        //int enemyCount = ColonyHandler.Instance.GetEnemyAmount(agent.areaIndex);
+        if (countFood > 1 && agent.colonist.energy > 0.2f)
             return 1f;
         
         return -1f;

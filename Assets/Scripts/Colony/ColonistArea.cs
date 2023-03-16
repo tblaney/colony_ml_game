@@ -109,6 +109,13 @@ public class ColonistArea : MonoBehaviour
         
         SpawnEnemy();
     }
+    void RequestAgentDecision()
+    {
+        foreach (ColonistAgent agent in colonistAgents)
+        {
+            agent.RequestDecision();
+        }
+    }
     //---processing---//
     public void SpawnColonist(Colonist colonist, Colonist.State state, Vector3 position = default(Vector3))
     {
@@ -154,6 +161,8 @@ public class ColonistArea : MonoBehaviour
         EnemyAgent agent = obj.GetComponent<EnemyAgent>();
         agent.Setup(enemy, areaIndex, DestroyEnemy);
         enemyAgents.Add(agent);
+
+        RequestAgentDecision();
     }
 
     public void DestroyEnemy(EnemyAgent agent)
@@ -163,6 +172,7 @@ public class ColonistArea : MonoBehaviour
             enemyAgents.Remove(agent);
         }
         //AddGroupReward(ColonyHandler.Instance.GetReward("enemy death"));
+        RequestAgentDecision();
     }
     //---gets---//
     public EnemyAgent GetClosestEnemy(Vector3 position)
@@ -256,12 +266,12 @@ public class ColonistArea : MonoBehaviour
         colony.wealth += amount;
         WealthCheck();
 
-        AddGroupReward(0.2f);
+        AddGroupReward(0.5f);
     }
     public void AddFood(int amount)
     {
         colony.food += amount;
-        AddGroupReward(0.1f);
+        AddGroupReward(0.2f);
         FoodCheck();
     }
     public void UseFood(int amount)
@@ -289,7 +299,7 @@ public class ColonistArea : MonoBehaviour
             Colonist colonist = new Colonist(){};
             colonist.Initialize();
             SpawnColonist(colonist, Colonist.State.Collect);
-            AddGroupReward(2f);
+            AddGroupReward(0.5f);
         }
     }
 }

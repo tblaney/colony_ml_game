@@ -16,6 +16,13 @@ public class Collectible : Node
     public int amount;
     public int health;
 
+    int healthCache;
+
+    void Start()
+    {
+        healthCache = health;
+    }
+
 
     public void DestroyCollectible()
     {
@@ -31,6 +38,7 @@ public class Collectible : Node
         }
         //DestroyNode();
         Activate(false);
+        health = healthCache;
         time = Time.fixedTime + ColonyHandler.parameters.resourceRefreshTime;
         SetBusy(false);
     }

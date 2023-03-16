@@ -127,6 +127,7 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
             AttackTarget();
         } else
         {
+            agent.RequestDecision();
             ChaseRefresh();
         }
     }
@@ -141,6 +142,7 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
         }
         cooldown = true;
         Invoke("CooldownCallback", 1f);
+        agent.RequestDecision();
     }
 
     void CooldownCallback()

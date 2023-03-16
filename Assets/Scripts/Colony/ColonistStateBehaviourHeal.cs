@@ -130,6 +130,7 @@ public class ColonistStateBehaviourHeal : ColonistStateBehaviour
             HealTarget();
         } else
         {
+            agent.RequestDecision();
             ChaseRefresh();
         }
     }
@@ -138,7 +139,8 @@ public class ColonistStateBehaviourHeal : ColonistStateBehaviour
     {
         if (targetAgent == null)
         {
-            StartBehaviour();
+            agent.RequestDecision();
+            //StartBehaviour();
             return;
         }
         // nav.Stop();
@@ -150,6 +152,7 @@ public class ColonistStateBehaviourHeal : ColonistStateBehaviour
         } else {
             chasing = false;
         }
+        agent.RequestDecision();
     }
 
     void CooldownCallback()

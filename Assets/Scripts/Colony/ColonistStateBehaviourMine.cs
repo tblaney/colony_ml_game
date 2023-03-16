@@ -56,6 +56,8 @@ public class ColonistStateBehaviourMine : ColonistStateBehaviour
         {
             //AddAgentReward(1f);
             collectible = null;
+            agent.RequestDecision();
+            return;
         }
         Invoke("CollectibleInteract", 0.5f);
     }
@@ -98,7 +100,8 @@ public class ColonistStateBehaviourMine : ColonistStateBehaviour
     public override float CalculateDecisionReward()
     {
         int countMineral = ColonyHandler.Instance.GetCollectibleCount(Collectible.Type.Mineral, agent.areaIndex);
-        if (countMineral > 1)
+        //int enemyCount = ColonyHandler.Instance.GetEnemyAmount(agent.areaIndex);
+        if (countMineral > 1 && agent.colonist.energy > 0.2f)
             return 1f;
         
         return -1f;

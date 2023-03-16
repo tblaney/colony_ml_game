@@ -19,6 +19,7 @@ public class ColonistStateBehaviourIdle : ColonistStateBehaviour
         //mover.StopMovement();
         //AddAgentReward(-1f);
         nav.Stop();
+        agent.RequestDecision();
     }
 
     public override void StopBehaviour()

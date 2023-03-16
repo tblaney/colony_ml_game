@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -515,11 +515,11 @@ MonoBehaviour:
     mineAmountStart: 2
     idleAmountStart: 0
     colonistAmountMax: 20
-    enemyAmountMax: 4
-    enemySpawnRate: 90
+    enemyAmountMax: 1
+    enemySpawnRate: 60
     foodAmount: 80
     mineralAmount: 40
-    resourceRefreshTime: 30
+    resourceRefreshTime: 180
     foodThreshold: 20
 --- !u!1 &925116993
 GameObject:
@@ -1877,7 +1877,7 @@ MonoBehaviour:
   areaIndex: 1
   colony:
     wealth: 0
-    wealthThreshold: 250
+    wealthThreshold: 120
     food: 0
   agentPrefab: {fileID: 911526879165222238, guid: 7b91013da96934a42ae24e9f5b32e9ce, type: 3}
   enemyPrefab: {fileID: 5531459114273244970, guid: e77b579a0ed3a424d9e9785b8e9f5063, type: 3}
@@ -1906,12 +1906,14 @@ MonoBehaviour:
     amount: 0
     clusterAmount: 0
     nodesList: []
+    nodesActive: []
   - name: minerals
     index: 2
     prefab: {fileID: 3823804231606973916, guid: 3842f408ebf160f44a15364b0609bfb9, type: 3}
     amount: 0
     clusterAmount: 16
     nodesList: []
+    nodesActive: []
   plane: {fileID: 306302584750463621}
   bounds:
     m_Center: {x: 0, y: 0, z: 0}

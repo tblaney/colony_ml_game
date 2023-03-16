@@ -58,6 +58,8 @@ public class ColonistAgent : Agent, IDamageable
         {
             SetState((int)state);
         }
+
+        RequestDecision();
     }
 
     void Update()
@@ -77,9 +79,9 @@ public class ColonistAgent : Agent, IDamageable
             return;
 
         timer += Time.fixedDeltaTime;
-        if (timer > 10f)
+        if (timer > 8f)
         {
-            RequestDecision();
+            //RequestDecision();
             //RequestAction();
             timer = 0f;
         }
@@ -163,6 +165,10 @@ public class ColonistAgent : Agent, IDamageable
             agentMat.SetColor("_Color", colonistColor[state]);
             print(colonistColor[state]);
 
+        } else
+        {
+            if (currentBehaviour != null)
+                currentBehaviour.StartBehaviour();
         }
         colonist.state = state;
     }
@@ -306,6 +312,9 @@ public class Colonist
         {
             reward -= 1f;
         }
+        if (reward >= 0f)
+            reward = 1f;
+        
         return reward;
     }
 }

@@ -6,6 +6,7 @@ public class ColonistStateBehaviourRest : ColonistStateBehaviour
 {      
     Vector3 restPosition;
     bool hittingTarget;
+    bool healingDone;
 
     public override void StartBehaviour()
     {
@@ -26,6 +27,7 @@ public class ColonistStateBehaviourRest : ColonistStateBehaviour
 
         nav.MoveTo(restPosition, Rest);
         hittingTarget = false;
+        healingDone = false;
     }
 
     void Rest()
@@ -33,18 +35,28 @@ public class ColonistStateBehaviourRest : ColonistStateBehaviour
         hittingTarget = true;
         nav.Stop();
         float distance = Vector3.Distance(transform.position, restPosition);
-        //if (agent.colonist.energy < 0.8f)
-        //    AddAgentReward(0.1f);
+        //if (agent.colonist.energy < 1f)
+        //AddAgentReward(0.1f);
+        //else
+        //if (healingDone)
+        //    AddAgentReward(-0.25f);
         //While in rest position heal over time
         agent.Energize((int)(agent.colonist.traits.laziness * 10));
+        if (agent.colonist.energy >= 1f && !healingDone)
+        {
+            agent.RequestDecision();
+            healingDone = true;
+            return;
+        }
         Invoke("Rest", 0.5f);
     }
 
     public override void StopBehaviour()
     {
         if (agent.colonist.energy < 0.8f)
-            AddAgentReward(-1f);
+            AddAgentReward(-0.5f);
         
+        healingDone = false;
         base.StopBehaviour();
     }
 
@@ -62,7 +74,7 @@ public class ColonistStateBehaviourRest : ColonistStateBehaviour
 
     public override float CalculateDecisionReward()
     {
-        if (agent.colonist.health < 0.5f)
+        if (agent.colonist.energy < 0.2f)
             return 1f;
         
         return -1f;
