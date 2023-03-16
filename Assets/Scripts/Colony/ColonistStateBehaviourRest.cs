@@ -17,6 +17,10 @@ public class ColonistStateBehaviourRest : ColonistStateBehaviour
             agent.SetState(0);
             return;
         }
+        if (agent.colonist.energy < 0.5)
+        {
+            AddAgentReward(1f);
+        }
         // Node node = restPosition as Node;
         // node.SetBusy(true);
 

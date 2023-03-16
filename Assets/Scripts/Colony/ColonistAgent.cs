@@ -24,8 +24,8 @@ public class ColonistAgent : Agent, IDamageable
 
     private Dictionary<Colonist.State, Color> colonistColor = new Dictionary<Colonist.State, Color>()
     {
-    {Colonist.State.Idle, Color.gray},
-    {Colonist.State.Rest, Color.white},
+    {Colonist.State.Idle, Color.black},
+    {Colonist.State.Rest, Color.gray},
     {Colonist.State.Mine, Color.yellow},
     {Colonist.State.Patrol, Color.cyan},
     {Colonist.State.Heal, Color.magenta},

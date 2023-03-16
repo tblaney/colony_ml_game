@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5274344004769295475}
   - component: {fileID: 5274344004769295371}
   - component: {fileID: 77131475871358970}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PF_Food
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,6 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 329bb5f02344b5e4fafdd5c165ee8323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  busy: 0
   active: 0
   type: 0
   amount: 1
