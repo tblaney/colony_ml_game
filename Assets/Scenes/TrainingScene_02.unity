@@ -506,7 +506,7 @@ MonoBehaviour:
   - _name: agent death
     _val: -5
   - _name: enemy death
-    _val: 2
+    _val: 1
   parametersIn:
     collectAmountStart: 2
     healAmountStart: 2
@@ -515,8 +515,8 @@ MonoBehaviour:
     mineAmountStart: 2
     idleAmountStart: 0
     colonistAmountMax: 20
-    enemyAmountMax: 1
-    enemySpawnRate: 60
+    enemyAmountMax: 2
+    enemySpawnRate: 90
     foodAmount: 80
     mineralAmount: 40
     resourceRefreshTime: 180
@@ -1877,7 +1877,7 @@ MonoBehaviour:
   areaIndex: 1
   colony:
     wealth: 0
-    wealthThreshold: 120
+    wealthThreshold: 60
     food: 0
   agentPrefab: {fileID: 911526879165222238, guid: 7b91013da96934a42ae24e9f5b32e9ce, type: 3}
   enemyPrefab: {fileID: 5531459114273244970, guid: e77b579a0ed3a424d9e9785b8e9f5063, type: 3}

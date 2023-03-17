@@ -26,7 +26,10 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
 
     public override void StopBehaviour()
     {
-
+        if (targetAgent != null && targetAgent.enemy.health > 0f)
+        {
+            AddAgentReward(-1f);
+        }
         base.StopBehaviour();
     }
 
@@ -36,6 +39,7 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
         {
             if (targetAgent == null || targetAgent.gameObject == null)
             {
+                //agent.RequestDecision();
                 StartBehaviour();
                 return;
             }
@@ -97,6 +101,7 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
 
     void NavCallbackRoam()
     {
+        //agent.RequestDecision();
         RoamRefresh();
         /*
         bool isHit = Tools.IsHit(0.3f);
@@ -118,6 +123,7 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
         // try and attack target
         if (targetAgent == null || targetAgent.gameObject == null)
         {
+            //agent.RequestDecision();
             StartBehaviour();
             return;
         }
@@ -127,7 +133,7 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
             AttackTarget();
         } else
         {
-            agent.RequestDecision();
+            //agent.RequestDecision();
             ChaseRefresh();
         }
     }
@@ -142,7 +148,7 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
         }
         cooldown = true;
         Invoke("CooldownCallback", 1f);
-        agent.RequestDecision();
+        //agent.RequestDecision();
     }
 
     void CooldownCallback()

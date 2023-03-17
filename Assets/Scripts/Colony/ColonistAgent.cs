@@ -79,9 +79,11 @@ public class ColonistAgent : Agent, IDamageable
             return;
 
         timer += Time.fixedDeltaTime;
-        if (timer > 8f)
+        if (timer > 5f)
         {
-            //RequestDecision();
+            if (colonist.state == Colonist.State.Heal | colonist.state == Colonist.State.Patrol)
+            //if (colonist.state == Colonist.State.Heal)
+                RequestDecision();
             //RequestAction();
             timer = 0f;
         }
@@ -312,8 +314,6 @@ public class Colonist
         {
             reward -= 1f;
         }
-        if (reward >= 0f)
-            reward = 1f;
         
         return reward;
     }

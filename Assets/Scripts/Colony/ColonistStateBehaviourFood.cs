@@ -101,8 +101,9 @@ public class ColonistStateBehaviourFood : ColonistStateBehaviour
     public override float CalculateDecisionReward()
     {
         int countFood = ColonyHandler.Instance.GetCollectibleCount(Collectible.Type.Food, agent.areaIndex);
+        int countColonist = ColonyHandler.Instance.GetColonistAmount(agent.areaIndex);
         //int enemyCount = ColonyHandler.Instance.GetEnemyAmount(agent.areaIndex);
-        if (countFood > 1 && agent.colonist.energy > 0.2f)
+        if (countFood > 1 && agent.colonist.energy > 0.2f && countColonist < ColonyHandler.parameters.colonistAmountMax)
             return 1f;
         
         return -1f;
