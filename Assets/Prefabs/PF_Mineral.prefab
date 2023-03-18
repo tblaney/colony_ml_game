@@ -16,10 +16,10 @@ GameObject:
   - component: {fileID: 3823804231606973918}
   m_Layer: 6
   m_Name: PF_Mineral
-  m_TagString: Untagged
+  m_TagString: Mineral
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3823804231606973915
 Transform:
@@ -111,6 +111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 329bb5f02344b5e4fafdd5c165ee8323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  busy: 0
+  nameProcessor: 
   active: 0
   type: 1
   amount: 1

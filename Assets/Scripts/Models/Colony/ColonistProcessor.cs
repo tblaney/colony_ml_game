@@ -131,7 +131,7 @@ public class ColonistProcessor : MonoBehaviour
             processor.RemoveActiveNode(node);
         }
     }
-    Vector3 GetOpenPosition()
+    public Vector3 GetOpenPosition()
     {
         // try for 30 iterations
         for (int i = 0; i < 30; i++)

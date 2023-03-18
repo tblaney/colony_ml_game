@@ -63,7 +63,7 @@ public  class EnemyStateBehaviourChase : EnemyStateBehaviour
     void AttackTarget()
     {
         nav.Stop();
-        targetAgent.Damage(agent.enemy.damage);
+        //targetAgent.Damage(agent.enemy.damage);
         cooldown = true;
         Invoke("CooldownCallback", 1f);
     }

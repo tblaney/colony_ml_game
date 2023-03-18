@@ -26,17 +26,17 @@ public class Collectible : Node
 
     public void DestroyCollectible()
     {
-        // perform reward:
+        // TODO: Perform logic here for destroying collectible
+
         switch (type)
         {
             case Type.Food:
-                ColonyHandler.Instance.AddFood(areaIndex, amount);
+                //ColonyHandler.Instance.AddFood(areaIndex, amount);
                 break;
             case Type.Mineral:
-                ColonyHandler.Instance.AddWealth(areaIndex, amount);
+                //ColonyHandler.Instance.AddWealth(areaIndex, amount);
                 break;
         }
-        //DestroyNode();
         Activate(false);
         health = healthCache;
         time = Time.fixedTime + ColonyHandler.parameters.resourceRefreshTime;
