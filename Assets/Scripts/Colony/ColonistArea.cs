@@ -293,7 +293,7 @@ public class ColonistArea : MonoBehaviour
     void FoodCheck()
     {
         //if food collected > threshold, new agent spawns
-        if (colony.food > ColonyHandler.parameters.foodThreshold)
+        if (colony.food > ColonyHandler.parameters.foodThreshold && colony.colonists.Count < ColonyHandler.parameters.colonistAmountMax)
         {
             colony.food -= (int) ColonyHandler.parameters.foodThreshold;
             Colonist colonist = new Colonist(){};

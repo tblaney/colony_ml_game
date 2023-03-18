@@ -29,6 +29,7 @@ public class ColonistStateBehaviourIdle : ColonistStateBehaviour
 
     public override void UpdateBehaviour()
     {
+        agent.RequestDecision();
         nav.Stop();
     }
 }

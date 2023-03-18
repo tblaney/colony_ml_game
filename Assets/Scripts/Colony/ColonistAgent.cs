@@ -81,8 +81,8 @@ public class ColonistAgent : Agent, IDamageable
         timer += Time.fixedDeltaTime;
         if (timer > 5f)
         {
-            if (colonist.state == Colonist.State.Heal | colonist.state == Colonist.State.Patrol)
-            //if (colonist.state == Colonist.State.Heal)
+            //if (colonist.state == Colonist.State.Heal | colonist.state == Colonist.State.Patrol)
+            if (colonist.state == Colonist.State.Heal)
                 RequestDecision();
             //RequestAction();
             timer = 0f;
@@ -169,8 +169,8 @@ public class ColonistAgent : Agent, IDamageable
 
         } else
         {
-            if (currentBehaviour != null)
-                currentBehaviour.StartBehaviour();
+            //f (currentBehaviour != null)
+            //    currentBehaviour.StartBehaviour();
         }
         colonist.state = state;
     }

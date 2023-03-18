@@ -19,7 +19,8 @@ public class ColonistStateBehaviourFood : ColonistStateBehaviour
         collectible = ColonyHandler.Instance.GetClosestCollectible(Collectible.Type.Food, agent.areaIndex, transform.position);
         if (collectible == null)
         {
-            agent.SetState(0);
+            agent.RequestDecision();
+            //SetState(0);
             return;
         }
         node = collectible as Node;

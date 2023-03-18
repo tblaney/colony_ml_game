@@ -21,7 +21,11 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
         timer = 0f;
         cooldown = false;
 
-        RoamRefresh();
+        ChaseCheck();
+        if (!chasing)
+            RoamRefresh();
+        else
+            ChaseRefresh();
     }
 
     public override void StopBehaviour()
@@ -70,6 +74,9 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
                 nav.Stop();
                 CancelInvoke();
                 ChaseRefresh();
+            } else
+            {
+                agent.RequestDecision();
             }
         }
     }
@@ -90,12 +97,12 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
         EnemyAgent enemy = ColonyHandler.Instance.GetClosestEnemy(agent.areaIndex, transform.position);
         if (enemy != null)
         {
-            //float distance = Vector3.Distance(transform.position, enemy.GetPosition());
-            //if (distance < chaseRadius)
-            //{
+            float distance = Vector3.Distance(transform.position, enemy.GetPosition());
+            if (distance < chaseRadius)
+            {
                 targetAgent = enemy;
                 chasing = true;
-            //}
+            }
         }
     }
 
@@ -123,8 +130,8 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
         // try and attack target
         if (targetAgent == null || targetAgent.gameObject == null)
         {
-            //agent.RequestDecision();
-            StartBehaviour();
+            agent.RequestDecision();
+            //StartBehaviour();
             return;
         }
         float distance = Vector3.Distance(transform.position, targetAgent.GetPosition());
@@ -136,6 +143,7 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
             //agent.RequestDecision();
             ChaseRefresh();
         }
+        agent.RequestDecision();
     }
 
     void AttackTarget()
@@ -172,7 +180,9 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
         EnemyAgent enemy = ColonyHandler.Instance.GetClosestEnemy(agent.areaIndex, transform.position);
         if (enemy != null)
         {
-            return 1f;
+            float distance = Vector3.Distance(transform.position, enemy.GetPosition());
+            if (distance < chaseRadius)
+                return 1f;
         }
         return -1f;
     }

@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 3
-  chaseRadius: 20
+  chaseRadius: 30
 --- !u!114 &5551205713849341277
 MonoBehaviour:
   m_ObjectHideFlags: 0

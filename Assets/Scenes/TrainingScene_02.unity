@@ -515,11 +515,11 @@ MonoBehaviour:
     mineAmountStart: 2
     idleAmountStart: 0
     colonistAmountMax: 20
-    enemyAmountMax: 4
-    enemySpawnRate: 60
+    enemyAmountMax: 2
+    enemySpawnRate: 90
     foodAmount: 80
     mineralAmount: 40
-    resourceRefreshTime: 180
+    resourceRefreshTime: 1020
     foodThreshold: 20
 --- !u!1 &925116993
 GameObject:
@@ -1802,7 +1802,7 @@ MonoBehaviour:
   areaIndex: 1
   colony:
     wealth: 0
-    wealthThreshold: 60
+    wealthThreshold: 120
     food: 0
   agentPrefab: {fileID: 911526879165222238, guid: 7b91013da96934a42ae24e9f5b32e9ce, type: 3}
   enemyPrefab: {fileID: 5531459114273244970, guid: e77b579a0ed3a424d9e9785b8e9f5063, type: 3}
