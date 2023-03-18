@@ -238,6 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 2
+  collectible: {fileID: 0}
 --- !u!114 &-4950150584742080709
 MonoBehaviour:
   m_ObjectHideFlags: 0

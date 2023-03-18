@@ -144,7 +144,7 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
         bool enemy_alive = targetAgent.Damage((int)(agent.colonist.traits.attackStrength*20f));
         if (!enemy_alive)
         {
-            //AddAgentReward(1f);
+            AddAgentReward(1f);
         }
         cooldown = true;
         Invoke("CooldownCallback", 1f);

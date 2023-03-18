@@ -94,11 +94,11 @@ public class ColonistAgent : Agent, IDamageable
     void EnergyUpdate()
     {
         if (colonist.energy > 0f)
-            colonist.energy -= Time.fixedDeltaTime/120f;
+            colonist.energy -= Time.fixedDeltaTime/180f;
 
         if (colonist.energy <= 0f)
         {
-            Damage(Time.fixedDeltaTime/120f);
+            Damage(Time.fixedDeltaTime/360f);
         }
     }
 
@@ -211,6 +211,8 @@ public class ColonistAgent : Agent, IDamageable
     {
         float damage = (float)val/100f;
         Damage(damage);
+        if (val > 0f)
+            RequestDecision();
     }
     void Damage(float val)
     {
@@ -219,7 +221,7 @@ public class ColonistAgent : Agent, IDamageable
         if (colonist.health > 1.0f) {
             colonist.health = 1.0f;
         }
-        Debug.Log("Colonist Damage: " + val + ", " + colonist.health);
+        //Debug.Log("Colonist Damage: " + val + ", " + colonist.health);
         if (colonist.health <= 0)
         {
             // die

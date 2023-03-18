@@ -54,7 +54,7 @@ public class ColonistStateBehaviourRest : ColonistStateBehaviour
     public override void StopBehaviour()
     {
         if (agent.colonist.energy < 0.8f)
-            AddAgentReward(-0.5f);
+            AddAgentReward(-1f);
         
         healingDone = false;
         base.StopBehaviour();

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ColonistStateBehaviourMine : ColonistStateBehaviour
 {   
-    Collectible collectible;
+    public Collectible collectible;
     bool hittingTarget;
 
     public override void StartBehaviour()

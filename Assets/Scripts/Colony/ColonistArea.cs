@@ -266,7 +266,7 @@ public class ColonistArea : MonoBehaviour
         colony.wealth += amount;
         WealthCheck();
 
-        AddGroupReward(5f);
+        AddGroupReward(1f);
     }
     public void AddFood(int amount)
     {
