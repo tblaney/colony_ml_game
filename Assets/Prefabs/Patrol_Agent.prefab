@@ -9,18 +9,19 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 911526879165222237}
-  - component: {fileID: 911526879165222209}
   - component: {fileID: 911526879165222224}
   - component: {fileID: 3353239577881328347}
   - component: {fileID: 7338461587372178192}
   - component: {fileID: 911526879165222226}
   - component: {fileID: 911526879165222227}
   - component: {fileID: 4503551606476234788}
-  - component: {fileID: 8502383804652412221}
   - component: {fileID: 2656958866129196735}
+  - component: {fileID: 7784219795832549558}
+  - component: {fileID: -7099231741567809437}
+  - component: {fileID: 1828405846679319750}
   m_Layer: 7
-  m_Name: PF_Agent
-  m_TagString: Untagged
+  m_Name: Patrol_Agent
+  m_TagString: Agent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41,27 +42,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &911526879165222209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 911526879165222238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cffa79748b84b4543880861a6a0dc2d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 5000
-  heuristics: 1
-  speedMovement: 40
-  speedRotation: 12
-  speedUp: 40
-  areaIndex: 0
 --- !u!114 &911526879165222224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,8 +66,8 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
-  m_BehaviorType: 1
-  m_BehaviorName: Agent
+  m_BehaviorType: 0
+  m_BehaviorName: PatrolAgent
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1
@@ -182,22 +162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90145f08b2fe5f649943b224054d87cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &8502383804652412221
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 911526879165222238}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 1
 --- !u!114 &2656958866129196735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +176,69 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DecisionPeriod: 1
   TakeActionsBetweenDecisions: 1
+--- !u!114 &7784219795832549558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911526879165222238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7983c37946e90c24eb97f522e70e118d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 5000
+  heuristics: 0
+  speedRotation: 12
+  minspeedstat: 0.8
+  maxspeedstat: 1.5
+  cooldown: 0
+  areaIndex: 0
+  damage: 15
+  hitRadius: 2
+  cooldownTime: 1
+--- !u!114 &-7099231741567809437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911526879165222238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef85b17dd754354458b8b55c463f5cbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destination: {x: 0, y: 0, z: 0}
+  speed: 0
+  pathing: 0
+  pathStatus: 0
+--- !u!195 &1828405846679319750
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911526879165222238}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.25
+  m_Speed: 7
+  m_Acceleration: 12
+  avoidancePriority: 55
+  m_AngularSpeed: 220
+  m_StoppingDistance: 0.5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 2
 --- !u!1 &1558833055285593225
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +251,7 @@ GameObject:
   - component: {fileID: 6869823428845357165}
   m_Layer: 7
   m_Name: Perception
-  m_TagString: Agent
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -262,9 +289,8 @@ MonoBehaviour:
   - Food
   - Mineral
   - Agent
-  - Enemy
-  m_RaysPerDirection: 3
-  m_MaxRayDegrees: 90
+  m_RaysPerDirection: 7
+  m_MaxRayDegrees: 85
   m_SphereCastRadius: 0.5
   m_RayLength: 20
   m_RayLayerMask:

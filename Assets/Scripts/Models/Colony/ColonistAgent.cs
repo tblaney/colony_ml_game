@@ -12,55 +12,37 @@ public class ColonistAgent : Agent
 {    
     [Header("Inputs:")]
     [SerializeField] private bool heuristics;
-    CollisionController collisionController;
     [Space(10)]
     [Header("Movement:")]
-    [SerializeField] private float speedMovement = 4f;
     [SerializeField] private float speedRotation = 8f;
-    [SerializeField] private float speedUp = 8f;
+    public float minspeedstat;
+    public float maxspeedstat;
+    private float speedstat;
+    protected NavigationController nav;
 
-    bool cooldown;
+    public bool cooldown;
 
     public int areaIndex;
 
     LayerMask mask;
     Rigidbody rb;
-    float speedCache;
 
     //-------------------------------------------//
     public void Setup(int area_index)
     {
+        speedstat = Random.Range(minspeedstat, maxspeedstat);
         areaIndex = area_index;
-        collisionController.OnFoodCollisionFunc = CollectibleHit;
+        nav = GetComponent<NavigationController>();
+        nav.SetSpeed(speedstat*6f);
     }
     public override void Initialize()
     {
         mask = LayerMask.GetMask("Obstacles");
         rb = GetComponent<Rigidbody>();
-        collisionController = GetComponent<CollisionController>();
     }
     public override void CollectObservations(VectorSensor sensor)
     {
 
-    }
-    void CollectibleHit(Collectible collectible)
-    {
-        // TODO: finish this method when agent collides (this is the flag that will be called when it attack something)
-        if (cooldown)
-            return;
-        
-        switch (collectible.type)
-        {
-            case Collectible.Type.Food:
-                // TODO: Add food collection logic, reward
-                break;
-             case Collectible.Type.Mineral:
-                // TODO: Add mineral collection logic, reward
-                break;
-        }
-
-        cooldown = true;
-        Invoke("CooldownCallback", 1f);
     }
     void CooldownCallback()
     {
@@ -68,11 +50,12 @@ public class ColonistAgent : Agent
     }
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
+        //negative reward for passage of time
+        AddReward(-0.005f);
+
         //------discrete-actions-------//
         var move_forward = actionBuffers.DiscreteActions[0];
         var rotate = actionBuffers.DiscreteActions[1];
-
-        AddReward(-0.005f);
 
         switch (rotate)
         {
@@ -81,25 +64,27 @@ public class ColonistAgent : Agent
                 break;
             case 1:
                 // rotate right
-                transform.Rotate(0f, 1f*speedRotation, 0f, Space.World);
+                transform.Rotate(0f, 1f*speedRotation*speedstat, 0f, Space.World);
                 break;
             case 2:
                 // rotate left
-                transform.Rotate(0f, -1f*speedRotation, 0f, Space.World);
+                transform.Rotate(0f, -1f*speedRotation*speedstat, 0f, Space.World);
                 break;
-
         }
 
-        Vector3 vel = transform.forward;
-        float speedTarget = speedMovement;
         switch (move_forward)
         {
             case 0:
-                speedTarget = 0f;
+                // stay still
+                Vector3 zeroVel = new Vector3(0f, 0f, 0f);
+                nav.SetVelocity(zeroVel);
                 break;
+            case 1:
+                Vector3 forwardVel = transform.forward;
+                nav.SetVelocity(forwardVel);
+                break;
+            
         }
-        speedCache = Mathf.Lerp(speedCache, speedTarget, Time.fixedDeltaTime*speedUp);
-        rb.velocity = vel*speedCache;
     }
     public override void Heuristic(in ActionBuffers actionsOut)
     {
@@ -127,5 +112,16 @@ public class ColonistAgent : Agent
     public Vector3 GetPosition()
     {
         return transform.position;
+    }
+
+    public void DestroyAgent()
+    {
+        Destroy(this.gameObject);
+    }
+
+    public void Damage(float damage)
+    {   
+        //TODO implement agent health and damage-taking
+        Debug.Log("Colonist agent took " + damage.ToString() + " damage");
     }
 }

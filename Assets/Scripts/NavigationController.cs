@@ -23,11 +23,11 @@ public class NavigationController : MonoBehaviour
 
     void Update()
     {
-        if (navAgent.speed != speed)
-        {
+        if (navAgent.speed != speed){
+            Debug.Log("Old speed " + navAgent.speed.ToString());
             navAgent.speed = speed;
+            Debug.Log("New speed " + navAgent.speed.ToString());
         }
-        
         if (navAgent.hasPath)
             pathStatus = navAgent.pathStatus;
         else
@@ -123,7 +123,6 @@ public class NavigationController : MonoBehaviour
     public void SetVelocity(Vector3 velocity)
     {
         navAgent.velocity = velocity*10f;
-        //navAgent.SetDestination(transform.position + velocity*15f);
     }
 
     public Vector3[] GetPathPoints()

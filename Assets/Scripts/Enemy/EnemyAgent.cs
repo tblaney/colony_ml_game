@@ -6,7 +6,7 @@ using System;
 public class EnemyAgent : MonoBehaviour
 {
     [Header("Inputs:")]
-    int areaIndex;
+    public int areaIndex;
     public List<EnemyStateBehaviour> states;
     public Action<EnemyAgent> OnDestroyFunc;
 
@@ -74,6 +74,7 @@ public class EnemyAgent : MonoBehaviour
     {
         // will return true if enemy is still alive
         enemy.health -= val;
+        Debug.Log("Enemy took " + val.ToString() + " Damage and is at " + enemy.health.ToString() + " health");
         if (enemy.health <= 0)
         {
             Die();

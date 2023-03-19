@@ -51,7 +51,7 @@ public class ColonyHandler : MonoBehaviour
     {
         ColonistArea area = GetArea(index);
         if (area != null)
-            area.Reset();
+            area.SoftReset();
     }
     public ColonistArea GetArea(int idx)
     {

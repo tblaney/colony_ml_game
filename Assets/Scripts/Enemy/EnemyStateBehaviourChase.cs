@@ -4,6 +4,7 @@ using UnityEngine;
 
 public  class EnemyStateBehaviourChase : EnemyStateBehaviour
 {
+    public float chaseRadius = 20f;
     public bool active = false;
     ColonistAgent targetAgent;
     bool cooldown = false;
@@ -15,17 +16,24 @@ public  class EnemyStateBehaviourChase : EnemyStateBehaviour
     void Refresh()
     {
         ColonistAgent colonist = ColonyHandler.Instance.GetClosestColonist(areaIndex, transform.position);
-        active = true;
-        if (colonist == null)
-        {
-            active = false;
-            nav.Stop();
-            Invoke("CooldownCallback", 1f);
-            return;
+        float distance = Vector3.Distance(transform.position, colonist.GetPosition());
+        if (distance < chaseRadius){
+            active = true;
+            if (colonist == null)
+            {
+                active = false;
+                nav.Stop();
+                Invoke("CooldownCallback", 1f);
+                return;
+            }
+            targetAgent = colonist;
+            positionCache = colonist.GetPosition();
+            nav.MoveTo(positionCache, NavCallback);
+        } else {
+            active = true;
+            RoamRefresh();
         }
-        targetAgent = colonist;
-        positionCache = colonist.GetPosition();
-        nav.MoveTo(positionCache, NavCallback);
+        
     }
     public virtual void StopBehaviour()
     {
@@ -63,7 +71,7 @@ public  class EnemyStateBehaviourChase : EnemyStateBehaviour
     void AttackTarget()
     {
         nav.Stop();
-        //targetAgent.Damage(agent.enemy.damage);
+        targetAgent.Damage(agent.enemy.damage);
         cooldown = true;
         Invoke("CooldownCallback", 1f);
     }
@@ -87,5 +95,13 @@ public  class EnemyStateBehaviourChase : EnemyStateBehaviour
         {
             Refresh();
         }
+    }
+    void RoamRefresh()
+    {
+        nav.MoveToRandomLocation(16f, NavCallbackRoam);
+    }
+    void NavCallbackRoam()
+    {
+        Refresh();
     }
 }

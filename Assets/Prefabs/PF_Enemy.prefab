@@ -17,9 +17,10 @@ GameObject:
   - component: {fileID: 2768942960590491144}
   - component: {fileID: 4274802744031233328}
   - component: {fileID: 4372402339467415292}
+  - component: {fileID: 7679582359962394759}
   m_Layer: 7
   m_Name: PF_Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,6 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b086a1c9eb4122a438c23f4c6acdf628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  areaIndex: 0
   states:
   - {fileID: 4274802744031233328}
   - {fileID: 4372402339467415292}
@@ -176,6 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 1
+  chaseRadius: 20
   active: 0
 --- !u!114 &4372402339467415292
 MonoBehaviour:
@@ -190,3 +193,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 0
+--- !u!65 &7679582359962394759
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5531459114273244970}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

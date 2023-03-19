@@ -9,6 +9,7 @@ TagManager:
   - Food
   - Agent
   - Mineral
+  - Enemy
   layers:
   - Default
   - TransparentFX

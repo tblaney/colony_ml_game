@@ -9,16 +9,28 @@ public class ColonistArea : MonoBehaviour
 {
     [Header("Inputs:")]
     public int areaIndex = 1;
+
+    [Header("Agent Inputs:")]
     public GameObject agentPrefab;
+    public GameObject enemyPrefab;
 
     ColonistProcessor processor;
+
+    [Header("Enemy Inputs:")]
     List<ColonistAgent> colonistAgents;
+    List<EnemyAgent> enemyAgents;
+
+    public float resetThresholdMinutes;
+
+    private float resetTimer;
 
     //---setup---//
     void Awake()
     {
         processor = GetComponent<ColonistProcessor>();
         colonistAgents = new List<ColonistAgent>();
+        enemyAgents = new List<EnemyAgent>();
+        resetTimer = 0;
     }
     public void Initialize()
     {
@@ -32,14 +44,34 @@ public class ColonistArea : MonoBehaviour
     }
     void SetupColonists()
     {
-        // TODO: spawn agents
         for (int i = 0; i < ColonyHandler.parameters.colonistAmount; i++)
         {
             SpawnAgent();
         }
     }
-    public void Reset()
+    public void SoftReset()
     {
+        resetTimer = 0;
+        Debug.Log("Colonist Area Soft Reset");
+
+        CancelInvoke();
+        processor.Reset();
+        //Do a soft clearall (don't delete colonistAgents)
+        foreach (EnemyAgent agent in enemyAgents)
+        {
+            agent.DestroyAgent();
+        }
+        enemyAgents.Clear();
+
+        //Move colonists to random new open position
+        MoveColonists();
+
+        //Restart enemy spawning
+        InvokeRepeating("SpawnEnemyRepeating", 0f, ColonyHandler.parameters.enemySpawnRate);
+    }
+    public void Reset()
+    {   
+        resetTimer = 0;
         Debug.Log("Colonist Area Reset");
 
         CancelInvoke();
@@ -48,7 +80,7 @@ public class ColonistArea : MonoBehaviour
 
         SetupColonists();
 
-        //InvokeRepeating("SpawnEnemyRepeating", UnityEngine.Random.Range(0f, ColonyHandler.parameters.enemySpawnRate), ColonyHandler.parameters.enemySpawnRate);
+        InvokeRepeating("SpawnEnemyRepeating", 0f, ColonyHandler.parameters.enemySpawnRate);
     }   
     public void RefreshInactive()
     {
@@ -56,19 +88,41 @@ public class ColonistArea : MonoBehaviour
     }
     void ClearAll()
     {
-        // TODO: clear agents, enemies
+        foreach (ColonistAgent agent in colonistAgents)
+        {
+            agent.DestroyAgent();
+        }
+        colonistAgents.Clear();
+        foreach (EnemyAgent agent in enemyAgents)
+        {
+            agent.DestroyAgent();
+        }
+        enemyAgents.Clear();
     }
-    void SpawnEnemyRepeating()
+    void MoveColonists()
     {
-        // TODO: spawn enemy 
+        foreach (ColonistAgent agent in colonistAgents)
+        {
+            Vector3 newPos = processor.GetOpenPosition();
+            agent.gameObject.transform.position = newPos;
+        }
     }
-
+    void FixedUpdate()
+    {
+        resetTimer += Time.fixedDeltaTime;
+        if (resetTimer >= resetThresholdMinutes*60)
+        {
+            SoftReset();
+        }
+    }
     //---processing---//
     public void SpawnAgent()
     {
-        // TODO: spawn agent
         Vector3 randomPosition = processor.GetOpenPosition();
         GameObject obj = Instantiate(agentPrefab, randomPosition, Quaternion.identity, this.transform.parent);
+        ColonistAgent agent = obj.GetComponent<ColonistAgent>();
+        agent.Setup(areaIndex);
+        colonistAgents.Add(agent);
     }
 
     //---gets---//
@@ -90,6 +144,36 @@ public class ColonistArea : MonoBehaviour
             }
         }
         return colonistAgent;
+    }
+    void SpawnEnemyRepeating()
+    {
+        if (enemyAgents.Count >= ColonyHandler.parameters.enemyAmountMax)
+            return;
+        SpawnEnemy();
+    }
+    void SpawnEnemy()
+    {
+        if (enemyAgents.Count >= ColonyHandler.parameters.enemyAmountMax)
+            return;
+        Enemy enemy = new Enemy();
+        enemy.InitializeRandom();
+        Vector3 randomPosition = processor.GetOpenPosition();
+        GameObject obj = Instantiate(enemyPrefab, randomPosition, Quaternion.identity, this.transform);
+        EnemyAgent agent = obj.GetComponent<EnemyAgent>();
+        agent.Setup(enemy, areaIndex, DestroyEnemy);
+        enemyAgents.Add(agent);
+    }
+    public void DestroyEnemy(EnemyAgent agent)
+    {
+        if (enemyAgents.Contains(agent))
+        {
+            enemyAgents.Remove(agent);
+        }
+        foreach (ColonistAgent colonist in colonistAgents)
+        {
+            //small reward assigned collectively for destruction of an enemy
+            colonist.AddReward(0.25f);
+        }
     }
     public Collectible GetClosestCollectible(Collectible.Type type, Vector3 position)
     {
