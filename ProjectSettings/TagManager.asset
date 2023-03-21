@@ -5,9 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - Wall
-  - Poison
   - Food
-  - Agent
+  - Mineral
+  - Rest
+  - Blocker
+  - Enemy
+  - Agent 1
+  - Agent 2
   layers:
   - Default
   - TransparentFX
@@ -18,7 +22,7 @@ TagManager:
   - Obstacles
   - Agents
   - Terrain
-  - 
+  - Render
   - 
   - 
   - 
@@ -44,4 +48,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 3886577025
     locked: 0

@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CustomToonTerrain
+  m_Shader: {fileID: 4800000, guid: 215640983d9bfc74a9613ccf33bfb45c, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTexSide:
+        m_Texture: {fileID: 2800000, guid: e4dce1f5bb303564cac9347669973bb3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Ramp:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SnowTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _EdgeWidth: 0.69
+    - _GridOpacity: 0
+    - _NoiseScale: -0.75
+    - _RampSmooth: 0
+    - _RampThreshold: 0.201
+    - _RimPower: 1.6
+    - _Scale: -0.35
+    - _SideScale: 0.38
+    - _SnowAmount: 0
+    - _ToonSteps: 2.49
+    - _TopSpread: 5.52
+    - _TopThreshold: 0.9
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _GridColorSpecial: {r: 0, g: 0, b: 0, a: 1}
+    - _GridColorX: {r: 1, g: 1, b: 1, a: 1}
+    - _GridColorY: {r: 1, g: 1, b: 1, a: 1}
+    - _HColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+    - _RimColor: {r: 0, g: 0, b: 0, a: 1}
+    - _RimColor2: {r: 0, g: 0, b: 0, a: 1}
+    - _SColor: {r: 0, g: 0, b: 0, a: 1}
+    - _TopColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BuildTextureStacks: []

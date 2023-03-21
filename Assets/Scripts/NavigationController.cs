@@ -56,7 +56,6 @@ public class NavigationController : MonoBehaviour
     {
         this.speed = newSpeed;
     }
-
     public void MoveTo(Vector3 target, Action destinationFunc)
     {
         OnDestinationFunc = destinationFunc;
