@@ -49,6 +49,13 @@ public class ColonistArea : MonoBehaviour
             SpawnAgent();
         }
     }
+    void SetupEnemies()
+    {
+        for (int i = 0; i < ColonyHandler.parameters.enemyAmountMax; i++)
+        {
+            SpawnEnemy();
+        }
+    }
     public void SoftReset()
     {
         resetTimer = 0;
@@ -63,11 +70,15 @@ public class ColonistArea : MonoBehaviour
         }
         enemyAgents.Clear();
 
+        SetupEnemies();
         //Move colonists to random new open position
         MoveColonists();
 
         //Restart enemy spawning
-        InvokeRepeating("SpawnEnemyRepeating", 0f, ColonyHandler.parameters.enemySpawnRate);
+        if (ColonyHandler.parameters.enemyRepeatSpawning)
+        {
+            InvokeRepeating("SpawnEnemyRepeating", 0f, ColonyHandler.parameters.enemySpawnRate);
+        }
     }
     public void Reset()
     {   
@@ -79,8 +90,12 @@ public class ColonistArea : MonoBehaviour
         ClearAll();
 
         SetupColonists();
+        SetupEnemies();
 
-        InvokeRepeating("SpawnEnemyRepeating", 0f, ColonyHandler.parameters.enemySpawnRate);
+        if (ColonyHandler.parameters.enemyRepeatSpawning)
+        {
+            InvokeRepeating("SpawnEnemyRepeating", 0f, ColonyHandler.parameters.enemySpawnRate);
+        }
     }   
     public void RefreshInactive()
     {
@@ -110,7 +125,7 @@ public class ColonistArea : MonoBehaviour
     void FixedUpdate()
     {
         resetTimer += Time.fixedDeltaTime;
-        if (resetTimer >= resetThresholdMinutes*60)
+        if (resetTimer >= resetThresholdMinutes*60 || enemyAgents.Count <= 0)
         {
             SoftReset();
         }

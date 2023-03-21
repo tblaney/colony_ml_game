@@ -64,9 +64,9 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 0}
-  m_InferenceDevice: 0
-  m_BehaviorType: 0
+  m_Model: {fileID: 5022602860645237092, guid: 0f291b0369ae11f41ac7a8dec51fe0c1, type: 3}
+  m_InferenceDevice: 3
+  m_BehaviorType: 2
   m_BehaviorName: PatrolAgent
   TeamId: 0
   m_UseChildSensors: 1
@@ -289,10 +289,11 @@ MonoBehaviour:
   - Food
   - Mineral
   - Agent
+  - Enemy
   m_RaysPerDirection: 7
   m_MaxRayDegrees: 85
   m_SphereCastRadius: 0.5
-  m_RayLength: 20
+  m_RayLength: 70
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 192

@@ -51,7 +51,7 @@ public class ColonistAgent : Agent
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
         //negative reward for passage of time
-        AddReward(-0.005f);
+        // AddReward(-0.005f);
 
         //------discrete-actions-------//
         var move_forward = actionBuffers.DiscreteActions[0];

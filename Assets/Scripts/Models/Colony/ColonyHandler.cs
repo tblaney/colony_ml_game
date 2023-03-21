@@ -75,6 +75,7 @@ public class ColonyParameters
 {   
     public int colonistAmount = 20;
     public int enemyAmountMax = 4;
+    public bool enemyRepeatSpawning;
     public float enemySpawnRate = 30f;
     public int foodAmount = 60;
     public int mineralAmount = 30; // will be clustered

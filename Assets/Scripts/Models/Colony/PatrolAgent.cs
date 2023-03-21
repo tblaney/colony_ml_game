@@ -15,10 +15,14 @@ public class PatrolAgent : ColonistAgent
         // get enemy directly in front of 
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, hitRadius, LayerMask.GetMask("Agents"))){
-            Debug.Log("Enemy in front of agent");
-            enemy = hit.transform.gameObject.GetComponent<EnemyAgent>();
+            Debug.Log("target in front of agent");
+            if (hit.transform.gameObject.tag == "Enemy")
+            {
+                enemy = hit.transform.gameObject.GetComponent<EnemyAgent>();
+            }
             //Set enemy and attack if not on cooldown.
-            if (!cooldown){
+            if (!cooldown && enemy != null)
+            {
                 Attack();
             }
         }
