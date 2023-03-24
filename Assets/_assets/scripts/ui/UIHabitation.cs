@@ -6,6 +6,8 @@ public class UIHabitation : UIObject
 {
     [Header("Inputs:")]
     [SerializeField] private string _buttonDefaultPrefabName;
+    [SerializeField] private UIItemInventory _uiItemInventory;
+    [Header("Debug:")]
     [SerializeField] private List<UIHabBot> _uiBots;
     Habitation _habitation;
     UIHabBot _uiBotCurrent;
@@ -17,6 +19,7 @@ public class UIHabitation : UIObject
     public void Setup(Habitation habitation)
     {
         _habitation = habitation;
+        //_uiItemInventory.Setup(habitation._itemInventory);
         RefreshBots();
     }
     void RefreshBots()

@@ -6,8 +6,11 @@ using System;
 public class HabitationProcessor : MonoBehaviour
 {
     [Header("Inputs:")]
-    public Habitation _habitation;
+    public HabBotProcessor _botProcessor;
     public HabitationParameters _parametersIn;
+    public MeshRenderer _restBoundsDefault;
+    [Header("Debug:")]
+    public Habitation _habitation;
     public static HabitationParameters _parameters;
 
 
@@ -17,7 +20,7 @@ public class HabitationProcessor : MonoBehaviour
     }
     public void Initialize()
     {
-        
+        _botProcessor.Initialize();
     }
     //__load__//
     public void Load(Habitation habitation = null)
@@ -28,19 +31,24 @@ public class HabitationProcessor : MonoBehaviour
         } else
         {
             _habitation = new Habitation();
-            _habitation.NewHabitation();
+            _habitation.NewHabitation(_restBoundsDefault.bounds);
         }
+        Destroy(_restBoundsDefault.gameObject);
         UIHandler.Instance.InitializeHabitation(_habitation);
         SpawnHabitation();
     }
     //__spawn__//
     public void SpawnHabitation()
     {
-        
+        _botProcessor.Setup(_habitation);
     }
-    public void SpawnBot(HabBot bot)
+    public Color GetBotColor(int index)
     {
-
+        return _botProcessor.GetColor(index);
+    }
+    public Sprite GetStateSprite(HabBot.State state)
+    {
+        return _botProcessor.GetSprite(state);
     }
 }
 

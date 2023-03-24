@@ -215,6 +215,7 @@ public class UIObjectTransformer : MonoBehaviour
 
     public void SetSize(Vector2 size)
     {
+        _rect = GetComponent<RectTransform>();
         _rect.sizeDelta = size;
     }
 

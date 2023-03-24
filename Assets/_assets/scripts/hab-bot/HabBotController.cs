@@ -1,82 +1,105 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class HabBotController : MonoBehaviour
 {
     HabBot _bot;
-    [SerializeField] private List<HabBotState> _states;
-    HabBotState _state;
+    [SerializeField] private HabBotState _state;
+    [SerializeField] private MaterialController _materialController;
+    [SerializeField] private UIHabBotWorld _uiHabBot;
+    [SerializeField] private List<HabBotAddonObject> _addons;
     AnimatorHandler _animator;
     NavigationController _nav;
+    Action<HabBotController> OnDeathFunc;
     
     //----------------------------------------------------------//
     // setup
-    public void Initialize(HabBot bot)
+    public void Initialize(HabBot bot, Action<HabBotController> OnDeathFunc)
     {
+        Debug.Log("HabBotController: " + bot._name);
+        this.OnDeathFunc = OnDeathFunc;
         _animator = GetComponent<AnimatorHandler>();
         _nav = GetComponent<NavigationController>();
 
         this._bot = bot;
-        SetupStates();
+        SetupState();
         SetupBot();
+        ClearAddons();
     }
-    void SetupStates()
+    void SetupState()
     {
-        foreach (HabBotState state in _states)
-        {
-            state.Initialize();
-        }
+        _state.Initialize();
+        _state.StartState();
     }
     void SetupBot()
     {
-        SetState(_bot._stateDefault);
+        _materialController.SetColor(HabitationHandler.Instance.GetBotColor(_bot._traits._colorIndex), 2);
+        _uiHabBot.Initialize(_bot);
     }
-
     //----------------------------------------------------------//
     // state-switcher
     void Update()
     {
         if (_state != null)
             _state.UpdateState();
-        RestCheck();
 
+        RestCheck();
         _animator.SetFloat("Speed", _nav.GetVelocity().magnitude);
     }
     public void SetState(HabBot.State state)
     {
-        if (_state != null && _state._state != state)
-            _state.StopState();
-        
-        HabBotState stateBehaviour = GetState(state);
-        if (stateBehaviour != null)
-        {
-            _state = stateBehaviour;
-            _state.StartState();
-        }
-        _bot._state = state;
-    }
-    public HabBotState GetState(HabBot.State state)
-    {
-        foreach (HabBotState stateBehaviour in _states)
-        {
-            if (stateBehaviour._state == state)
-                return stateBehaviour;
-        }
-        return null;
+        _bot.SetState(state);
     }
     public void MakeStateDecision()
     {
         SetState(_bot._stateDefault);
     }
-
     //----------------------------------------------------------//
     // checks
     void RestCheck()
     {
-        if (_bot.GetVitality("energy")._val < 1)
+        if (_bot.GetVitality("energy")._val < 1) // on scale 1-100 so, will automatically rest when this occurs no matter the state that is persisting
         {
             SetState(HabBot.State.Rest);
         }
     }
+    // gets
+    public HabBot GetBot()
+    {
+        return _bot;
+    }
+    // end of this state
+    public void DestroyBot()
+    {
+        if (OnDeathFunc != null)
+            OnDeathFunc(this);
+        Destroy(this.gameObject);
+    }
+    public void ActivateAddon(HabBotAddon.Type type)
+    {
+        ClearAddons();
+        foreach (HabBotAddonObject obj in _addons)
+        {
+            if (obj._type == type)
+            {
+                obj._obj.SetActive(true);
+            }
+        }
+    }
+    void ClearAddons()
+    {
+        foreach (HabBotAddonObject obj in _addons)
+        {
+            obj._obj.SetActive(false);
+        }
+    }
+}
+
+[Serializable]
+public struct HabBotAddonObject
+{
+    public HabBotAddon.Type _type;
+    public GameObject _obj;
 }

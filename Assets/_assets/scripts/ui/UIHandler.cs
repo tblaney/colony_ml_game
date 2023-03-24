@@ -8,6 +8,7 @@ public class UIHandler : MonoBehaviour, IHandler
 {
     public static UIHandler Instance;
     public UIHabitation _uiHabitation;
+    public static event EventHandler OnStateViewToggle;
 
     public void Initialize()
     {
@@ -19,11 +20,26 @@ public class UIHandler : MonoBehaviour, IHandler
     }
     public bool IsMouseOverUI()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+        Debug.Log("Mouse Over: " + results.Count);
+        if (results.Count > 0)
         {
+            //Debug.Log("Mouse Over Object: " + results[0].gameObject);
+        }
+        return results.Count > 1;
+        /*
+        PointerEventData eventDataCurrent = new PointerEventData(EventSystem.current);
+        Debug.Log("Mouse Over: " + eventDataCurrent.hovered.Count);
+        if (EventSystem.current.currentSelectedGameObject != null)
+        {
+            Debug.Log ("Mouse Over:" + EventSystem.current.currentSelectedGameObject.gameObject.name);
             return true;
         }
         return false;
+        */
     }
 }
 [Serializable]

@@ -5,8 +5,6 @@ using UnityEngine;
 public class GameHandler : MonoBehaviour
 {
     public static GameHandler Instance;
-    public ResourceProcessor _resourceProcessor;
-    public HabitationProcessor _habitationProcessor;
 
 
     void Awake()
@@ -20,8 +18,6 @@ public class GameHandler : MonoBehaviour
     }
     void Initialize()
     {
-        _resourceProcessor.Initialize();
-        _habitationProcessor.Initialize();
         SaveSystem.Initialize();
     }
     void Start()
@@ -30,8 +26,8 @@ public class GameHandler : MonoBehaviour
     }
     public void Save()
     {
-        List<NodeSave> nodeSaves = _resourceProcessor.GetNodeSaves();
-        Habitation habitation = _habitationProcessor._habitation;
+        List<Node> nodeSaves = HabitationHandler.Instance.GetNodes();
+        Habitation habitation = HabitationHandler.Instance.GetHabitation();
         SaveData data = new SaveData()
         {
             _habitation = habitation,
@@ -44,13 +40,11 @@ public class GameHandler : MonoBehaviour
         if (saveIndex == 0)
         {
             SaveSystem.SetIndex(SaveSystem.GetOpenIndex());
-            _resourceProcessor.Load(null);
-            _habitationProcessor.Load(null);
+            HabitationHandler.Instance.Load();
         } else
         {
             SaveData data = SaveSystem.Load(saveIndex);
-            _habitationProcessor.Load(data._habitation);
-            _resourceProcessor.Load(data._nodes);
+            HabitationHandler.Instance.Load(data._habitation, data._nodes);
         }
     }
 }

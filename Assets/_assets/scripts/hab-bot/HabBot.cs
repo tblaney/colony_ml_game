@@ -13,20 +13,33 @@ public class HabBot
         Idle,
         Rest,
         Roam,
-        Mine,
-        Forage,
+        CollectMinerals,
+        CollectTrees,
+        CollectFood,
         Farm,
         Build,
         Patrol,
         Rescue,
+        Machining,
+        Stockpile,
+        Path,
+        Recreation,
         Heal,
-        Haul,
     }
     public State _state;
     public State _stateDefault;
     public List<Vitality> _vitalities;
     public HabBotTraits _traits;
-    public event EventHandler OnStateChange;
+    public List<HabBotAddon> _addons;
+    public ItemInventory _inventory;
+
+    // events
+    public event EventHandler<StateChangeEventArgs> OnStateChange;
+    public event EventHandler OnDeath;
+    public class StateChangeEventArgs : EventArgs
+    {
+        public HabBot _bot;
+    }
 
     public void InitializeRandom(int index)
     {
@@ -63,8 +76,75 @@ public class HabBot
     }
     public void SetState(State state)
     {
+        // everything related to bot switching states is executed from this function (state change event)
         _state = state;
-        OnStateChange?.Invoke(null, EventArgs.Empty);
+        StateChangeEventArgs eventArgs = new StateChangeEventArgs() {_bot = this};
+        OnStateChange?.Invoke(null, eventArgs);
+    }
+    public void StateFailure()
+    {
+        // invoked when the agent cant fulfill its current target
+        SetState((State)0);
+    }
+    public List<State> GetAvailableStates()
+    {
+        List<State> states = new List<State>();
+        for (int i = 0; i < 15; i++)
+        {
+            State state = (State)i;
+            if (TestStateAvailability(state))
+                states.Add(state);
+        }
+        return states;
+    }
+    bool TestStateAvailability(State state)
+    {
+        HabBotAddon addon = null;
+        switch (state)
+        {
+            default: return true;
+            case State.CollectMinerals:
+                addon = GetAddon(HabBotAddon.Type.Drill);
+                if (addon != null)
+                    return true;
+                return false;
+            case State.CollectTrees:
+                addon = GetAddon(HabBotAddon.Type.Axe);
+                if (addon != null)
+                    return true;
+                return false;
+            case State.Farm:
+                addon = GetAddon(HabBotAddon.Type.FarmTool);
+                if (addon != null)
+                    return true;
+                return false;
+            case State.Build:
+                addon = GetAddon(HabBotAddon.Type.Welder);
+                if (addon != null)
+                    return true;
+                return false;
+            case State.Patrol:
+                addon = GetAddon(HabBotAddon.Type.Sword);
+                if (addon != null)
+                    return true;
+                return false;
+            case State.Rescue:
+                bool botInjured = HabitationHandler.Instance.IsBotInjured();
+                return botInjured;
+        }
+        return false;
+    }
+    public HabBotAddon GetAddon(HabBotAddon.Type type)
+    {
+        if (_addons == null)
+            return null;
+        
+        foreach (HabBotAddon addon in _addons)
+        {
+            if (addon._type == type)
+                return addon;
+        }
+        return null;
     }
     public Vitality GetVitality(string name)
     {
@@ -80,6 +160,7 @@ public class HabBot
 public class HabBotTraits
 {
     public List<HabBotTrait> _traits;
+    public int _colorIndex;
     public event EventHandler OnTraitsChange;
     public void InitializeRandom()
     {
@@ -120,13 +201,12 @@ public class HabBotTraits
                 possibleStates.Add(HabBot.State.Roam);
                 break;
             case HabBotTrait.Type.Strength:
-                possibleStates.Add(HabBot.State.Mine);
-                possibleStates.Add(HabBot.State.Haul);
+                possibleStates.Add(HabBot.State.CollectMinerals);
                 possibleStates.Add(HabBot.State.Patrol);
                 possibleStates.Add(HabBot.State.Rescue);
                 break;
             case HabBotTrait.Type.Speed:
-                possibleStates.Add(HabBot.State.Forage);
+                possibleStates.Add(HabBot.State.CollectFood);
                 possibleStates.Add(HabBot.State.Heal);
                 possibleStates.Add(HabBot.State.Rescue);
                 possibleStates.Add(HabBot.State.Farm);
@@ -170,7 +250,6 @@ public class HabBotTrait
         Foraging,
         Farming,
         Healing,
-        Fitness,
     }
     public Type _type;
     [Range(0f, 1f)]
@@ -212,4 +291,18 @@ public class Vitality
     {
         return (float)(_val/100);
     }
+}
+
+[Serializable]
+public class HabBotAddon
+{
+    public enum Type
+    {
+        Sword,
+        Axe,
+        Drill,
+        FarmTool,
+        Welder,
+    }
+    public Type _type;
 }

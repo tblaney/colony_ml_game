@@ -95,7 +95,6 @@ Shader "CustomToonTerrain" {
 			// if dot product is in between the two, make the texture darker
 			float3 topTextureEdgeResult = step(_TopSpread, worldNormalDotNoise) * step(worldNormalDotNoise, _TopSpread + _EdgeWidth) * -0.15;
 
-			
             SplatmapMix(IN, splat_control, weight, mixedDiffuse, o.Normal);
 
 			float _step = step(dot(IN.localNormal, fixed3(0, 1, 0)), _TopThreshold);
@@ -109,44 +108,6 @@ Shader "CustomToonTerrain" {
 			o.Emission = step(_TopSpread, worldNormalDotNoise) * _RimColor.rgb * pow(rim, _RimPower) + step(worldNormalDotNoise, _TopSpread) * _RimColor2.rgb * pow(rim2, _RimPower);
 
 
-
-			/*
-			float _step = step(dot(IN.localNormal, fixed3(0, 1, 0)), _TopThreshold);
-			float3 _diffuse = mixedDiffuse.rgb*_step*_TopColor; //0 if not greater
-
-			float _diffuseSide = topTextureResult + sideTextureResult + topTextureEdgeResult;
-			_diffuseSide = _diffuseSide*(1-_step)*_Color;
-
-			o.Albedo = _diffuseSide ;
-			o.Emission = step(_TopSpread, worldNormalDotNoise) * _RimColor.rgb * pow(rim, _RimPower) + step(worldNormalDotNoise, _TopSpread) * _RimColor2.rgb * pow(rim2, _RimPower);
-			*/
-			/*
-			if (dot(IN.localNormal, fixed3(0, 1, 0)) >= _TopThreshold)
-			{
-				// snow
-				// 
-				//float3 snowColor = tex2D(_SnowTex, IN.tc_Control*100);
-				//float l = mixedDiffuse.r * 0.3 + mixedDiffuse.g * 0.59 + mixedDiffuse.b * 0.11;
-				//float factor = 1 - l;
-				//snowColor *= (factor*1.1);
-
-				//o.Albedo = mixedDiffuse.rgb + (_SnowAmount*snowColor);
-				float4 color = lerp( mixedDiffuse , (1,1,1,1) , ( _SnowAmount ));
-				o.Albedo = color.rgb;
-			}
-			else 
-			{
-				// final albedo color
-				o.Albedo = topTextureResult + sideTextureResult + topTextureEdgeResult;
-				o.Albedo *= _Color;
-
-				// adding the fuzzy rimlight(rim) on the top texture, and the harder rimlight (rim2) on the side/bottom texture
-				o.Emission = step(_TopSpread, worldNormalDotNoise) * _RimColor.rgb * pow(rim, _RimPower) + step(worldNormalDotNoise, _TopSpread) * _RimColor2.rgb * pow(rim2, _RimPower);
-			}
-			
-            o.Alpha = weight;
-			*/
-			//fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
             float3 color = o.Albedo;
 
 			float3 position = IN.worldPos;
@@ -167,7 +128,6 @@ Shader "CustomToonTerrain" {
 
 
             o.Albedo = color;
-            //o.Alpha = c.a;
         }
     ENDCG
 

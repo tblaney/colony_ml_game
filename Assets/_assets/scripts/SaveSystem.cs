@@ -91,5 +91,5 @@ public static class SaveSystem
 public class SaveData
 {
     public Habitation _habitation;
-    public List<NodeSave> _nodes;
+    public List<Node> _nodes;
 }

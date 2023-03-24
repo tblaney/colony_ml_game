@@ -12,6 +12,7 @@ public class UIHabBot : UIObject
     public UIController _controllerInfo;
     public UIButton _buttonStateSelector;
     public List<UIButton> _buttonStates;
+    public UIButton _buttonStateDefault;
     public List<UIVitality> _vitalities;
     public List<Color> _colors;
     public TMP_InputField _inputFieldName;
@@ -25,22 +26,7 @@ public class UIHabBot : UIObject
     //------------------------------------//
     public override void Initialize()
     {
-        int i = 0;
-        foreach (UIButton button in _buttonStates)
-        {
-            UIController controller = button.GetController();
-            controller.FormList();
-            HabBot.State state = (HabBot.State)i;
-            controller.SetText(state.ToString(), 1);
-            button.OnPointerClickFunc = () =>
-            {
-                if (_bot != null)
-                    _bot.SetState(state);
-
-                ActivateStateOptions(false);
-            };
-            i++;
-        }
+        _buttonStates = new List<UIButton>();
         _buttonStateSelector.OnPointerClickFunc = () =>
         {
             ActivateStateOptions(!_stateOptionsActive);
@@ -95,6 +81,7 @@ public class UIHabBot : UIObject
     public void InputNameChange()
     {
         _bot._name = _inputFieldName.text;
+        _button.GetController().SetText(_bot._name, "bot name");
     }
     public void Bot_StateChange(object sender, EventArgs e)
     {
@@ -106,6 +93,9 @@ public class UIHabBot : UIObject
     }
     void Refresh()
     {
+        ClearStates();
+        RefreshStates();
+
         _button.GetController().SetText(_bot._name, "bot name");
         HabBotTraits traits = _bot._traits;
         foreach (HabBotTrait trait in traits._traits)
@@ -114,6 +104,37 @@ public class UIHabBot : UIObject
             _controller.SetTextColor(GetColor(trait._val), trait._type.ToString());
         }
         RefreshState();
+    }
+    void ClearStates()
+    {
+        foreach (UIButton button in _buttonStates)
+        {
+            Destroy(button.gameObject);
+        }
+        _buttonStates.Clear();
+    }
+    void RefreshStates()
+    {
+        List<HabBot.State> states = _bot.GetAvailableStates();
+        int i = 0;
+        foreach (HabBot.State state in states)
+        {
+            UIButton button = Instantiate(_buttonStateDefault, _buttonStateDefault.transform.parent);
+            button.Activate(true);
+            UIController controller = button.GetController();
+            controller.FormList();
+            controller.SetText(state.ToString(), 1);
+            button.OnPointerClickFunc = () =>
+            {
+                if (_bot != null)
+                    _bot.SetState(state);
+
+                ActivateStateOptions(false);
+            };
+            _buttonStates.Add(button);
+            i++;
+        }
+        _controller.SetSize(new Vector2(124f, 41f*i), 31);
     }
     void RefreshState()
     {
