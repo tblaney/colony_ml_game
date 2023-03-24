@@ -33,6 +33,7 @@ public class HabitationProcessor : MonoBehaviour
             _habitation = new Habitation();
             _habitation.NewHabitation(_restBoundsDefault.bounds);
         }
+        _habitation.Initialize();
         Destroy(_restBoundsDefault.gameObject);
         UIHandler.Instance.InitializeHabitation(_habitation);
         SpawnHabitation();

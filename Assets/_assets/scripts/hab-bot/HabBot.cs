@@ -31,7 +31,7 @@ public class HabBot
     public List<Vitality> _vitalities;
     public HabBotTraits _traits;
     public List<HabBotAddon> _addons;
-    public ItemInventory _inventory;
+    public int _inventoryIndex;
 
     // events
     public event EventHandler<StateChangeEventArgs> OnStateChange;
@@ -45,6 +45,7 @@ public class HabBot
     {
         _name = "00" + index.ToString();
         _index = index;
+        _addons = new List<HabBotAddon>();
         _traits = new HabBotTraits();
         _traits.InitializeRandom();
         DetermineDefaultState();
@@ -66,9 +67,20 @@ public class HabBot
                     vitality._name = "hunger";
                     vitality._val = 100;
                     break;
+                case 3:
+                    vitality._name = "happiness";
+                    vitality._val = 50;
+                    break;
             }
             _vitalities.Add(vitality);
         }
+    }
+    public void Initialize()
+    {
+        if (_inventoryIndex == 0)
+            _inventoryIndex = ItemHandler.Instance.NewInventory();
+
+        HabitationHandler.Instance.AddInventory(_inventoryIndex);
     }
     public void DetermineDefaultState()
     {

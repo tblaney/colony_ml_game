@@ -10,6 +10,7 @@ public class UICustomScrollbar : MonoBehaviour
     [SerializeField] private Scrollbar _scrollbar;
     [SerializeField] private RectTransform _rectContents; 
     [SerializeField] private RectTransform _mask;
+    [SerializeField] private GameObject _hoverObject;
 
     // cache
     private Vector2 _maskSize;
@@ -24,11 +25,17 @@ public class UICustomScrollbar : MonoBehaviour
     void Awake()
     {
         Initialize();
+        if (_hoverObject == null)
+            _hoverObject = this.gameObject;
     }
     void Update()
     {
         if (_canScroll)
         {
+            List<GameObject> objs = UIHandler.Instance.GetGameObjectsUnderMouse();
+            if (!objs.Contains(_hoverObject))
+                return;
+            
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             if (scroll != 0)
             {

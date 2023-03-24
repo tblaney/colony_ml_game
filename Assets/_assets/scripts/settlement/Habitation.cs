@@ -24,6 +24,13 @@ public class Habitation
         }
         _itemInventories = new List<int>();
     }
+    public void Initialize()
+    {
+        foreach (HabBot bot in _bots)
+        {
+            bot.Initialize();
+        }
+    }
     public Vector3 GetHabitationZonePosition(HabitationZone.Type zoneType)
     {
         HabitationZone zone = GetZone(zoneType);

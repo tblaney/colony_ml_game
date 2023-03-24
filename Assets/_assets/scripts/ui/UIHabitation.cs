@@ -19,7 +19,7 @@ public class UIHabitation : UIObject
     public void Setup(Habitation habitation)
     {
         _habitation = habitation;
-        //_uiItemInventory.Setup(habitation._itemInventory);
+        _uiItemInventory.Setup(habitation);
         RefreshBots();
     }
     void RefreshBots()

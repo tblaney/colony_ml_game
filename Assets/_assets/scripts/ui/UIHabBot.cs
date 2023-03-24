@@ -17,6 +17,10 @@ public class UIHabBot : UIObject
     public List<Color> _colors;
     public TMP_InputField _inputFieldName;
     public UICustomScrollbar _scrollbar;
+    public UIController _controllerInventoryItem;
+    public UIController _controllerAddonItem;
+    List<UIController> _controllersItems;
+    List<UIController> _controllsAddons;
 
     // cache:
     HabBot _bot;
@@ -32,6 +36,8 @@ public class UIHabBot : UIObject
             ActivateStateOptions(!_stateOptionsActive);
         };
         _stateOptionsActive = false;
+        _controllersItems = new List<UIController>();
+        _controllsAddons = new List<UIController>();
     }
     public void Setup(HabBot bot, Action<UIHabBot> buttonClickFunc)
     {
@@ -93,8 +99,8 @@ public class UIHabBot : UIObject
     }
     void Refresh()
     {
-        ClearStates();
         RefreshStates();
+        RefreshInventoryAddons();
 
         _button.GetController().SetText(_bot._name, "bot name");
         HabBotTraits traits = _bot._traits;
@@ -103,6 +109,7 @@ public class UIHabBot : UIObject
             _controller.SetText(trait._val.ToString("F1"), trait._type.ToString());
             _controller.SetTextColor(GetColor(trait._val), trait._type.ToString());
         }
+
         RefreshState();
     }
     void ClearStates()
@@ -115,6 +122,7 @@ public class UIHabBot : UIObject
     }
     void RefreshStates()
     {
+        ClearStates();
         List<HabBot.State> states = _bot.GetAvailableStates();
         int i = 0;
         foreach (HabBot.State state in states)
@@ -141,6 +149,45 @@ public class UIHabBot : UIObject
         UIController controller = _buttonStateSelector.GetController();
         controller.FormList();
         controller.SetText(_bot._state.ToString(), 1);
+    }
+    void ClearInventoryAddons()
+    {
+        foreach (UIController controller in _controllersItems)
+        {
+            Destroy(controller.gameObject);
+        }
+        foreach (UIController controller in _controllsAddons)
+        {
+            Destroy(controller.gameObject);
+        }
+        _controllersItems.Clear();
+        _controllsAddons.Clear();
+    }
+    void RefreshInventoryAddons()
+    {
+        ClearInventoryAddons();
+        List<Item> items = ItemHandler.Instance.GetItemInventory(_bot._inventoryIndex)._items;
+        List<HabBotAddon> addons = _bot._addons;
+        foreach (Item item in items)
+        {
+            if (item._amount <= 0)
+                continue;
+            
+            UIController controllerItem = Instantiate(_controllerInventoryItem, _controllerInventoryItem.transform.parent);
+            controllerItem.gameObject.SetActive(true);
+            controllerItem.FormList();
+            controllerItem.SetText(item._name, "name");
+            controllerItem.SetText(item._amount.ToString(), "amount");
+            _controllersItems.Add(controllerItem);
+        }
+        foreach (HabBotAddon addon in addons)
+        {
+            UIController controllerAddon = Instantiate(_controllerAddonItem, _controllerAddonItem.transform.parent);
+            controllerAddon.gameObject.SetActive(true);
+            controllerAddon.FormList();
+            controllerAddon.SetText(addon._type.ToString(), "name");
+            _controllersItems.Add(controllerAddon);
+        }
     }
     Color GetColor(float val)
     {

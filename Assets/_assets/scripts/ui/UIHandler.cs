@@ -10,9 +10,28 @@ public class UIHandler : MonoBehaviour, IHandler
     public UIHabitation _uiHabitation;
     public static event EventHandler OnStateViewToggle;
 
+    List<GameObject> _objs;
+
     public void Initialize()
     {
         Instance = this;
+        _objs = new List<GameObject>();
+    }
+    void Update()
+    {
+        MouseUpdate();
+    }
+    void MouseUpdate()
+    {
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+        _objs.Clear();
+        foreach (RaycastResult result in results)
+        {
+            _objs.Add(result.gameObject);
+        }
     }
     public void InitializeHabitation(Habitation habitation)
     {
@@ -20,26 +39,11 @@ public class UIHandler : MonoBehaviour, IHandler
     }
     public bool IsMouseOverUI()
     {
-        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
-        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-        List<RaycastResult> results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
-        Debug.Log("Mouse Over: " + results.Count);
-        if (results.Count > 0)
-        {
-            //Debug.Log("Mouse Over Object: " + results[0].gameObject);
-        }
-        return results.Count > 1;
-        /*
-        PointerEventData eventDataCurrent = new PointerEventData(EventSystem.current);
-        Debug.Log("Mouse Over: " + eventDataCurrent.hovered.Count);
-        if (EventSystem.current.currentSelectedGameObject != null)
-        {
-            Debug.Log ("Mouse Over:" + EventSystem.current.currentSelectedGameObject.gameObject.name);
-            return true;
-        }
-        return false;
-        */
+        return _objs.Count > 1;
+    }
+    public List<GameObject> GetGameObjectsUnderMouse()
+    {
+        return _objs;
     }
 }
 [Serializable]

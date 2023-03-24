@@ -11,15 +11,15 @@ public class UIItemInventory : UIObject
 
     [Space(10)]
     List<UIController> _controllers;
-    ItemInventory _inventory;
+    Habitation _habitation;
     bool _active;
     public override void Initialize()
     {
         _controllers = new List<UIController>();
     }
-    public void Setup(ItemInventory inventory)
+    public void Setup(Habitation habitation)
     {
-        _inventory = inventory;
+        _habitation = habitation;
         Refresh();
         Activate(false);
     }
@@ -35,9 +35,9 @@ public class UIItemInventory : UIObject
     {
         ClearAll();
         int y = 0;
-        foreach (Item item in _inventory._items)
+        foreach (Item item in _habitation.GetAllItems())
         {
-            if (item._amount <= 0)
+            if (item._amount == 0)
                 continue;
             
             GameObject prefab = PrefabHandler.Instance.GetPrefab(_prefabNameItem);
