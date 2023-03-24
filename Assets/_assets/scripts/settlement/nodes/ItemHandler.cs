@@ -18,7 +18,7 @@ public class ItemHandler : MonoBehaviour, IHandler
     }
     public ItemInventory GenerateDefaultItemInventory()
     {
-        ItemInventory inventory = new ItemInventory(100);
+        ItemInventory inventory = new ItemInventory(GetOpenIndex(), 100);
         foreach (Item item in _items)
         {
             inventory._items.Add(item);
@@ -47,13 +47,25 @@ public class ItemHandler : MonoBehaviour, IHandler
     {
         _inventories.Add(inventory);
     }
-    public void NewInventory(int itemCapacity)
+    public int NewInventory(int itemCapacity = 100)
     {
         int val = GetOpenIndex();
         if (val != -1)
         {
-            ItemInventory inventory = new ItemInventory(itemCapacity);
+            ItemInventory inventory = GenerateDefaultItemInventory();
+            inventory._itemCapacity = itemCapacity;
             _inventories.Add(inventory);
+            return inventory._index;
+        }
+        return -1;
+    }
+    public void DestroyInventory(int index)
+    {
+        ItemInventory inventory = GetItemInventory(index);
+        if (inventory != null)
+        {
+            if (_inventories.Contains(inventory))
+                _inventories.Remove(inventory);
         }
     }
     int GetOpenIndex()
@@ -101,11 +113,17 @@ public class ItemInventory
     public List<Item> _items;
     public int _itemCapacity;
     public int _index;
+    public InventoryObject _obj;
 
-    public ItemInventory(int capacity)
+    public ItemInventory(int index, int capacity)
     {
+        _index = index;
         _itemCapacity = capacity;
         _items = new List<Item>();
+    }
+    public void ClaimInventory(InventoryObject obj)
+    {
+        _obj = obj;
     }
     public void AddItem(string name, int amount)
     {
@@ -131,6 +149,10 @@ public class ItemInventory
             if (itemTemp._amount <= 0)
                 _items.Remove(itemTemp);
         }
+    }
+    public void RemoveItem(ItemInput itemInput)
+    {
+        RemoveItem(itemInput._name, itemInput._amount);
     }
     public bool Contains(int resourceIndex, int amount)
     {

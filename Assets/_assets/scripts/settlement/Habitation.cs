@@ -9,7 +9,7 @@ public class Habitation
     // main class that stores all information regarding the habitation, should just be able to load this in from a save
     public List<HabBot> _bots;
     public List<HabitationZone> _zones;
-    public List<ItemInventory> _itemInventories;
+    public List<int> _itemInventories;
 
     public void NewHabitation(Bounds restBounds)
     {
@@ -22,7 +22,7 @@ public class Habitation
             bot.InitializeRandom(i);
             _bots.Add(bot);
         }
-        _itemInventories = new List<ItemInventory>();
+        _itemInventories = new List<int>();
     }
     public Vector3 GetHabitationZonePosition(HabitationZone.Type zoneType)
     {
@@ -41,6 +41,36 @@ public class Habitation
                 return zone;
         }
         return null;
+    }
+    public List<Item> GetAllItems()
+    {
+        ItemInventory inventoryTemp = ItemHandler.Instance.GenerateDefaultItemInventory();
+        List<ItemInventory> itemInventories = new List<ItemInventory>();
+        foreach (int i in _itemInventories)
+        {
+            itemInventories.Add(ItemHandler.Instance.GetItemInventory(i));
+        }
+        // returns all items on bots and nodes
+        foreach (ItemInventory inventory in itemInventories)
+        {
+            //items.AddRange(inventory._items);
+            foreach (Item item in inventory._items)
+            {
+                if (item._amount == 0)
+                    continue;
+                inventoryTemp.AddItem(item._name, item._amount);
+            }
+        }
+        return inventoryTemp._items;
+    }
+    public void AddInventory(int index)
+    {
+        _itemInventories.Add(index);
+    }
+    public void RemoveInventory(int index)
+    {
+        if (_itemInventories.Contains(index))
+            _itemInventories.Remove(index);
     }
     /*
     public void AddItem(ItemInput itemInput)

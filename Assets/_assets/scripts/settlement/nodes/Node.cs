@@ -11,6 +11,7 @@ public class Node
     public bool _active = true;
     public float _timer;
     public float _refreshRate;
+    public int _inventoryIndex = 0;
 
     public enum Type
     {

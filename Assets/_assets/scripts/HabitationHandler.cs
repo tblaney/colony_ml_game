@@ -17,7 +17,8 @@ public class HabitationHandler : MonoBehaviour, IHandler
         _nodeProcessor.Initialize();
         _habitationProcessor.Initialize();
         _queues = new List<HabitationQueue>();
-        _queues.Add(new HabitationQueue(){_state = HabBot.State.Machining, _nodes = new List<NodeObject>()});
+        _queues.Add(new HabitationQueue(HabBot.State.Machining){});
+        _queues.Add(new HabitationQueue(HabBot.State.Heal){});
         //_queues.Add(new HabitationQueue(){_state = HabBot.State.Heal, _nodes = new List<NodeObject>()});
     }
     public void Load(Habitation habitation = null, List<Node> nodes = null)
@@ -61,7 +62,23 @@ public class HabitationHandler : MonoBehaviour, IHandler
     {
         return false;
     }
-    public NodeObject GetQueuedObject(HabBot.State state)
+    public void AddInventory(int index)
+    {
+        _habitationProcessor.AddInventory(index);
+    }
+    public void RemoveInventory(int index)
+    {
+        _habitationProcessor.RemoveInventory(index);
+    }
+    public void AddObjectToQueue(HabBot.State state, QueueObject obj)
+    {
+        HabitationQueue queue = GetQueue(state);
+        if (queue != null)
+        {
+            queue.Add(obj);
+        }
+    }
+    public QueueObject GetQueuedObject(HabBot.State state)
     {
         HabitationQueue queue = GetQueue(state);
         if (queue != null)
@@ -69,14 +86,6 @@ public class HabitationHandler : MonoBehaviour, IHandler
             return queue.Pop();
         }
         return null;
-    }
-    public void AddObjectToQueue(NodeObject nodeObject, HabBot.State state)
-    {
-        HabitationQueue queue = GetQueue(state);
-        if (queue != null)
-        {
-            queue.Add(nodeObject);
-        }
     }
     HabitationQueue GetQueue(HabBot.State state)
     {
@@ -95,19 +104,49 @@ public class HabitationQueue
 {
     // this class handles any queue's set by the player - for machining state mostly
     public HabBot.State _state;
-    public List<NodeObject> _nodes;
-    public NodeObject Pop()
+    public List<QueueObject> _objs;
+    public HabitationQueue(HabBot.State state)
     {
-        if (_nodes.Count > 0)
+        _state = state;
+        _objs = new List<QueueObject>();
+    }
+    public QueueObject Pop()
+    {
+        if (_objs.Count > 0)
         {
-            NodeObject node = _nodes[0];
-            _nodes.RemoveAt(0);
-            return node;
+            QueueObject obj = _objs[0];
+            _objs.RemoveAt(0);
+            return obj;
         }
         return null;
     }
-    public void Add(NodeObject node)
+    public void Add(QueueObject obj)
     {
-        _nodes.Add(node);
+        _objs.Add(obj);
+    }
+}
+
+public abstract class QueueObject
+{
+
+}
+
+public class NodeQueueObject : QueueObject
+{
+    public NodeObject _nodeObject;
+    public NodeQueueObject(NodeObject obj)
+    {
+        _nodeObject = obj;
+    }
+}
+
+public class HealQueueObject : QueueObject
+{
+    public ItemInput _itemInput;
+    public HabBot _bot;
+    public HealQueueObject(ItemInput input, HabBot bot)
+    {
+        _itemInput = input;
+        _bot = bot;
     }
 }

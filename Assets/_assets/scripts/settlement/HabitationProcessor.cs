@@ -42,6 +42,16 @@ public class HabitationProcessor : MonoBehaviour
     {
         _botProcessor.Setup(_habitation);
     }
+    //__habitation__//
+    public void AddInventory(int index)
+    {
+        _habitation.AddInventory(index);
+    }
+    public void RemoveInventory(int index)
+    {
+        _habitation.RemoveInventory(index);
+    }
+    //__gets__//
     public Color GetBotColor(int index)
     {
         return _botProcessor.GetColor(index);

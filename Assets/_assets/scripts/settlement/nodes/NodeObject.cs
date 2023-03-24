@@ -11,6 +11,11 @@ public abstract class NodeObject : MonoBehaviour
     public bool _surface;
     public int _health;
 
+    public float _interactionTime = 30f;
+    bool _interacting;
+    HabBotController _botController;
+    Action InteractCallbackFunc;
+
     public void Initialize(Node node, Action<NodeObject> OnDestroyFunc, Func<NodeObject, bool, List<NodeObject>> GetNeighboursFunc)
     {
         _node = node;
@@ -45,6 +50,27 @@ public abstract class NodeObject : MonoBehaviour
             _surface = false;
         }
     }
+    public virtual void Interact(HabBotController botController, Action CallbackFunc)
+    {
+        if (_interacting)
+            return;
+        _botController = botController;
+        _interacting = true;
+        this.InteractCallbackFunc = CallbackFunc;
+        StartCoroutine(DelayedActionRealtime(_interactionTime, InteractCallback));
+    }
+    void InteractCallback()
+    {
+        _interacting = false;
+        if (InteractCallbackFunc != null)
+            InteractCallbackFunc();
+        InteractCallbackFunc = null;
+        InteractComplete();
+    }
+    public virtual void InteractComplete()
+    {
+
+    }
     public void Activate(bool active)
     {
         
@@ -75,5 +101,11 @@ public abstract class NodeObject : MonoBehaviour
             return false;
         }
         return true;
+    }
+    private IEnumerator DelayedActionRealtime(float time, Action OnDelayFunc)
+    {
+        yield return new WaitForSecondsRealtime(time);
+        if (OnDelayFunc != null)
+            OnDelayFunc();
     }
 }
