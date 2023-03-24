@@ -23,6 +23,7 @@ public class ColonistArea : MonoBehaviour
     public float resetThresholdMinutes;
 
     private float resetTimer;
+    private int numresets;
 
     //---setup---//
     void Awake()
@@ -31,6 +32,7 @@ public class ColonistArea : MonoBehaviour
         colonistAgents = new List<ColonistAgent>();
         enemyAgents = new List<EnemyAgent>();
         resetTimer = 0;
+        numresets = 0;
     }
     public void Initialize()
     {
@@ -51,14 +53,19 @@ public class ColonistArea : MonoBehaviour
     }
     void SetupEnemies()
     {
-        for (int i = 0; i < ColonyHandler.parameters.enemyAmountMax; i++)
+        //number of enemies decreases with each reset
+        float enemynum = ColonyHandler.parameters.enemyAmountMax - (10*numresets);
+        if (enemynum <= ColonyHandler.parameters.enemyAmountMin)
+        {
+            numresets = 0;
+        }
+        for (int i = 0; i < enemynum; i++)
         {
             SpawnEnemy();
         }
     }
     public void SoftReset()
     {
-        resetTimer = 0;
         Debug.Log("Colonist Area Soft Reset");
 
         CancelInvoke();
@@ -79,6 +86,7 @@ public class ColonistArea : MonoBehaviour
         {
             InvokeRepeating("SpawnEnemyRepeating", 0f, ColonyHandler.parameters.enemySpawnRate);
         }
+        numresets += 1;
     }
     public void Reset()
     {   
@@ -127,6 +135,7 @@ public class ColonistArea : MonoBehaviour
         resetTimer += Time.fixedDeltaTime;
         if (resetTimer >= resetThresholdMinutes*60 || enemyAgents.Count <= 0)
         {
+            resetTimer = 0;
             SoftReset();
         }
     }
@@ -184,11 +193,11 @@ public class ColonistArea : MonoBehaviour
         {
             enemyAgents.Remove(agent);
         }
-        foreach (ColonistAgent colonist in colonistAgents)
-        {
-            //small reward assigned collectively for destruction of an enemy
-            colonist.AddReward(0.25f);
-        }
+        // foreach (ColonistAgent colonist in colonistAgents)
+        // {
+        //     //small reward assigned collectively for destruction of an enemy
+        //     colonist.AddReward(0.25f);
+        // }
     }
     public Collectible GetClosestCollectible(Collectible.Type type, Vector3 position)
     {

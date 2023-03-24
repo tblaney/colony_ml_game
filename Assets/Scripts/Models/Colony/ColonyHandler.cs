@@ -74,6 +74,7 @@ public class ColonyHandler : MonoBehaviour
 public class ColonyParameters
 {   
     public int colonistAmount = 20;
+    public int enemyAmountMin = 1;
     public int enemyAmountMax = 4;
     public bool enemyRepeatSpawning;
     public float enemySpawnRate = 30f;

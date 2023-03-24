@@ -27,13 +27,16 @@ public class ColonistAgent : Agent
     LayerMask mask;
     Rigidbody rb;
 
+    float speed;
+
     //-------------------------------------------//
     public void Setup(int area_index)
     {
         speedstat = Random.Range(minspeedstat, maxspeedstat);
         areaIndex = area_index;
         nav = GetComponent<NavigationController>();
-        nav.SetSpeed(speedstat*6f);
+        nav.SetSpeed(speedstat*2f);
+        speed = speedstat*2f;
     }
     public override void Initialize()
     {
@@ -81,7 +84,7 @@ public class ColonistAgent : Agent
                 break;
             case 1:
                 Vector3 forwardVel = transform.forward;
-                nav.SetVelocity(forwardVel);
+                nav.SetVelocity(forwardVel*speed);
                 break;
             
         }

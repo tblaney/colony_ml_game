@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 911526879165222237}
   - component: {fileID: 911526879165222224}
-  - component: {fileID: 3353239577881328347}
   - component: {fileID: 7338461587372178192}
   - component: {fileID: 911526879165222226}
   - component: {fileID: 911526879165222227}
@@ -64,29 +63,14 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 0f291b0369ae11f41ac7a8dec51fe0c1, type: 3}
-  m_InferenceDevice: 3
-  m_BehaviorType: 2
+  m_Model: {fileID: 5022602860645237092, guid: 5cbc603a9b0484c46b98debd02121bbf, type: 3}
+  m_InferenceDevice: 0
+  m_BehaviorType: 0
   m_BehaviorName: PatrolAgent
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
---- !u!114 &3353239577881328347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 911526879165222238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38b7cc1f5819445aa85e9a9b054552dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SensorName: VectorSensor
-  m_ObservationSize: 0
-  m_ObservationType: 0
 --- !u!65 &7338461587372178192
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -249,7 +233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5371260173174353923}
   - component: {fileID: 6869823428845357165}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Perception
   m_TagString: Untagged
   m_Icon: {fileID: 0}
