@@ -41,4 +41,8 @@ public class CameraController : MonoBehaviour
     {
         return _caster.GetCenterTerrainPosition();
     }
+    public Vector3 GetMouseTerrainPosition()
+    {
+        return _caster.GetMouseTerrainPosition();
+    }
 }

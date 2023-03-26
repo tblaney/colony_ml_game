@@ -10,6 +10,7 @@ public class UIBuilding : UIObject
     public string _prefabNameBuilding;
     public GameObject _buttonContainer;
     public float _controllerSpacing = 40f;
+    public UIButton _button;
 
     [Space(10)]
     List<UIButton> _buttons;
@@ -58,9 +59,11 @@ public class UIBuilding : UIObject
     }
     void ButtonClickCallback(Building building)
     {
+        Debug.Log("UIBuilding Button Click Callback");
         _currentBuildingIndex = building._index;
-        Activate(false);
+        //ActivateUI(false);
         UserHandler.Instance.SetUserState(UserController.State.Building);
+        _button.OnPointerClickFunc();
     }
     void ClearAll()
     {

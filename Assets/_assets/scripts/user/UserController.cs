@@ -6,6 +6,7 @@ public class UserController : MonoBehaviour
 {
     [Header("Inputs:")]
     public CameraTargetController _cameraTargetController;
+    public SelectorController _selector;
     [Header("Debug:")]
     public UserControllerState _stateCurrent;
     List<UserControllerState> _states;
@@ -32,8 +33,17 @@ public class UserController : MonoBehaviour
     }
     void Update()
     {
+        if (_stateCurrent == null)
+        {
+            SetState(UserController.State.Viewing);
+            return;
+        }
         if (_stateCurrent != null)
+        {
             _stateCurrent.UpdateState();
+            if (!_stateCurrent._active)
+                _stateCurrent = null;
+        }
     }
     public void SetState(State state)
     {
@@ -52,5 +62,13 @@ public class UserController : MonoBehaviour
                 return stateController;
         }
         return null;
+    }
+    public void ActivateSelector(bool active = true)
+    {
+        _selector.Activate(active);
+    }
+    public void UpdateSelector(Vector3Int position, SelectorController.State state)
+    {
+        _selector.UpdateSelector(position, state);
     }
 }

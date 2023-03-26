@@ -8,12 +8,18 @@ public abstract class NodeObject : MonoBehaviour
     protected Action<Node> OnDestroyFunc;
     protected Func<Node, bool, List<Node>> GetNeighboursFunc;
     public Node _node;
+    protected NodeCaster _caster;
     public int _health;
 
     public float _interactionTime = 30f;
     bool _interacting;
     HabBotController _botController;
     Action InteractCallbackFunc;
+
+    void Awake()
+    {
+        _caster = GetComponent<NodeCaster>();
+    }
 
     public void Initialize(Node node, Action<Node> OnDestroyFunc, Func<Node, bool, List<Node>> GetNeighboursFunc)
     {
@@ -39,6 +45,11 @@ public abstract class NodeObject : MonoBehaviour
         if (Mathf.Abs(_node._position.y - NodeProcessor._boundsHeight) > 0.5f)
         {
             _node._surface = false;
+            return;
+        }
+        if (GetNeighboursFunc == null)
+        {
+            _node._surface = true;
             return;
         }
         List<Node> neighbours = GetNeighboursFunc(this._node, true);

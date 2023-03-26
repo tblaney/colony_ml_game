@@ -24,6 +24,18 @@ public class CameraCaster : MonoBehaviour
             return default(Vector3);
         }
     }
+    public Vector3 GetMouseTerrainPosition()
+    {
+        Vector2 mousePos = Input.mousePosition;
+        Ray ray = _cam.ScreenPointToRay(new Vector3(mousePos.x, mousePos.y, 0f));
+        RaycastHit hit;
+        bool isHit = Physics.Raycast(ray, out hit, Mathf.Infinity, _maskTerrain);
+        if (isHit)
+        {
+            return hit.point;
+        }
+        return default(Vector3);
+    }
     public Interactable GetInteractable()
     {
         Vector2 mousePos = Input.mousePosition;

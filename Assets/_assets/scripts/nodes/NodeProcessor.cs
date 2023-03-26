@@ -109,6 +109,13 @@ public class NodeProcessor : MonoBehaviour
         }
         return false;
     }
+    public NodeObject SpawNode(Node node)
+    {
+        GameObject obj = Instantiate(PrefabHandler.Instance.GetPrefab(node._prefab), node._position, Quaternion.identity, this.transform);
+        NodeObject nodeObject = obj.GetComponent<NodeObject>();
+        nodeObject.Initialize(node, null, null);
+        return nodeObject;
+    }
     List<Node> ClusterSpawnNode(NodeGroup group, int amount)
     {
          // this will spawn in other nodes of the same object around it randomly

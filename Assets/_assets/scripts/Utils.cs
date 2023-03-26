@@ -17,7 +17,6 @@ namespace Utils
                 return false;
             }
         }
-
         public static List<Bounds> SplitBounds(Bounds boundsIn, int amountRow, int amountColumn)
         {
             List<Bounds> boundsList = new List<Bounds>();
@@ -35,6 +34,10 @@ namespace Utils
                 }
             }
             return boundsList;
+        }
+        public static Vector3Int VectorToInt(Vector3 vectorIn)
+        {
+            return new Vector3Int((int)vectorIn.x, (int)vectorIn.y, (int)vectorIn.z);
         }
     }
 }

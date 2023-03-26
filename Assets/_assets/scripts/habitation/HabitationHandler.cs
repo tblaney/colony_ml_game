@@ -42,6 +42,10 @@ public class HabitationHandler : MonoBehaviour, IHandler
     {
         _nodeProcessor.AssignNode(node);
     }
+    public NodeObject SpawnNodeUnassigned(Node node)
+    {
+        return _nodeProcessor.SpawNode(node);
+    }
     public Color GetBotColor(int index)
     {
         return _habitationProcessor.GetBotColor(index);
