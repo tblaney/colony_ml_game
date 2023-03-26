@@ -33,6 +33,8 @@ public class HabBot
     public HabBotTraits _traits;
     public List<HabBotAddon> _addons;
     public int _inventoryIndex;
+    public bool _stateLock;
+    public bool _stateCooldown;
 
     // events
     public event EventHandler<StateChangeEventArgs> OnStateChange;
@@ -90,6 +92,8 @@ public class HabBot
     public void SetState(State state)
     {
         // everything related to bot switching states is executed from this function (state change event)
+        if (_stateCooldown | _stateLock)
+            return;
         _state = state;
         StateChangeEventArgs eventArgs = new StateChangeEventArgs() {_bot = this};
         OnStateChange?.Invoke(null, eventArgs);

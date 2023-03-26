@@ -41,8 +41,15 @@ public class TimeHandler : MonoBehaviour, IHandler
 
 }
 [Serializable]
-public class TimeWorld
+public struct TimeWorld
 {
     public float _time;
     public int _day;
+}
+
+[Serializable]
+public class TimeAction
+{
+    public TimeWorld _time;
+    public Action OnTimeFunc;
 }
