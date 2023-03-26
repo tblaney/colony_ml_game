@@ -149,7 +149,7 @@ public class NodeProcessor : MonoBehaviour
         float x = node._position.x;
         float z = node._position.z;
         float val = Mathf.PerlinNoise((float)freq*(x)/_bounds.size.x, (float)freq*(z)/_bounds.size.z);
-        Debug.Log("Perlin Noise Val: " + val);
+        //Debug.Log("Perlin Noise Val: " + val);
         int amount = (int)(val*group._clusterHeight);
         for (int i = 1; i <= amount; i++)
         {

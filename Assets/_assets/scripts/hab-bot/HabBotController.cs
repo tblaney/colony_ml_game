@@ -73,6 +73,10 @@ public class HabBotController : MonoBehaviour
     {
         return _bot;
     }
+    public Vector3 GetPosition()
+    {
+        return transform.position;
+    }
     // end of this state
     public void DestroyBot()
     {

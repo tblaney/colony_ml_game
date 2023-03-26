@@ -28,8 +28,9 @@ Shader "CustomToonTerrain" {
 		
 	
     CGINCLUDE
-        #pragma surface surf Lambert vertex:SplatmapVert finalcolor:SplatmapFinalColor finalprepass:SplatmapFinalPrepass finalgbuffer:SplatmapFinalGBuffer noinstancing
-        #pragma multi_compile_fog
+        #pragma surface surf Lambert vertex:SplatmapVert finalcolor:SplatmapFinalColor finalprepass:SplatmapFinalPrepass finalgbuffer:SplatmapFinalGBuffer
+		#pragma instancing_options assumeuniformscaling nomatrices nolightprobe nolightmap forwardadd
+		#pragma multi_compile_fog
         #include "CustomToonTerrain.cginc"
 
 		float4 _GridColorX;

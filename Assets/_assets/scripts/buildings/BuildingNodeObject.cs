@@ -12,8 +12,6 @@ public class BuildingNodeObject : NodeObject
     [SerializeField] private MaterialController _materialController;
     Building _building;
     // cache:
-    HabBotController _botController;
-    Action BotCallbackFunc;
     bool _finished = false;
     bool _canPlace = false;
 
@@ -21,6 +19,7 @@ public class BuildingNodeObject : NodeObject
     {
         _building = BuildingHandler.Instance.GetBuilding(_buildingIndex);
         _canPlace = false;
+        HabitationHandler.Instance.AddObjectToQueue(HabBot.State.Craft, new NodeQueueObject(this));
     }
     public void UpdatePosition(Vector3Int position)
     {
@@ -34,6 +33,8 @@ public class BuildingNodeObject : NodeObject
     }
     public override void OnDestroyNode()
     {
+        HabitationHandler.Instance.RemoveObjectFromQueue(HabBot.State.Craft, new NodeQueueObject(this));
+
         //base.OnDestroyNode();
         if (_finished)
             HabitationHandler.Instance.NewNode(BuildingHandler.Instance.GetBuilding(_buildingIndexComplete).GetNodeBuilt(this._node._position));

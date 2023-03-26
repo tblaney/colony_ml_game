@@ -61,6 +61,10 @@ public class HabitationProcessor : MonoBehaviour
     {
         return _botProcessor.GetSprite(state);
     }
+    public HabBotController GetClosestBot(Vector3 position)
+    {
+        return _botProcessor.GetClosestBot(position);
+    }
 }
 
 [Serializable]

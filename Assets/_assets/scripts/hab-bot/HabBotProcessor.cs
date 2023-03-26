@@ -108,6 +108,21 @@ public class HabBotProcessor : MonoBehaviour
         }
         return null;
     }
+    public HabBotController GetClosestBot(Vector3 position)
+    {
+        float distanceMin = 1000f;
+        HabBotController controller = null;
+        foreach (HabBotController bot in _controllers)
+        {
+            float distance = Vector3.Distance(bot.GetPosition(), position);
+            if (distance < distanceMin)
+            {
+                controller = bot;
+                distanceMin = distance;
+            }
+        }
+        return controller;
+    }
 }
 [Serializable]
 public struct HabBotPrefab

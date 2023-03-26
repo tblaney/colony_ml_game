@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameHandler : MonoBehaviour
 {
     public static GameHandler Instance;
-
+    public static bool _paused = false;
 
     void Awake()
     {
@@ -46,5 +46,15 @@ public class GameHandler : MonoBehaviour
             SaveData data = SaveSystem.Load(saveIndex);
             HabitationHandler.Instance.Load(data._habitation, data._nodes);
         }
+    }
+    public void Pause()
+    {
+        _paused = true;
+        TimeHandler.Instance.SetTimeScaleLock(0f);
+    }
+    public void Resume()
+    {
+        _paused = false;
+        TimeHandler.Instance.Lock(false);
     }
 }

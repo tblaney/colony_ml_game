@@ -7,6 +7,7 @@ public class UITime : UIObject
 {
     [Header("Inputs:")]
     [SerializeField] private UIButton _button;
+    [SerializeField] private UIButton _buttonPausePlay;
     [SerializeField] private List<RectTransform> _landmarkRects;
     [SerializeField] private RectTransform _rectLine;
     RectTransform _rect;
@@ -14,7 +15,7 @@ public class UITime : UIObject
     Dictionary<Vector2, float> _timeDic;
     public bool _following = false;
     Vector2 _currentPosition;
-
+    
     public override void Initialize()
     {
         _rect = GetComponent<RectTransform>();
@@ -41,7 +42,20 @@ public class UITime : UIObject
             if (_following)
                 _following = false;
         };
-
+        _buttonPausePlay.OnPointerClickFunc = () =>
+        {
+            if (GameHandler._paused)
+            {
+                GameHandler.Instance.Resume();
+                _controller.ActivateBehaviour("pause", true);
+                _controller.ActivateBehaviour("play", false);
+            } else
+            {
+                GameHandler.Instance.Pause();
+                _controller.ActivateBehaviour("play", true);
+                _controller.ActivateBehaviour("pause", false);
+            }
+        };
         Vector2 point = new Vector2(-100f, 0f);
         Vector2 positionNew = GetCorrectedPosition(point);
         _controller.SetPosition(positionNew, 1);
@@ -67,6 +81,9 @@ public class UITime : UIObject
 
             TimeHandler.Instance.SetTimeScale(_timeDic[_currentPosition]);
         }
+
+        _controller.SetText(TimeHandler._timeWorld._date, "text date");
+        _controller.SetText("Day: " + TimeHandler._timeWorld._day.ToString(), "text day");
     }
     Vector2 GetCorrectedPosition(Vector2 position)
     {

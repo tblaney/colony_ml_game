@@ -9,7 +9,7 @@ public class HabitationHandler : MonoBehaviour, IHandler
     [Header("Inputs:")]
     public HabitationProcessor _habitationProcessor;
     public NodeProcessor _nodeProcessor;
-    List<HabitationQueue> _queues;
+    public List<HabitationQueue> _queues;
 
     public void Initialize()
     {
@@ -62,6 +62,10 @@ public class HabitationHandler : MonoBehaviour, IHandler
     {
         return _habitationProcessor.GetStateSprite(state);  
     }
+    public HabBotController GetClosestBot(Vector3 position)
+    {
+        return _habitationProcessor.GetClosestBot(position);
+    }
     public bool IsBotInjured()
     {
         return false;
@@ -80,6 +84,14 @@ public class HabitationHandler : MonoBehaviour, IHandler
         if (queue != null)
         {
             queue.Add(obj);
+        }
+    }
+    public void RemoveObjectFromQueue(HabBot.State state, QueueObject obj)
+    {
+        HabitationQueue queue = GetQueue(state);
+        if (queue != null)
+        {
+            queue.Remove(obj);
         }
     }
     public QueueObject GetQueuedObject(HabBot.State state)
@@ -131,6 +143,11 @@ public class HabitationQueue
     public void Add(QueueObject obj)
     {
         _objs.Add(obj);
+    }
+    public void Remove(QueueObject obj)
+    {
+        if (_objs.Contains(obj))
+            _objs.Remove(obj);
     }
 }
 
