@@ -9,6 +9,7 @@ public class EnemyAgent : MonoBehaviour
     public int areaIndex;
     public List<EnemyStateBehaviour> states;
     public Action<EnemyAgent> OnDestroyFunc;
+    public float chaseRadius;
 
     [Space(20)]
     [Header("Debug:")]
@@ -20,6 +21,7 @@ public class EnemyAgent : MonoBehaviour
     void Awake() {
         //Need to initialize enemy stats on awake to properly set enemy behaviour
         this.enemy.InitializeRandom();
+        chaseRadius = UnityEngine.Random.Range(5f, 17f); //randomize chase radius for training variety
     }
 
     public void Setup(Enemy enemy, int areaIndex, Action<EnemyAgent> destroyFunc)

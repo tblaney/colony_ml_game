@@ -122,9 +122,14 @@ public class ColonistAgent : Agent
         Destroy(this.gameObject);
     }
 
+    // public void Damage(float damage)
+    // {   
+    //     //TODO implement agent health and damage-taking
+    //     Debug.Log("Colonist agent took " + damage.ToString() + " damage");
+    // }
     public void Damage(float damage)
-    {   
-        //TODO implement agent health and damage-taking
+    {
         Debug.Log("Colonist agent took " + damage.ToString() + " damage");
+        AddReward(-1f);
     }
 }

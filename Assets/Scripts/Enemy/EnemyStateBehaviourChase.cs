@@ -4,7 +4,6 @@ using UnityEngine;
 
 public  class EnemyStateBehaviourChase : EnemyStateBehaviour
 {
-    public float chaseRadius = 20f;
     public bool active = false;
     ColonistAgent targetAgent;
     bool cooldown = false;
@@ -17,7 +16,7 @@ public  class EnemyStateBehaviourChase : EnemyStateBehaviour
     {
         ColonistAgent colonist = ColonyHandler.Instance.GetClosestColonist(areaIndex, transform.position);
         float distance = Vector3.Distance(transform.position, colonist.GetPosition());
-        if (distance < chaseRadius){
+        if (distance <= agent.chaseRadius){
             active = true;
             if (colonist == null)
             {
@@ -61,7 +60,7 @@ public  class EnemyStateBehaviourChase : EnemyStateBehaviour
         }
 
         float distance = Vector3.Distance(positionCache, targetAgent.GetPosition());
-        if (distance > 2f)
+        if (distance > 6f)
         {
             // repath
             positionCache = targetAgent.GetPosition();

@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 1
-  chaseRadius: 0
+  chaseRadius: 15
   active: 0
 --- !u!114 &4372402339467415292
 MonoBehaviour:
