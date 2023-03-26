@@ -13,7 +13,7 @@ public class NodeCaster : MonoBehaviour
     }
     public bool BlockCast()
     {
-        RaycastHit[] hits = Physics.BoxCastAll(this.transform.TransformPoint(_collider.center), _collider.size/2f, Vector3.down, Quaternion.identity, Mathf.Infinity, _maskBlockers);
+        RaycastHit[] hits = Physics.BoxCastAll(this.transform.TransformPoint(_collider.center), (_collider.size/2f) - new Vector3(0.1f, 0.1f, 0.1f), Vector3.down, Quaternion.identity, Mathf.Infinity, _maskBlockers);
         List<Collider> colliders = new List<Collider>();
         Debug.Log("Block Cast: " + hits.Length);
         foreach (RaycastHit hit in hits)

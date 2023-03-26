@@ -43,6 +43,6 @@ Material:
     - _ScanTiling: 20
     m_Colors:
     - _Direction: {r: 3, g: 1, b: 0, a: 0}
-    - _MainColor: {r: 0.26532573, g: 0.36858755, b: 0.5471698, a: 1}
+    - _MainColor: {r: 0.2960484, g: 0.37991774, b: 0.5283019, a: 1}
     - _RimColor: {r: 0.19245279, g: 0.45666447, b: 1, a: 1}
   m_BuildTextureStacks: []

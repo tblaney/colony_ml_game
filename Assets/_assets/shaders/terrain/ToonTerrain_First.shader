@@ -23,7 +23,7 @@ Shader "CustomToonTerrain" {
 
 		_GridColorX ("Grid Color X", Color) = (0,0,0,1)
         _GridColorY ("Grid Color Y", Color) = (0,0,0,1)
-        _GridOpacity ("Grid Opacity", Range(0, 1)) = 1
+        //_GridOpacity ("Grid Opacity", Range(0, 1)) = 1
     }
 		
 	
@@ -34,7 +34,7 @@ Shader "CustomToonTerrain" {
 
 		float4 _GridColorX;
         float4 _GridColorY;
-        float _GridOpacity;
+        uniform float _GridOpacity;
 
         void surf(Input IN, inout SurfaceOutput o)
         {
