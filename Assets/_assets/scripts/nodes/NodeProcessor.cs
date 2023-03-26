@@ -10,6 +10,8 @@ public class NodeProcessor : MonoBehaviour
     public Bounds _bounds;
     public Vector2Int _subProcessorAmount;
     public static float _boundsHeight;
+    [SerializeField] private Transform _followTransform;
+    public bool _performProcessing;
 
     [Header("Debug:")]
     public List<NodeSubProcessor> _processors;
@@ -33,10 +35,9 @@ public class NodeProcessor : MonoBehaviour
         int i = 1;
         foreach (Bounds bounds in boundsSplit)
         {
-            NodeSubProcessor processor = new NodeSubProcessor(){};
-            processor._positionGrid = new Vector2Int((int)((bounds.min.x - 300f)/intervalX), (int)((bounds.min.z - 300f)/intervalZ));
-            processor._bounds = bounds;
-            processor._index = i;
+            NodeSubProcessor processor = NodeSubProcessor.SpawnNodeSubProcessor(this.transform);
+            Vector2Int positionGrid = new Vector2Int((int)((bounds.min.x - 300f)/intervalX), (int)((bounds.min.z - 300f)/intervalZ));
+            processor.Initialize(i, bounds, positionGrid, GetNodeNeighbours);
             _processors.Add(processor);
             i++;
         }
@@ -49,11 +50,10 @@ public class NodeProcessor : MonoBehaviour
             {
                 if (group._cluster)
                 {
-
                     int clusterAmount = (int)(group._amount/UnityEngine.Random.Range(5, 12));
                     for (int i = 0; i < group._amount; i++)
                     {
-                        List<NodeObject> spawnedObjects = new List<NodeObject>();
+                        List<Node> spawnedObjects = new List<Node>();
                         spawnedObjects = ClusterSpawnNode(group, clusterAmount);
                         i += spawnedObjects.Count - 1;
                     }
@@ -64,9 +64,8 @@ public class NodeProcessor : MonoBehaviour
                         Vector3Int position = GetOpenPosition();
                         if (position == default(Vector3Int))
                             continue;
-                        
                         Node node = new Node(group.GetRandomPrefab()){_position = position};
-                        SpawnNode(node);
+                        AssignNode(node);
                     }
                 }
             }
@@ -74,51 +73,58 @@ public class NodeProcessor : MonoBehaviour
         {
             foreach (Node node in nodes)
             {
-                SpawnNode(node);
+                AssignNode(node);
             }
         }
-        // surface check:
+        if (!_performProcessing)
+        {
+            foreach (NodeSubProcessor processor in _processors)
+            {
+                processor.Load(true);
+            }
+        }
+    }
+    void Update()
+    {
+        if (!_performProcessing)
+            return;
+        if (_processors == null)
+            return;
         foreach (NodeSubProcessor processor in _processors)
         {
-            List<NodeObject> nodeObjects = processor.GetNodeObjects();
-            foreach (NodeObject node in nodeObjects)
-            {
-                node.SurfaceCheck();
-            }
+            processor.LoadCheck(_followTransform.position);
         }
     }
-    
     // node actions
-    public NodeObject SpawnNode(Node node)
+    public bool AssignNode(Node node)
     {
-        GameObject obj = Instantiate(PrefabHandler.Instance.GetPrefab(node._prefab), node._position, Quaternion.identity, this.transform);
-        NodeObject nodeObject = obj.GetComponent<NodeObject>();
-        nodeObject.Initialize(node, DestroyNode, GetNodeNeighbours);
-        NodeSubProcessor processor  = GetSubProcessor(node._position);
-        processor.AddNodeObject(nodeObject);
-        return nodeObject;
+        // assign it to a sub-processor
+        foreach (NodeSubProcessor processor in _processors)
+        {
+            if (processor.IsWithin(node._position))
+            {
+                processor.AddNode(node);
+                return true;
+            }
+        }
+        return false;
     }
-    void DestroyNode(NodeObject nodeObject)
-    {
-        NodeSubProcessor processor  = GetSubProcessor(nodeObject.GetPosition());
-        processor.RemoveNodeObject(nodeObject);
-    }
-    List<NodeObject> ClusterSpawnNode(NodeGroup group, int amount)
+    List<Node> ClusterSpawnNode(NodeGroup group, int amount)
     {
          // this will spawn in other nodes of the same object around it randomly
-        List<NodeObject> nodeObjects = new List<NodeObject>();
+        List<Node> nodes = new List<Node>();
         Vector3Int position = GetOpenPosition();
         if (position == default(Vector3Int))
-            return nodeObjects;
+            return nodes;
         
         for (int i = 0; i < amount; i++)
         {
             Node node = new Node(group.GetRandomPrefab()){_position = position};
-            NodeObject nodeObject = SpawnNode(node);
-            nodeObjects.Add(nodeObject);
-            nodeObjects.AddRange(AddHeight(group, nodeObject));
+            AssignNode(node);
+            nodes.Add(node);
+            nodes.AddRange(AddHeight(group, node));
 
-            List<Vector3Int> newPositions = GetOpenNeighbours(nodeObject);
+            List<Vector3Int> newPositions = GetOpenNeighbours(node);
             if (newPositions.Count > 0)
             {
                 position = newPositions[UnityEngine.Random.Range(0, newPositions.Count)];
@@ -127,25 +133,25 @@ public class NodeProcessor : MonoBehaviour
                 break;
             }
         }
-        return nodeObjects;
+        return nodes;
     }
-    List<NodeObject> AddHeight(NodeGroup group, NodeObject nodeObject)
+    List<Node> AddHeight(NodeGroup group, Node node)
     {
-        List<NodeObject> nodeObjects = new List<NodeObject>();
+        List<Node> nodes = new List<Node>();
         float freq = 2004f;
-        float x = nodeObject.GetPosition().x;
-        float z = nodeObject.GetPosition().z;
+        float x = node._position.x;
+        float z = node._position.z;
         float val = Mathf.PerlinNoise((float)freq*(x)/_bounds.size.x, (float)freq*(z)/_bounds.size.z);
         Debug.Log("Perlin Noise Val: " + val);
         int amount = (int)(val*group._clusterHeight);
         for (int i = 1; i <= amount; i++)
         {
-            Vector3Int position = nodeObject.GetPosition() + new Vector3Int(0, 1, 0)*i;
-            Node node = new Node(group.GetRandomPrefab()){_position = position};
-            NodeObject nodeObjectNew = SpawnNode(node);
-            nodeObjects.Add(nodeObjectNew);
+            Vector3Int position = node._position + new Vector3Int(0, 1, 0)*i;
+            Node nodeTemp = new Node(group.GetRandomPrefab()){_position = position};
+            AssignNode(nodeTemp);
+            nodes.Add(nodeTemp);
         }
-        return nodeObjects;
+        return nodes;
     }
     List<Node> CollectNodes()
     {
@@ -167,8 +173,8 @@ public class NodeProcessor : MonoBehaviour
             NodeSubProcessor subProcessor = GetSubProcessor(position);
             if (subProcessor != null)
             {
-                NodeObject nodeObject = subProcessor.GetNodeObject(position);
-                if (nodeObject == null)
+                Node node = subProcessor.GetNode(position);
+                if (node == null)
                 {
                     // need to also cast
                     RaycastHit[] hits = _caster.BlockerCast(position);
@@ -199,16 +205,9 @@ public class NodeProcessor : MonoBehaviour
         }
         return null;
     }
-    public NodeObject GetNodeObject(Vector3Int position)
+    public List<Node> GetNodeNeighbours(Node nodeObject, bool is4 = true)
     {
-        NodeSubProcessor processor = GetSubProcessor(position);
-        if (processor == null)
-            return null;
-        return processor.GetNodeObject(position);
-    }
-    public List<NodeObject> GetNodeNeighbours(NodeObject nodeObject, bool is4 = true)
-    {
-        Vector3Int position = nodeObject.GetPosition();
+        Vector3Int position = nodeObject._position;
         Vector3Int p1 = position + new Vector3Int(1, 0, 0);
         Vector3Int p2 = position + new Vector3Int(-1, 0, 0);
         Vector3Int p3 = position + new Vector3Int(0, 0, 1);
@@ -226,10 +225,10 @@ public class NodeProcessor : MonoBehaviour
             positions.Add(p7);
             positions.Add(p8);
         }
-        List<NodeObject> nodes = new List<NodeObject>();
+        List<Node> nodes = new List<Node>();
         foreach (Vector3Int pos in positions)
         {
-            NodeObject obj = GetNodeObject(pos);
+            Node obj = GetNode(pos);
             if (obj != null)
             {
                 nodes.Add(obj);
@@ -237,9 +236,9 @@ public class NodeProcessor : MonoBehaviour
         }
         return nodes;
     }
-    List<Vector3Int> GetOpenNeighbours(NodeObject nodeObject)
+    List<Vector3Int> GetOpenNeighbours(Node node)
     {
-        Vector3Int position = nodeObject.GetPosition();
+        Vector3Int position = node._position;
         Vector3Int p1 = position + new Vector3Int(1, 0, 0);
         Vector3Int p2 = position + new Vector3Int(-1, 0, 0);
         Vector3Int p3 = position + new Vector3Int(0, 0, 1);
@@ -252,7 +251,7 @@ public class NodeProcessor : MonoBehaviour
             if (processor == null)
                 continue;
             
-            NodeObject obj = GetNodeObject(pos);
+            Node obj = GetNode(pos);
             if (obj == null)
             {
                 RaycastHit[] hits = _caster.BlockerCast(pos);
@@ -276,16 +275,26 @@ public class NodeProcessor : MonoBehaviour
         List<Node> nodes = CollectNodes();
         return nodes;
     }
+    public Node GetNode(Vector3Int position)
+    {
+        foreach (NodeSubProcessor processor in _processors)
+        {
+            Node node = processor.GetNode(position);
+            if (node != null)
+                return node;
+        }
+        return null;
+    }
     public NodeObject GetClosestNodeObject(Node.Type _type, Vector3 position)
     {
         // order sub processors:
         List<NodeSubProcessor> processorsOrders = GetOrdereredSubProcessors(position);
         foreach (NodeSubProcessor processor in processorsOrders)
         {
-            NodeObject node = processor.GetClosestNodeObjectOfType(_type, position);
+            Node node = processor.GetClosestNodeOfType(_type, position);
             if (node != null)
             {
-                return node;
+                return processor.GetNodeObject(node);
             }
         }
         return null;
@@ -316,108 +325,6 @@ public class NodeProcessor : MonoBehaviour
             }   
         }
         return processorsSorted;
-    }
-}
-
-[Serializable]
-public class NodeSubProcessor
-{
-    // runtime class
-    public int _index;
-    public Bounds _bounds;
-    public Dictionary<Node.Type, Dictionary<Vector3Int, NodeObject>> _nodes;
-    public Vector2Int _positionGrid;
-
-    public bool IsWithin(Vector3 position)
-    {
-        return _bounds.Contains(position);
-    }
-    public NodeObject GetNodeObject(Vector3Int position)
-    {
-        if (_nodes == null)
-            return null;
-
-        foreach (Dictionary<Vector3Int, NodeObject> dic in _nodes.Values)
-        {
-            NodeObject node;
-            if (dic.TryGetValue(position, out node))
-                return node;
-        }
-        return null;
-    }
-    public void AddNodeObject(NodeObject nodeObject)
-    {
-        if (_nodes == null)
-            _nodes = new Dictionary<Node.Type, Dictionary<Vector3Int, NodeObject>>();
-
-        Dictionary<Vector3Int, NodeObject> dic;
-        if (_nodes.TryGetValue(nodeObject.GetNode()._type, out dic))
-        {
-            dic.Add(nodeObject.GetPosition(), nodeObject);
-        } else
-        {
-            dic = new Dictionary<Vector3Int, NodeObject>();
-            dic.Add(nodeObject.GetPosition(), nodeObject);
-            _nodes.Add(nodeObject.GetNode()._type, dic);
-        }
-        //_nodes.Add(nodeObject.GetPosition(), nodeObject);
-    }
-    public void RemoveNodeObject(NodeObject nodeObject)
-    {
-        if (_nodes == null)
-            return;
-
-        Dictionary<Vector3Int, NodeObject> dic;
-        if (_nodes.TryGetValue(nodeObject.GetNode()._type, out dic))
-        {
-            dic.Remove(nodeObject.GetPosition());
-        }
-    }
-    public List<Node> GetNodes()
-    {
-        List<Node> nodes = new List<Node>();
-        foreach (Dictionary<Vector3Int, NodeObject> dic in _nodes.Values)
-        {
-            foreach (NodeObject obj in dic.Values)
-            {   
-                nodes.Add(obj.GetNode());
-            }
-        }
-        return nodes;
-    }
-    public List<NodeObject> GetNodeObjects()
-    {
-        List<NodeObject> nodes = new List<NodeObject>();
-        if (_nodes == null)
-            return nodes;
-        foreach (Dictionary<Vector3Int, NodeObject> dic in _nodes.Values)
-        {
-            foreach (NodeObject obj in dic.Values)
-            {   
-                nodes.Add(obj);
-            }
-        }
-        return nodes;
-    }
-    public NodeObject GetClosestNodeObjectOfType(Node.Type _type, Vector3 position)
-    {
-        Dictionary<Vector3Int, NodeObject> dic;
-        if (_nodes.TryGetValue(_type, out dic))
-        {
-            float distanceMin = 10000f;
-            NodeObject closest = null;
-            foreach (NodeObject node in dic.Values)
-            {
-                float distance = Vector3.Distance(position, node.GetPosition());
-                if (distance < distanceMin)
-                {
-                    closest = node;
-                    distanceMin = distance;
-                }
-            }
-            return closest;
-        }
-        return null;
     }
 }
 

@@ -7,8 +7,8 @@ using System;
 
 public class UITooltip : MonoBehaviour
 {
-    [SerializeField] private UIController _controller;
-
+    [SerializeField] private List<UIController> _controllers;
+    UIController _controller;
     RectTransform _rect;
     bool _active = false;
 
@@ -19,6 +19,10 @@ public class UITooltip : MonoBehaviour
     void Start()
     {
         ActivateTooltip(false);
+        foreach (UIController controller in _controllers)
+        {
+            controller.ActivateBehaviour("activate", false);
+        }
     }
     void Update()
     {
@@ -27,23 +31,48 @@ public class UITooltip : MonoBehaviour
 
         _rect.anchoredPosition = Input.mousePosition;
     }   
-    public void ActivateTooltip(bool active, TooltipInfo tooltipInfo = null)
+    public void ActivateTooltip(bool active, string text = "")
     {
         _active = active;
+        UIController controller = GetController(Input.mousePosition);
         if (_active)
         {
-            _controller.ActivateBehaviour("activate", true);
-            
-            _controller.SetText(tooltipInfo._name, "name");
-            _controller.SetText(tooltipInfo._typeText, "type");
-            _controller.SetText(tooltipInfo._description, "description");
+            controller.ActivateBehaviour("activate", true);
+            controller.SetText(text, "tooltip");
         } else
         {
-            _controller.ActivateBehaviour("activate", false);
-            _controller.SetText("", "name");
-            _controller.SetText("", "type");
-            _controller.SetText("", "description");
+            if (_controller != null)
+                _controller.ActivateBehaviour("activate", false);
+        }
+        _controller = controller;
+    }
+    UIController GetController(Vector2 mousePos)
+    {
+        Vector2 screen = new Vector2(Screen.width, Screen.height);
+        if (mousePos.x > screen.x/2f)
+        {
+            //q1, q2
+            if (mousePos.y > screen.y/2f)
+            {
+                //q1
+                return _controllers[0];
+            } else
+            {
+                //q2
+                return _controllers[1];
+            }
+        } else
+        {
+            //q3, q4
+            if (mousePos.y > screen.y/2f)
+            {
+                //q4
+                return _controllers[3];
+            } else
+            {
+                //q3
+                return _controllers[2];
+            }
         }
     }
 }
-

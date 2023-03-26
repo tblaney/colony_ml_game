@@ -13,8 +13,9 @@ public class UserControllerStateBuilding : UserControllerState
 
     public override void OnStartState()
     {
-        _cam.SetManual();
+        //_cam.SetManual();
         _building = BuildingHandler.Instance.GetBuilding(UIBuilding._currentBuildingIndex);
+        Debug.Log("User Controller State Building");
     }
 
     public override void OnStopState()

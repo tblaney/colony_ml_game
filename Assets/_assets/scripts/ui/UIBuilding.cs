@@ -8,16 +8,16 @@ public class UIBuilding : UIObject
 
     [Header("Inputs:")]
     public string _prefabNameBuilding;
-    public GameObject _controllerContainer;
+    public GameObject _buttonContainer;
     public float _controllerSpacing = 40f;
 
     [Space(10)]
-    List<UIController> _controllers;
+    List<UIButton> _buttons;
     bool _active;
-
+    
     public override void Initialize()
     {
-        _controllers = new List<UIController>();
+        _buttons = new List<UIButton>();
     }
     public override void Activate(bool active = true)
     {
@@ -34,25 +34,40 @@ public class UIBuilding : UIObject
         foreach (Building building in BuildingHandler.Instance.GetBuildings())
         {
             GameObject prefab = PrefabHandler.Instance.GetPrefab(_prefabNameBuilding);
-            GameObject obj = Instantiate(prefab, _controllerContainer.transform);
-            UIController controller = obj.GetComponent<UIController>();
-            //controller.SetText(parameter._name, "name");
-            //controller.SetText(parameter._description, "description");
-            //controller.SetText(building._amount.ToString(), "amount");
-            //controller.SetText("(" + building._type.ToString() + ")", "type");
-            _controllers.Add(controller);
+            GameObject obj = Instantiate(prefab, _buttonContainer.transform);
+            UIButton button = obj.GetComponent<UIButton>();
+            button.OnPointerClickFunc = () =>
+            {
+                ButtonClickCallback(building);
+            };
+            UIController controller = button.GetController();
+            controller.SetText(building._name, "name");
+            controller.SetText(building._description, "description");
+            string items = "";
+            foreach (ItemInput itemInput in building._itemRequirements)
+            {
+                items += itemInput._name + ", " + itemInput._amount.ToString() + " " + "\n";
+            }
+            controller.SetText(items, "items");
+            _buttons.Add(button);
             y++;
         }
         // need to refresh size of contents
         float height = y*_controllerSpacing;
         _controller.SetSize(new Vector2(300f, height + 20f), 10);
     }
+    void ButtonClickCallback(Building building)
+    {
+        _currentBuildingIndex = building._index;
+        Activate(false);
+        UserHandler.Instance.SetUserState(UserController.State.Building);
+    }
     void ClearAll()
     {
-        foreach (UIController controller in _controllers)
+        foreach (UIButton button in _buttons)
         {
-            Destroy(controller.gameObject);
+            Destroy(button.gameObject);
         }
-        _controllers.Clear();
+        _buttons.Clear();
     }
 }

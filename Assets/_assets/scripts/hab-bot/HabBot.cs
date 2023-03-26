@@ -20,11 +20,12 @@ public class HabBot
         Build,
         Patrol,
         Rescue,
-        Machining,
+        Craft,
         Stockpile,
         Path,
         Recreation,
-        Heal,
+        Machine,
+        Haul,
     }
     public State _state;
     public State _stateDefault;
@@ -219,12 +220,12 @@ public class HabBotTraits
                 break;
             case HabBotTrait.Type.Speed:
                 possibleStates.Add(HabBot.State.CollectFood);
-                possibleStates.Add(HabBot.State.Heal);
+                possibleStates.Add(HabBot.State.Machine);
                 possibleStates.Add(HabBot.State.Rescue);
                 possibleStates.Add(HabBot.State.Farm);
                 break;
             case HabBotTrait.Type.Intelligence:
-                possibleStates.Add(HabBot.State.Heal);
+                possibleStates.Add(HabBot.State.Machine);
                 possibleStates.Add(HabBot.State.Build);
                 break;
         }

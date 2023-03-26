@@ -8,6 +8,8 @@ public class UIHandler : MonoBehaviour, IHandler
 {
     public static UIHandler Instance;
     public UIHabitation _uiHabitation;
+    public UITooltip _uiTooltip;
+    public UINotification _uiNoficiation;
     public static event EventHandler OnStateViewToggle;
 
     List<GameObject> _objs;
@@ -44,6 +46,10 @@ public class UIHandler : MonoBehaviour, IHandler
     public List<GameObject> GetGameObjectsUnderMouse()
     {
         return _objs;
+    }
+    public void ActivateTooltip(bool active, string text = "")
+    {
+        _uiTooltip.ActivateTooltip(active, text);
     }
 }
 [Serializable]

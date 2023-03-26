@@ -17,8 +17,8 @@ public class HabitationHandler : MonoBehaviour, IHandler
         _nodeProcessor.Initialize();
         _habitationProcessor.Initialize();
         _queues = new List<HabitationQueue>();
-        _queues.Add(new HabitationQueue(HabBot.State.Machining){});
-        _queues.Add(new HabitationQueue(HabBot.State.Heal){});
+        _queues.Add(new HabitationQueue(HabBot.State.Craft){});
+        _queues.Add(new HabitationQueue(HabBot.State.Machine){});
         //_queues.Add(new HabitationQueue(){_state = HabBot.State.Heal, _nodes = new List<NodeObject>()});
     }
     public void Load(Habitation habitation = null, List<Node> nodes = null)
@@ -40,7 +40,7 @@ public class HabitationHandler : MonoBehaviour, IHandler
     }
     public void NewNode(Node node)
     {
-        _nodeProcessor.SpawnNode(node);
+        _nodeProcessor.AssignNode(node);
     }
     public Color GetBotColor(int index)
     {
@@ -95,6 +95,10 @@ public class HabitationHandler : MonoBehaviour, IHandler
                 return queue;
         }
         return null;
+    }
+    public NodeObject GetClosestNodeObjectOfType(Node.Type type, Vector3 position)
+    {
+        return _nodeProcessor.GetClosestNodeObject(type, position);
     }
 }
 

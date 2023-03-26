@@ -8,24 +8,26 @@ using TMPro;
 public class UIHabBot : UIObject
 {
     [Header("Inputs:")]
-    public UIButton _button;
-    public UIController _controllerInfo;
+    public UIButton _buttonMain;
     public UIButton _buttonStateSelector;
-    public List<UIButton> _buttonStates;
     public UIButton _buttonStateDefault;
-    public List<UIVitality> _vitalities;
-    public List<Color> _colors;
-    public TMP_InputField _inputFieldName;
-    public UICustomScrollbar _scrollbar;
+    public UIButton _buttonExpansion;
+    List<UIButton> _buttonStates;
+    public UIController _controllerInfo;
     public UIController _controllerInventoryItem;
     public UIController _controllerAddonItem;
     List<UIController> _controllersItems;
     List<UIController> _controllsAddons;
+    public List<UIVitality> _vitalities;
+    public List<Color> _colors;
+    public TMP_InputField _inputFieldName;
+    public UICustomScrollbar _scrollbar;
 
     // cache:
     HabBot _bot;
     bool _stateOptionsActive;
     bool _active;
+    bool _expansion;
 
     //------------------------------------//
     public override void Initialize()
@@ -34,6 +36,10 @@ public class UIHabBot : UIObject
         _buttonStateSelector.OnPointerClickFunc = () =>
         {
             ActivateStateOptions(!_stateOptionsActive);
+        };
+        _buttonExpansion.OnPointerClickFunc = () =>
+        {
+            Expand(!_expansion);
         };
         _stateOptionsActive = false;
         _controllersItems = new List<UIController>();
@@ -50,24 +56,26 @@ public class UIHabBot : UIObject
             vitality.Setup(_bot._vitalities[i]);
             i++;
         }
-        _button.OnPointerClickFunc = () => { buttonClickFunc(this); };
+        _buttonMain.OnPointerClickFunc = () => { buttonClickFunc(this); };
         _bot.OnStateChange += Bot_StateChange;
         _bot._traits.OnTraitsChange += Bot_TraitsChange;
         _inputFieldName.onValueChanged.AddListener(delegate{InputNameChange();});
         Refresh();
         Activate(false);
+        Expand(false);
     }
     public void Activate(bool active = true)
     {
+        Expand(false);
         ActivateStateOptions(false);
         if (active)
         {
-            _button.GetController().ActivateBehaviour(1, true);
+            _buttonMain.GetController().ActivateBehaviour(1, true);
             _controllerInfo.ActivateBehaviour(2, true);
             _controllerInfo.ActivateBehaviour(1, true);
         } else
         {
-            _button.GetController().ActivateBehaviour(1, false);
+            _buttonMain.GetController().ActivateBehaviour(1, false);
             _controllerInfo.ActivateBehaviour(1, false);
         }
         _active = active;
@@ -84,10 +92,18 @@ public class UIHabBot : UIObject
         }
         _stateOptionsActive = active;
     }
+    void Expand(bool active)
+    {
+        if (active)
+            _controllerInfo.ActivateBehaviour("expansion activate", true);
+
+        _controllerInfo.ActivateBehaviour("expansion", active);
+        _expansion = active;
+    }
     public void InputNameChange()
     {
         _bot._name = _inputFieldName.text;
-        _button.GetController().SetText(_bot._name, "bot name");
+        _buttonMain.GetController().SetText(_bot._name, "bot name");
     }
     public void Bot_StateChange(object sender, EventArgs e)
     {
@@ -102,7 +118,7 @@ public class UIHabBot : UIObject
         RefreshStates();
         RefreshInventoryAddons();
 
-        _button.GetController().SetText(_bot._name, "bot name");
+        _buttonMain.GetController().SetText(_bot._name, "bot name");
         HabBotTraits traits = _bot._traits;
         foreach (HabBotTrait trait in traits._traits)
         {
@@ -142,7 +158,7 @@ public class UIHabBot : UIObject
             _buttonStates.Add(button);
             i++;
         }
-        _controller.SetSize(new Vector2(124f, 41f*i), 31);
+        _controller.SetSize(new Vector2(95f*i, 35f), 31);
     }
     void RefreshState()
     {

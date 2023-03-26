@@ -5,10 +5,9 @@ using System;
 
 public abstract class NodeObject : MonoBehaviour
 {
-    protected Action<NodeObject> OnDestroyFunc;
-    protected Func<NodeObject, bool, List<NodeObject>> GetNeighboursFunc;
+    protected Action<Node> OnDestroyFunc;
+    protected Func<Node, bool, List<Node>> GetNeighboursFunc;
     public Node _node;
-    public bool _surface;
     public int _health;
 
     public float _interactionTime = 30f;
@@ -16,20 +15,21 @@ public abstract class NodeObject : MonoBehaviour
     HabBotController _botController;
     Action InteractCallbackFunc;
 
-    public void Initialize(Node node, Action<NodeObject> OnDestroyFunc, Func<NodeObject, bool, List<NodeObject>> GetNeighboursFunc)
+    public void Initialize(Node node, Action<Node> OnDestroyFunc, Func<Node, bool, List<Node>> GetNeighboursFunc)
     {
         _node = node;
         _health = 100;
         this.OnDestroyFunc = OnDestroyFunc;
         this.GetNeighboursFunc = GetNeighboursFunc;
         InitializeNode();
+        SurfaceCheck();
     }
     public virtual void InitializeNode(){}
     public virtual void OnDestroyNode(){}
     public void DestroyNode()
     {
         if (OnDestroyFunc != null)
-            OnDestroyFunc(this);
+            OnDestroyFunc(this._node);
         
         OnDestroyNode();
         Destroy(this.gameObject);
@@ -38,16 +38,16 @@ public abstract class NodeObject : MonoBehaviour
     {
         if (Mathf.Abs(_node._position.y - NodeProcessor._boundsHeight) > 0.5f)
         {
-            _surface = false;
+            _node._surface = false;
             return;
         }
-        List<NodeObject> neighbours = GetNeighboursFunc(this, true);
+        List<Node> neighbours = GetNeighboursFunc(this._node, true);
         if (neighbours.Count < 4)
         {
-            _surface = true;
+            _node._surface = true;
         } else
         {
-            _surface = false;
+            _node._surface = false;
         }
     }
     public virtual void Interact(HabBotController botController, Action CallbackFunc)
@@ -88,9 +88,9 @@ public abstract class NodeObject : MonoBehaviour
         transform.position = position;
         _node._position = position;
     }
-    public List<NodeObject> GetNeighbours()
+    public List<Node> GetNeighbours()
     {
-        return GetNeighboursFunc(this, true);
+        return GetNeighboursFunc(this._node, true);
     }
     public bool Damage(int val)
     {

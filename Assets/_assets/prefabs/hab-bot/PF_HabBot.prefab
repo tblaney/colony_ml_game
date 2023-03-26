@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 5596828678581405144}
   - component: {fileID: 4498627445462052562}
   - component: {fileID: 3093297700459594461}
+  - component: {fileID: 876968359205786022}
   m_Layer: 7
   m_Name: PF_HabBot
   m_TagString: Untagged
@@ -182,6 +183,7 @@ MonoBehaviour:
     _obj: {fileID: 4075543131178129805}
   - _type: 3
     _obj: {fileID: 4941560548733947054}
+  _inventoryObject: {fileID: 876968359205786022}
 --- !u!114 &2819345953906635122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +255,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controller: {fileID: 4498627445541036579}
+--- !u!114 &876968359205786022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4498627445462052565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1797674a6df97104e8ffd524e25963b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inventoryIndex: 0
+  _habitation: 1
+  _inventory:
+    _items: []
+    _itemCapacity: 0
+    _index: 0
+    _obj: {fileID: 0}
 --- !u!1 &4498627445738727405
 GameObject:
   m_ObjectHideFlags: 0

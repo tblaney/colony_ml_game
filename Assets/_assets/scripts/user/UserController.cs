@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UserController : MonoBehaviour
 {
+    [Header("Inputs:")]
+    public CameraTargetController _cameraTargetController;
     [Header("Debug:")]
     public UserControllerState _stateCurrent;
     List<UserControllerState> _states;

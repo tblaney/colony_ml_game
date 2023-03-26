@@ -11,7 +11,7 @@ public class UserControllerStateViewing : UserControllerState
 
     public override void OnStartState()
     {
-        _cam.SetManual();
+        //_cam.SetManual();
     }
 
     public override void OnStopState()

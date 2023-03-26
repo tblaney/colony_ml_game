@@ -646,6 +646,8 @@ public class UIBehaviourText : UIBehaviour
     public Color color_in = Color.white;
     public Color color_out = Color.white;
 
+    public RectTransform _rectBackground;
+
     // cache:
     char[] _chars;
     int _idx;
@@ -657,23 +659,30 @@ public class UIBehaviourText : UIBehaviour
     {
         _text.color = color_in;
     }
-
     public override void Stop()
     {
         _text.color = color_out;
     }
-
     public override void Reset()
     {
         
     }
-
     public void SetText(string text)
     {
         if (_revealing)
             _revealing = false;
         
         _text.text = text;
+
+        if (_rectBackground != null)
+        {
+            Debug.Log("Set Text Refresh Box Size");
+            _text.ForceMeshUpdate(true);
+            Vector2 preferredValues = _text.GetPreferredValues();
+            //Vector2 newSize = new Vector2(preferredValues.x*1.1f, preferredValues.y*1.4f);
+            Vector2 newSize = new Vector2(preferredValues.x, preferredValues.y);
+            _rectBackground.sizeDelta = newSize;
+        }
     }
     public void SetColor(Color color)
     {

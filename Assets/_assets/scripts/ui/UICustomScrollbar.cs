@@ -11,6 +11,12 @@ public class UICustomScrollbar : MonoBehaviour
     [SerializeField] private RectTransform _rectContents; 
     [SerializeField] private RectTransform _mask;
     [SerializeField] private GameObject _hoverObject;
+    public enum Type
+    {
+        Vertical,
+        Horizontal
+    }
+    public Type _type;
 
     // cache
     private Vector2 _maskSize;
@@ -47,21 +53,27 @@ public class UICustomScrollbar : MonoBehaviour
             }
         }
     }
+    void OnDisable()
+    {
+        Debug.Log("Custom Scrollbar Disabled: " + this.gameObject);
+    }
     public void Initialize()
     {
         _defaultContentPosition = _rectContents.anchoredPosition;
-
         _defaultContentSize = _rectContents.sizeDelta;
-
         _maskSize = _mask.sizeDelta;
         _slotList = new List<RectTransform>();
-
         _scrollbar.onValueChanged.AddListener((float val) => ScrollbarCallback(val));
         Refresh();
     }
     public void Refresh()
     {
-        if (_rectContents.sizeDelta.y > _maskSize.y)
+        bool condition = _rectContents.sizeDelta.y > _maskSize.y;
+        if (_type == Type.Horizontal)
+        {
+            condition = _rectContents.sizeDelta.x > _maskSize.x;
+        }
+        if (condition)
         {
             _scrollbar.gameObject.SetActive(true);
             _canScroll = true;
@@ -77,16 +89,10 @@ public class UICustomScrollbar : MonoBehaviour
     {
         RectTransform newSlot = Instantiate(slot, _rectContents).GetComponent<RectTransform>();
         newSlot.anchoredPosition = slot.anchoredPosition - new Vector2(0f, slotSize.y * _slotList.Count);
-
         _rectContents.sizeDelta += new Vector2(0f, slotSize.y);
-        //_rectContents.anchoredPosition -= new Vector2(0f, slotSize.y / 2f);
-
         newSlot.gameObject.SetActive(true);
-
         _slotList.Add(newSlot);
-
         Refresh();
-
         return newSlot;
     }
 
@@ -96,9 +102,7 @@ public class UICustomScrollbar : MonoBehaviour
         {
             Destroy(rect.gameObject);
         }
-
         _slotList.Clear();
-
         _rectContents.sizeDelta = _defaultContentSize;
     }
 
@@ -107,11 +111,28 @@ public class UICustomScrollbar : MonoBehaviour
         if (_canScroll)
         {
             Vector2 contentSize = _rectContents.sizeDelta;
-            float difference = contentSize.y - _maskSize.y;
-            difference -= _slotSize.y;
-
+            float difference = 0f;
+            switch (_type)
+            {
+                case Type.Vertical:
+                    difference = contentSize.y - _maskSize.y;
+                    difference -= _slotSize.y;
+                    break;
+                case Type.Horizontal:
+                    difference = contentSize.x - _maskSize.x;
+                    difference -= _slotSize.x;
+                    break;
+            }
             float distance = difference * value;
-            _rectContents.anchoredPosition = _defaultContentPosition + new Vector2(0f, distance);
+            switch (_type)
+            {
+                case Type.Vertical:
+                    _rectContents.anchoredPosition = _defaultContentPosition + new Vector2(0f, distance);
+                    break;
+                case Type.Horizontal:
+                    _rectContents.anchoredPosition = _defaultContentPosition - new Vector2(distance, 0f);
+                    break;
+            }
 
         }
     }

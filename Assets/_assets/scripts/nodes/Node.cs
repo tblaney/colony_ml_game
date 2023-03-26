@@ -12,6 +12,7 @@ public class Node
     public float _timer;
     public float _refreshRate;
     public int _inventoryIndex = 0;
+    public bool _surface;
 
     public enum Type
     {

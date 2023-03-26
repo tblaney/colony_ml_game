@@ -164,7 +164,7 @@ public class ItemInventory
         } 
         return false;
     }
-    Item GetItem(int index)
+    public Item GetItem(int index)
     {
         foreach (Item item in _items)
         {
@@ -173,7 +173,7 @@ public class ItemInventory
         }
         return null;
     }
-    Item GetItem(string index)
+    public Item GetItem(string index)
     {
         foreach (Item item in _items)
         {

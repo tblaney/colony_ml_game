@@ -10,6 +10,7 @@ public class HabBotController : MonoBehaviour
     [SerializeField] private MaterialController _materialController;
     [SerializeField] private UIHabBotWorld _uiHabBot;
     [SerializeField] private List<HabBotAddonObject> _addons;
+    [SerializeField] private InventoryObject _inventoryObject;
     AnimatorHandler _animator;
     NavigationController _nav;
     Action<HabBotController> OnDeathFunc;
@@ -27,6 +28,8 @@ public class HabBotController : MonoBehaviour
         SetupState();
         SetupBot();
         ClearAddons();
+
+        _inventoryObject.Initialize(_bot._inventoryIndex, true);
     }
     void SetupState()
     {

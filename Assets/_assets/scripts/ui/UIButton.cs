@@ -119,10 +119,18 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             if (active) 
             {
                 _controller.ActivateBehaviour(behaviour._controllerIndex, true);
+                if (behaviour._tooltip != null && behaviour._tooltip != "")
+                {
+                    UIHandler.Instance.ActivateTooltip(true, behaviour._tooltip);
+                }
             } 
             else 
             {
                 _controller.ActivateBehaviour(behaviour._controllerIndex, false);
+                if (behaviour._tooltip != null && behaviour._tooltip != "")
+                {
+                    UIHandler.Instance.ActivateTooltip(false);
+                }
             }
         }
     }
@@ -235,6 +243,10 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         return _rect.anchoredPosition;
     }
+    public RectTransform GetRect()
+    {
+        return _rect;
+    }
     public void ActivateController(int index, bool active)
     {
         if (_controller != null)
@@ -268,6 +280,7 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 public class UIButtonBehaviour
 {
     public int _controllerIndex;
+    public string _tooltip = null;
     
     public enum Style
     {
