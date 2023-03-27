@@ -40,5 +40,5 @@ Material:
     - _HColor: {r: 0.764151, g: 0.764151, b: 0.764151, a: 1}
     - _SColor: {r: 0, g: 0, b: 0, a: 1}
     - _SecondOutlineColor: {r: 0, g: 0, b: 1, a: 1}
-    - _ToonColor: {r: 0, g: 0, b: 0, a: 0}
+    - _ToonColor: {r: 1, g: 0, b: 0.3967657, a: 0}
   m_BuildTextureStacks: []

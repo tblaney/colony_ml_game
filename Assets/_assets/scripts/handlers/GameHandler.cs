@@ -26,7 +26,7 @@ public class GameHandler : MonoBehaviour
     }
     public void Save()
     {
-        List<Node> nodeSaves = HabitationHandler.Instance.GetNodes();
+        List<Node> nodeSaves = HabitationHandler.Instance.GetAllNodes();
         Habitation habitation = HabitationHandler.Instance.GetHabitation();
         SaveData data = new SaveData()
         {

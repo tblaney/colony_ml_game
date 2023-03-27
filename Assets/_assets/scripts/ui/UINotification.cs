@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UINotification : UIObject
 {
+    public Notification.Type _type;
     [SerializeField] private Transform _container;
     [SerializeField] private string _prefabNotificationName;
 
@@ -24,14 +25,21 @@ public class UINotification : UIObject
     }
     void NewNotification(object sender, NotificationHandler.NotificationEventArgs e)
     {
+        if (e._notification._type != _type)
+            return;
+        
         GameObject prefab = PrefabHandler.Instance.GetPrefab(_prefabNotificationName);
         GameObject obj = Instantiate(prefab, _container.transform);
         UIButton button = obj.GetComponent<UIButton>();
+        UIController controller = button.GetController();
+        controller.SetText(e._notification._notification, "notification");
         button.OnPointerClickFunc = e._notification.OnClickFunc;
         _dic.Add(e._notification, button);
     }
     public void ClearNotification(object sender, NotificationHandler.NotificationEventArgs e)
     {
+        if (e._notification._type != _type)
+            return;
         Notification notification = e._notification;
         UIButton button;
         if (_dic.TryGetValue(notification, out button))

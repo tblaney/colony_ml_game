@@ -8,8 +8,7 @@ public class BuildingNodeObject : NodeObject
 {
     [Header("Inputs:")]
     public int _buildingIndex;
-    public int _buildingIndexComplete;
-    [SerializeField] private MaterialController _materialController;
+    [SerializeField] private List<MaterialController> _materialControllers;
     Building _building;
     // cache:
     bool _finished = false;
@@ -25,7 +24,10 @@ public class BuildingNodeObject : NodeObject
     {
         transform.position = position;
         _canPlace = _caster.BlockCast();
-        _materialController.ActivateBehaviour(1, _canPlace);
+        foreach (MaterialController matController in _materialControllers)
+        {
+            matController.ActivateBehaviour(1, _canPlace);
+        }
     }
     public bool CanPlace()
     {
@@ -37,6 +39,6 @@ public class BuildingNodeObject : NodeObject
 
         //base.OnDestroyNode();
         if (_finished)
-            HabitationHandler.Instance.NewNode(BuildingHandler.Instance.GetBuilding(_buildingIndexComplete).GetNodeBuilt(this._node._position));
+            HabitationHandler.Instance.NewNode(BuildingHandler.Instance.GetBuilding(_buildingIndex).GetNodeBuilt(this._node._position));
     }
 }

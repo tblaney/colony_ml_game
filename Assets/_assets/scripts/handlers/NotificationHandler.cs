@@ -8,7 +8,10 @@ public class NotificationHandler : MonoBehaviour, IHandler
     public static NotificationHandler Instance;
     public static event EventHandler<NotificationEventArgs> OnNotification;
     public static event EventHandler<NotificationEventArgs> OnNotificationClear;
-    public class NotificationEventArgs{public Notification _notification;};
+    public class NotificationEventArgs
+    {
+        public Notification _notification;
+    };
 
     public void Initialize()
     {
@@ -28,13 +31,23 @@ public class NotificationHandler : MonoBehaviour, IHandler
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
-            NewNotification(new Notification() {_name = "test", _notification = "test notification please"});
+        {
+            NewNotification(new Notification() {_name = "test", _notification = "test notification please", _type = Notification.Type.General});
+            NewNotification(new Notification() {_name = "test", _notification = "test notification please", _type = Notification.Type.State});
+        }
     }
 
 }
 [Serializable]
 public class Notification
 {
+    public enum Type
+    {
+        General, //right hand side
+        State, // top
+        Item, // top left item
+    }
+    public Type _type;
     public string _name;
     public int _index;
     public string _notification;

@@ -5,16 +5,22 @@ using System;
 
 public abstract class Interactable : MonoBehaviour
 {
-    [SerializeField] private MaterialController _controller;
-
+    [SerializeField] private List<MaterialController> _controllers;
+    public Action<bool> InteractHoverFunc;
+    
     public virtual void InteractHover(bool isIn)
     {
         float val = 1f;
         if (!isIn)
             val = 0f;
 
-        if (_controller != null)
-            _controller.SetFloat(val, 1);
+        if (_controllers != null)
+        {
+            foreach (MaterialController controller in _controllers)
+            {
+                controller.SetFloat(val, 1);
+            }
+        }
     }
     public abstract void Interact();
 }

@@ -5,9 +5,15 @@ using UnityEngine;
 public class BuiltNodeBehaviourRestMachine : BuiltNodeBehaviour
 {
     [SerializeField] private Transform _rotator;
+    [SerializeField] private GameObject _boundsCube;
     public override void StartBehaviour()
     {
-
+        GetComponent<InteractableBuiltObject>().OnHoverFunc = HoverCallback;
+        HoverCallback(false);
+    }
+    void HoverCallback(bool val)
+    {
+        _boundsCube.SetActive(val);
     }
     public override void UpdateBehaviour()
     {

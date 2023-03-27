@@ -13,7 +13,6 @@ public class NodeSubProcessor : MonoBehaviour
     public bool _active;
     Dictionary<Node.Type, Dictionary<Vector3Int, Node>> _nodes;
     Dictionary<Node.Type, List<NodeObject>> _nodeObjects;
-    Func<Node, bool, List<Node>> GetNeighboursFunc;
     bool _loading = false;
     Coroutine _loadingRoutine;
 
@@ -27,7 +26,7 @@ public class NodeSubProcessor : MonoBehaviour
         return processor;
     }
     //___setup___//
-    public void Initialize(int index, Bounds bounds, Vector2Int positionGrid, Func<Node, bool, List<Node>> GetNeighboursFunc)
+    public void Initialize(int index, Bounds bounds, Vector2Int positionGrid)
     {   
         _index = index;
         _bounds = bounds;
@@ -37,7 +36,6 @@ public class NodeSubProcessor : MonoBehaviour
         _boundsLoad.size = new Vector3(200f, 30f, 200f);
 
         _positionGrid = positionGrid;
-        this.GetNeighboursFunc = GetNeighboursFunc;
 
         _nodes = new Dictionary<Node.Type, Dictionary<Vector3Int, Node>>();
         _nodeObjects = new Dictionary<Node.Type, List<NodeObject>>();
@@ -50,7 +48,11 @@ public class NodeSubProcessor : MonoBehaviour
         _nodeObjects = new Dictionary<Node.Type, List<NodeObject>>();
         if (active)
         {
-            _loadingRoutine = StartCoroutine(LoadRoutine());
+            //_loadingRoutine = StartCoroutine(LoadRoutine());
+            foreach (Node node in GetNodes())
+            {
+                SpawnNode(node);
+            }
         } else
         {
             foreach (Node node in GetNodes())
@@ -83,7 +85,7 @@ public class NodeSubProcessor : MonoBehaviour
     {
         GameObject obj = Instantiate(PrefabHandler.Instance.GetPrefab(node._prefab), node._position, Quaternion.identity, this.transform);
         NodeObject nodeObject = obj.GetComponent<NodeObject>();
-        nodeObject.Initialize(node, DestroyNodeCallback, GetNeighboursFunc);
+        nodeObject.Initialize(node, DestroyNodeCallback);
         List<NodeObject> objs;
         if (_nodeObjects.TryGetValue(node._type, out objs))
         {
@@ -153,15 +155,18 @@ public class NodeSubProcessor : MonoBehaviour
         }
         return nodes;
     }
-    public Node GetClosestNodeOfType(Node.Type _type, Vector3 position, int prefabIndex = 0)
+    public Node GetClosestNodeOfType(Node.Type type, Vector3 position, int prefabIndex = 0)
     {
         Dictionary<Vector3Int, Node> dic;
-        if (_nodes.TryGetValue(_type, out dic))
+        if (_nodes.TryGetValue(type, out dic))
         {
             float distanceMin = 10000f;
             Node closest = null;
             foreach (Node node in dic.Values)
             {
+                if (node._busy)
+                    continue;
+                
                 if (prefabIndex != 0)
                 {
                     if (node._prefab != prefabIndex)
@@ -178,7 +183,6 @@ public class NodeSubProcessor : MonoBehaviour
         }
         return null;
     }
-
     public NodeObject GetNodeObject(Node node)
     {
         List<NodeObject> objs;
@@ -190,6 +194,7 @@ public class NodeSubProcessor : MonoBehaviour
                     return obj;
             }
         }
+        Debug.Log("No Node Object Found");
         return null;
     }
     public List<NodeObject> GetNodeObjects()
@@ -237,7 +242,17 @@ public class NodeSubProcessor : MonoBehaviour
             }
         }
     }
-
+    public void RefreshPropagation(Node.Type type)
+    {
+        Dictionary<Vector3Int, Node> dic;
+        if (_nodes.TryGetValue(type, out dic))
+        {
+            foreach (Node node in dic.Values)
+            {
+                node.TryPropagate();
+            }
+        }
+    }
     private IEnumerator LoadRoutine()
     {
         _loading = true;

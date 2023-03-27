@@ -95,7 +95,7 @@ public class UIFader : MonoBehaviour
             float opacity = Mathf.Lerp(startOpacity, outOpacity, t);
             _canvas.alpha = opacity;
 
-            t += Time.deltaTime / time;
+            t += Time.unscaledDeltaTime / time;
 
             yield return null;
         }

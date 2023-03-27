@@ -9,6 +9,7 @@ public class BuiltNodeObject : NodeObject
     [Header("Inputs:")]
     public int _buildingIndex;
     public BuiltNodeBehaviour _behaviour;
+    public InteractableBuiltObject _interactable;
 
     [Header("Debug:")]
     Building _building;
@@ -18,13 +19,13 @@ public class BuiltNodeObject : NodeObject
     public override void InitializeNode()
     {
         _building = BuildingHandler.Instance.GetBuilding(_buildingIndex);
-        BuildingHandler.Instance.RegisterBuiltObject(this);
+        _interactable.Setup(_building);
         if (_behaviour != null)
-            _behaviour.Initialize(_building);
+            _behaviour.Initialize(_building, _node);
     }
     public override void OnDestroyNode()
     {
-        BuildingHandler.Instance.UnregisterBuiltObject(this);
+
         //base.OnDestroyNode();
     }
     void Update()
@@ -42,11 +43,13 @@ public class BuiltNodeObject : NodeObject
 public abstract class BuiltNodeBehaviour : MonoBehaviour
 {
     protected Building _building;
+    protected Node _node;
     public Bounds _zone;
 
-    public void Initialize(Building building)
+    public void Initialize(Building building, Node node)
     {
         _building = building;
+        _node = node;
         _zone.center = transform.position;
         StartBehaviour();
     }

@@ -39,10 +39,10 @@ public class UIHabBotWorld : MonoBehaviour
     }
     public void Refresh()
     {
-        Sprite sprite = HabitationHandler.Instance.GetStateSprite(_bot._state);
-        if (sprite == null)
-            return;
+        //Sprite sprite = HabitationHandler.Instance.GetStateSprite(_bot._state);
+        //if (sprite == null)
+        //    return;
             
-        _controller.SetImage(sprite, 1);
+        //_controller.SetImage(sprite, 1);
     }
 }

@@ -17,8 +17,19 @@ public class NodeProcessor : MonoBehaviour
     [Header("Debug:")]
     public List<NodeSubProcessor> _processors;
     NodeProcessorCaster _caster;
+    public static NodeActions _nodeActions;
+    public static NodeStatus _nodeStatus;
 
 
+    void OnDisable()
+    {
+        TimeHandler._timeWorld.OnMidnight -= Time_OnMidnight;
+    }
+    void Time_OnMidnight(object sender, EventArgs e)
+    {
+        RefreshNodeStatus();
+        RefreshPropagation();
+    }
     // setup
     public void Initialize()
     {
@@ -28,10 +39,18 @@ public class NodeProcessor : MonoBehaviour
         _boundsHeight = _bounds.center.y;
         foreach (NodeObject obj in _objectsToSave)
         {
-            AssignNode(obj.GetNode());
+            Debug.Log("Node Processor: " + AssignNode(obj.GetNode()));
             Destroy(obj.gameObject);
         }
         _objectsToSave.Clear();
+        _nodeActions = new NodeActions()
+        {
+            GetNeighboursFunc = GetNodeNeighbours,
+            GetNodeFunc = GetNode,
+            GetOpenNeighboursFunc = GetOpenNeighbours,
+        };
+        _nodeStatus = new NodeStatus();
+        TimeHandler._timeWorld.OnMidnight += Time_OnMidnight;
     }
     void InitializeSubProcessors()
     {
@@ -44,7 +63,7 @@ public class NodeProcessor : MonoBehaviour
         {
             NodeSubProcessor processor = NodeSubProcessor.SpawnNodeSubProcessor(this.transform);
             Vector2Int positionGrid = new Vector2Int((int)((bounds.min.x - 300f)/intervalX), (int)((bounds.min.z - 300f)/intervalZ));
-            processor.Initialize(i, bounds, positionGrid, GetNodeNeighbours);
+            processor.Initialize(i, bounds, positionGrid);
             _processors.Add(processor);
             i++;
         }
@@ -71,7 +90,7 @@ public class NodeProcessor : MonoBehaviour
                         Vector3Int position = GetOpenPosition();
                         if (position == default(Vector3Int))
                             continue;
-                        Node node = new Node(group.GetRandomPrefab()){_position = position};
+                        Node node = new Node(group.GetRandomPrefab(), position, group._type){_propogationFactor = group._propogationFactor};
                         AssignNode(node);
                     }
                 }
@@ -90,6 +109,7 @@ public class NodeProcessor : MonoBehaviour
                 processor.Load(true);
             }
         }
+        RefreshNodeStatus();
     }
     void Update()
     {
@@ -120,7 +140,7 @@ public class NodeProcessor : MonoBehaviour
     {
         GameObject obj = Instantiate(PrefabHandler.Instance.GetPrefab(node._prefab), node._position, Quaternion.identity, this.transform);
         NodeObject nodeObject = obj.GetComponent<NodeObject>();
-        nodeObject.Initialize(node, null, null);
+        nodeObject.Initialize(node, null);
         return nodeObject;
     }
     List<Node> ClusterSpawnNode(NodeGroup group, int amount)
@@ -133,7 +153,7 @@ public class NodeProcessor : MonoBehaviour
         
         for (int i = 0; i < amount; i++)
         {
-            Node node = new Node(group.GetRandomPrefab()){_position = position};
+            Node node = new Node(group.GetRandomPrefab(), position, group._type){_propogationFactor = group._propogationFactor};
             AssignNode(node);
             nodes.Add(node);
             nodes.AddRange(AddHeight(group, node));
@@ -161,7 +181,7 @@ public class NodeProcessor : MonoBehaviour
         for (int i = 1; i <= amount; i++)
         {
             Vector3Int position = node._position + new Vector3Int(0, 1, 0)*i;
-            Node nodeTemp = new Node(group.GetRandomPrefab()){_position = position};
+            Node nodeTemp = new Node(group.GetRandomPrefab(), position, group._type){_propogationFactor = group._propogationFactor};
             AssignNode(nodeTemp);
             nodes.Add(nodeTemp);
         }
@@ -176,7 +196,31 @@ public class NodeProcessor : MonoBehaviour
         }
         return nodes;
     }
-
+    // refresh
+    public void RefreshPropagation()
+    {
+        foreach (NodeGroup group in _groups)
+        {
+            
+        }
+    }
+    public void RefreshNodeStatus()
+    {   
+        _nodeStatus.Clear();
+        List<Node> nodesAll = GetAllNodes();
+        foreach (Node.Type type in Enum.GetValues(typeof(Node.Type)))
+        {
+            _nodeStatus._dicAmount.Add(type, 0);
+        }
+        foreach (Node node in nodesAll)
+        {
+            _nodeStatus._dicAmount[node._type]++;
+        }
+        foreach (Node.Type type in _nodeStatus._dicAmount.Keys)
+        {
+            Debug.Log("Refresh Node Status; " + type + ", " + _nodeStatus._dicAmount[type]);
+        }
+    }
     // gets
     Vector3Int GetOpenPosition()
     {
@@ -230,14 +274,10 @@ public class NodeProcessor : MonoBehaviour
         if (!is4)
         {
             // 8 neighbours
-            Vector3Int p5 = position + new Vector3Int(1, 0, 1);
-            Vector3Int p6 = position + new Vector3Int(1, 0, -1);
-            Vector3Int p7 = position + new Vector3Int(-1, 0, 1);
-            Vector3Int p8 = position + new Vector3Int(-1, 0, -1);
+            Vector3Int p5 = position + new Vector3Int(0, 1, 0);
+            Vector3Int p6 = position + new Vector3Int(0, -1, 0);
             positions.Add(p5);
             positions.Add(p6);
-            positions.Add(p7);
-            positions.Add(p8);
         }
         List<Node> nodes = new List<Node>();
         foreach (Vector3Int pos in positions)
@@ -284,19 +324,21 @@ public class NodeProcessor : MonoBehaviour
         }
         return null;
     }
-    public List<Node> GetNodes()
+    public List<Node> GetAllNodes()
     {
         List<Node> nodes = CollectNodes();
         return nodes;
     }
     public Node GetNode(Vector3Int position)
     {
-        foreach (NodeSubProcessor processor in _processors)
-        {
-            Node node = processor.GetNode(position);
-            if (node != null)
-                return node;
-        }
+        NodeSubProcessor processor = GetSubProcessor(position);
+        if (processor == null)
+            return null;
+        
+        Node node = processor.GetNode(position);
+        if (node != null)
+            return node;
+        
         return null;
     }
     public NodeObject GetClosestNodeObject(Node.Type type, Vector3 position, int prefabIndex = 0)
@@ -308,6 +350,7 @@ public class NodeProcessor : MonoBehaviour
             Node node = processor.GetClosestNodeOfType(type, position, prefabIndex);
             if (node != null)
             {
+                Debug.Log("Found Node: " + node._prefab);
                 return processor.GetNodeObject(node);
             }
         }
@@ -326,15 +369,21 @@ public class NodeProcessor : MonoBehaviour
             {
                 float distance = Vector3.Distance(position, processor._bounds.center);
                 int i = 0;
+                bool foundSpot = false;
                 foreach (NodeSubProcessor processorTemp in processorsSorted)
                 {
                     float distanceTemp = Vector3.Distance(position, processorTemp._bounds.center);
                     if (distance < distanceTemp)
                     {
                         processorsSorted.Insert(i, processor);
+                        foundSpot = true;
                         break;
                     }
                     i++;
+                }
+                if (!foundSpot)
+                {
+                    processorsSorted.Add(processor);
                 }
             }   
         }
@@ -352,6 +401,7 @@ public class NodeGroup
     [Space(10)]
     [Tooltip("Link to Prefab Handler and Define Distribution")]
     public List<NodeGroupPrefab> _prefabs;
+    public Node.Type _type;
 
     [Space(10)]
     public int _amount;
@@ -360,7 +410,7 @@ public class NodeGroup
     //public int _clusterAmount = 18;
 
     [Space(10)]
-    public float _refreshRate = 0f;
+    public float _propogationFactor = 0f;
 
     public int GetRandomPrefab()
     {
@@ -385,5 +435,22 @@ public class NodeGroupPrefab
         if (val >= _probabilityRange[0] && val < _probabilityRange[1])
             return true;
         return false;
+    }
+}
+
+public class NodeActions
+{
+    public Func<Node, bool, List<Node>> GetNeighboursFunc;
+    public Func<Vector3Int, Node> GetNodeFunc;
+    public Func<Node, List<Vector3Int>> GetOpenNeighboursFunc;
+}
+
+public class NodeStatus
+{
+    public Dictionary<Node.Type, int> _dicAmount;
+    public Dictionary<Node.Type, int> _dixMax;
+    public void Clear()
+    {
+        _dicAmount = new Dictionary<Node.Type, int>();
     }
 }

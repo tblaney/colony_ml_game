@@ -90,4 +90,21 @@ public class UIHabitation : UIObject
             i++;
         }
     }
+    public void ActivateButton(HabBot bot)
+    {
+        UIHabBot uiBot = GetUIHabBot(bot);
+        if (uiBot != null)
+        {
+            BotClickFunc(uiBot);
+        }
+    }
+    public UIHabBot GetUIHabBot(HabBot bot)
+    {
+        foreach (UIHabBot uiBot in _uiBots)
+        {
+            if (uiBot.GetBot() == bot)
+                return uiBot;
+        }
+        return null;
+    }
 }

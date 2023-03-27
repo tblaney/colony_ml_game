@@ -11,6 +11,7 @@ public class HabBotController : MonoBehaviour
     [SerializeField] private UIHabBotWorld _uiHabBot;
     [SerializeField] private List<HabBotAddonObject> _addons;
     [SerializeField] private InventoryObject _inventoryObject;
+    [SerializeField] private Interactable _interactable;
     AnimatorHandler _animator;
     NavigationController _nav;
     Action<HabBotController> OnDeathFunc;
@@ -26,20 +27,28 @@ public class HabBotController : MonoBehaviour
 
         this._bot = bot;
         SetupState();
-        SetupBot();
+        _uiHabBot.Initialize(_bot);
         ClearAddons();
 
         _inventoryObject.Initialize(_bot._inventoryIndex, true);
+
+        _bot.OnColorChange += Bot_ColorChange;
+        RefreshColor();
+
+        (_interactable as InteractableHabBot).Setup(_bot);
+    }
+    void OnDisable()
+    {
+        _bot.OnColorChange -= Bot_ColorChange;
     }
     void SetupState()
     {
         _state.Initialize();
         _state.StartState();
     }
-    void SetupBot()
+    void RefreshColor()
     {
-        _materialController.SetColor(HabitationHandler.Instance.GetBotColor(_bot._traits._colorIndex), 2);
-        _uiHabBot.Initialize(_bot);
+        _materialController.SetColor(_bot._traits._color, 2);
     }
     //----------------------------------------------------------//
     // state-switcher
@@ -68,6 +77,10 @@ public class HabBotController : MonoBehaviour
         {
             SetState(HabBot.State.Rest);
         }
+    }
+    void Bot_ColorChange(object sender, EventArgs e)
+    {
+        RefreshColor();
     }
     // gets
     public HabBot GetBot()

@@ -39,6 +39,11 @@ public class InteractController : MonoBehaviour
                 _interactable = null;
             }
         }
+
+        if (Input.GetMouseButtonDown(0) && _interactable != null)
+        {
+            _interactable.Interact();
+        }
     }
 
 }

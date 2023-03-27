@@ -62,21 +62,13 @@ public class HabitationHandler : MonoBehaviour, IHandler
     {
         return _nodeProcessor.SpawNode(node);
     }
-    public Color GetBotColor(int index)
+    public List<Node> GetAllNodes()
     {
-        return _botProcessor.GetColor(index);
-    }
-    public List<Node> GetNodes()
-    {
-        return _nodeProcessor.GetNodes();
+        return _nodeProcessor.GetAllNodes();
     }
     public Habitation GetHabitation()
     {
         return _habitation;
-    }
-    public Sprite GetStateSprite(HabBot.State state)
-    {
-        return _botProcessor.GetSprite(state);
     }
     public HabBot GetClosestBot(Vector3 position)
     {

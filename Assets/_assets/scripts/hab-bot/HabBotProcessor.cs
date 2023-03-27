@@ -11,8 +11,6 @@ public class HabBotProcessor : MonoBehaviour
     */
     [Header("Inputs:")]
     public List<HabBotPrefab> _prefabs;
-    public List<Color> _colorOptions;
-    public List<HabBotStateSprite> _stateSprites;
     public NodeProcessor _nodeProcessor;
     
     List<HabBotController> _controllers;
@@ -65,8 +63,9 @@ public class HabBotProcessor : MonoBehaviour
         // we basically need to get the associated spawned bot, destroy it, and respawn it in same position/rotation
         HabBot bot = e._bot;
         HabBotController botController = GetController(bot);
-        Debug.Log("Bot State Change");
+        //Debug.Log("Bot State Change");
         BuiltNodeObject obj = _nodeProcessor.GetClosestNodeObject(Node.Type.Building, e._bot._position, 6) as BuiltNodeObject;
+        Debug.Log("Bot State Change: " + obj);
         Vector3 position = (obj._behaviour as BuiltNodeBehaviourRestMachine).GetZonePosition();
         position.y = 30f;
         Quaternion rotation = Quaternion.identity;
@@ -79,28 +78,12 @@ public class HabBotProcessor : MonoBehaviour
         SpawnBot(bot, position, rotation);
     }
     // gets
-    public Color GetColor(int index)
-    {
-        if (index >= _colorOptions.Count)
-            return default(Color);
-
-        return _colorOptions[index];
-    }
     public HabBotController GetController(HabBot bot)
     {
         foreach (HabBotController controller in _controllers)
         {
             if (controller.GetBot() == bot)
                 return controller;
-        }
-        return null;
-    }
-    public Sprite GetSprite(HabBot.State state)
-    {
-        foreach (HabBotStateSprite stateSprite in _stateSprites)
-        {
-            if (stateSprite._state == state)
-                return stateSprite._sprite;
         }
         return null;
     }
@@ -135,10 +118,3 @@ public struct HabBotPrefab
     public HabBot.State _state;
     public GameObject _prefab;
 }
-[Serializable]
-public struct HabBotStateSprite
-{
-    public Sprite _sprite;
-    public HabBot.State _state;
-}
-

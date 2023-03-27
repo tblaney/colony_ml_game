@@ -6,7 +6,6 @@ using System;
 public abstract class NodeObject : MonoBehaviour
 {
     protected Action<Node> OnDestroyFunc;
-    protected Func<Node, bool, List<Node>> GetNeighboursFunc;
     public Node _node;
     protected NodeCaster _caster;
     public int _health;
@@ -21,14 +20,26 @@ public abstract class NodeObject : MonoBehaviour
         _caster = GetComponent<NodeCaster>();
     }
 
-    public void Initialize(Node node, Action<Node> OnDestroyFunc, Func<Node, bool, List<Node>> GetNeighboursFunc)
+    public void Initialize(Node node, Action<Node> OnDestroyFunc)
     {
         _node = node;
         _health = 100;
         this.OnDestroyFunc = OnDestroyFunc;
-        this.GetNeighboursFunc = GetNeighboursFunc;
+
         InitializeNode();
-        SurfaceCheck();
+        _node.SurfaceCheck();
+        _node.OnPositionChange += Node_PositionChange;
+    }
+    void OnDisable()
+    {
+        if (_node == null)
+            return;
+
+        _node.OnPositionChange -= Node_PositionChange;
+    }
+    void Node_PositionChange(object sender, EventArgs e)
+    {
+        transform.position = _node._position;
     }
     public virtual void InitializeNode(){}
     public virtual void OnDestroyNode(){}
@@ -37,30 +48,12 @@ public abstract class NodeObject : MonoBehaviour
         if (OnDestroyFunc != null)
             OnDestroyFunc(this._node);
         
+        _node.DestroyNeighbourChecks();
         OnDestroyNode();
         Destroy(this.gameObject);
     }
-    public void SurfaceCheck()
-    {
-        if (Mathf.Abs(_node._position.y - NodeProcessor._boundsHeight) > 0.5f)
-        {
-            _node._surface = false;
-            return;
-        }
-        if (GetNeighboursFunc == null)
-        {
-            _node._surface = true;
-            return;
-        }
-        List<Node> neighbours = GetNeighboursFunc(this._node, true);
-        if (neighbours.Count < 4)
-        {
-            _node._surface = true;
-        } else
-        {
-            _node._surface = false;
-        }
-    }
+
+
     public virtual void Interact(HabBotController botController, Action CallbackFunc)
     {
         if (_interacting)
@@ -100,10 +93,6 @@ public abstract class NodeObject : MonoBehaviour
     {
         transform.position = position;
         _node._position = position;
-    }
-    public List<Node> GetNeighbours()
-    {
-        return GetNeighboursFunc(this._node, true);
     }
     public bool Damage(int val)
     {

@@ -7,12 +7,10 @@ public class BuildingHandler : MonoBehaviour, IHandler
 {
     public static BuildingHandler Instance;
     public List<Building> _buildings;
-    List<BuiltNodeObject> _activeObjects;
 
     public void Initialize()
     {
         Instance = this;
-        _activeObjects = new List<BuiltNodeObject>();
     }
     public List<Building> GetBuildings()
     {
@@ -36,39 +34,6 @@ public class BuildingHandler : MonoBehaviour, IHandler
         }
         return null;
     }
-    public BuiltNodeObject GetClosestBuildingObject(int index, Vector3 position)
-    {
-        float distanceMin = 1000f;
-        BuiltNodeObject obj = null;
-        foreach (BuiltNodeObject built in _activeObjects)
-        {
-            Building building = built.GetBuilding();
-            if (building._index == index)
-            {
-                float distance = Vector3.Distance(position, built.transform.position);
-                if (distance < distanceMin)
-                {
-                    distanceMin = distance;
-                    obj = built;
-                }
-            }
-        }
-        return obj;
-    }
-    public BuiltNodeObject GetClosestBuildingObject(string name, Vector3 position)
-    {
-        Building bldg = GetBuilding(name);
-        return GetClosestBuildingObject(bldg._index, position);
-    }
-    public void RegisterBuiltObject(BuiltNodeObject obj)
-    {
-        _activeObjects.Add(obj);
-    }
-    public void UnregisterBuiltObject(BuiltNodeObject obj)
-    {
-        if (_activeObjects.Contains(obj))
-            _activeObjects.Remove(obj);
-    }
 }
 [Serializable]
 public class Building
@@ -84,12 +49,12 @@ public class Building
     public List<ItemInput> _itemOutputs;
     public Node GetNodeBuilding(Vector3Int position)
     {   
-        Node node = new Node(_prefabBuilding){_position = position};
+        Node node = new Node(_prefabBuilding, position, Node.Type.BuildingUnfinished);
         return node;
     }
     public Node GetNodeBuilt(Vector3Int position)
     {   
-        Node node = new Node(_prefabBuilt){_position = position};
+        Node node = new Node(_prefabBuilt, position, Node.Type.Building);
         return node;
     }
 }

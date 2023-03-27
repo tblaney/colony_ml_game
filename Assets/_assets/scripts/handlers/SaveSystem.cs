@@ -92,4 +92,5 @@ public class SaveData
 {
     public Habitation _habitation;
     public List<Node> _nodes;
+    public List<ItemInventory> _inventories;
 }

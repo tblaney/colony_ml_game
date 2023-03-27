@@ -263,7 +263,7 @@ public class UIObjectTransformer : MonoBehaviour
             }
             else
             {
-                t += Time.deltaTime / time;
+                t += Time.unscaledDeltaTime / time;
             }
             yield return null;
         }

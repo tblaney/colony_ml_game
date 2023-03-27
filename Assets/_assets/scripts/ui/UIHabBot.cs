@@ -19,10 +19,10 @@ public class UIHabBot : UIObject
     List<UIController> _controllersItems;
     List<UIController> _controllsAddons;
     public List<UIVitality> _vitalities;
-    public List<Color> _colors;
     public TMP_InputField _inputFieldName;
     public UICustomScrollbar _scrollbar;
-
+    public UIColorSwitcher _colorSwitcher;
+    public List<Color> _colors;
     // static:
     public static HabBot _activeHabBotFollow;
 
@@ -67,6 +67,12 @@ public class UIHabBot : UIObject
         _bot._traits.OnTraitsChange += Bot_TraitsChange;
         _bot.OnStateAccessChange += Bot_StateAccessChange;
         _inputFieldName.onValueChanged.AddListener(delegate{InputNameChange();});
+
+        _colorSwitcher.SetSliderValue(1, _bot._traits._color.r);
+        _colorSwitcher.SetSliderValue(2, _bot._traits._color.g);
+        _colorSwitcher.SetSliderValue(3, _bot._traits._color.b);
+        _colorSwitcher.OnColorChangeFunc = ColorSwitcherChangeFunc;
+
         Refresh();
         Activate(false);
         Expand(false);
@@ -128,6 +134,10 @@ public class UIHabBot : UIObject
     public void Bot_StateAccessChange(object sender, EventArgs e)
     {
         Refresh();
+    }
+    void ColorSwitcherChangeFunc(Color color)
+    {
+        _bot.SetColor(color);
     }
     void Refresh()
     {
@@ -232,6 +242,10 @@ public class UIHabBot : UIObject
             controllerAddon.SetText(addon._type.ToString(), "name");
             _controllersItems.Add(controllerAddon);
         }
+    }
+    public HabBot GetBot()
+    {
+        return _bot;
     }
     Color GetColor(float val)
     {

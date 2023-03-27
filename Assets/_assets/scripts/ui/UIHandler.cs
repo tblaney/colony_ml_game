@@ -51,6 +51,10 @@ public class UIHandler : MonoBehaviour, IHandler
     {
         _uiTooltip.ActivateTooltip(active, text);
     }
+    public void ActivateHabBotFocus(HabBot bot)
+    {
+        _uiHabitation.ActivateButton(bot);
+    }
 }
 [Serializable]
 public class UIButtonInput

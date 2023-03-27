@@ -39,6 +39,7 @@ public class HabBot : ITarget
     // events
     public event EventHandler<StateChangeEventArgs> OnStateChange;
     public event EventHandler<StateChangeEventArgs> OnStateAccessChange;
+    public event EventHandler OnColorChange;
     public event EventHandler OnDeath;
     public class StateChangeEventArgs : EventArgs
     {
@@ -85,6 +86,8 @@ public class HabBot : ITarget
             _inventoryIndex = ItemHandler.Instance.NewInventory();
 
         HabitationHandler.Instance.AddInventory(_inventoryIndex);
+        _stateCooldown = false;
+        _stateLock = false;
     }
     public void DetermineDefaultState()
     {
@@ -159,6 +162,11 @@ public class HabBot : ITarget
         }
         return false;
     }
+    public void SetColor(Color color)
+    {
+        _traits._color = color;
+        OnColorChange?.Invoke(null, EventArgs.Empty);
+    }
     public HabBotAddon GetAddon(HabBotAddon.Type type)
     {
         if (_addons == null)
@@ -199,7 +207,7 @@ public class HabBot : ITarget
 public class HabBotTraits
 {
     public List<HabBotTrait> _traits;
-    public int _colorIndex;
+    public Color _color;
     public event EventHandler OnTraitsChange;
     public void InitializeRandom()
     {
@@ -217,6 +225,7 @@ public class HabBotTraits
             _traits.Add(trait);
             i++;
         }
+        _color = new Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), 1f);
     }
     public HabBot.State GetDefaultState()
     {

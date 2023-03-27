@@ -7,7 +7,6 @@ public class TimeHandler : MonoBehaviour, IHandler
 {
     public static TimeHandler Instance;
     public static TimeWorld _timeWorld;
-    public static event EventHandler OnMidnight;
     public float _timeScale = 1f;
     public bool _locked;
 
@@ -55,6 +54,7 @@ public class TimeWorld
     [Header("Inputs:")]
     [Tooltip("Time it takes for a day to pass irl")]
     public int _dayMinutes;
+    public event EventHandler OnMidnight;
 
     [Header("Debug:")]
     public float _dayTime;
@@ -84,6 +84,7 @@ public class TimeWorld
         {
             _timer = 0f;
             _day ++;
+            OnMidnight?.Invoke(null, EventArgs.Empty);
         }
         _dayTime = (24*(_timer/(_dayMinutes*60f)));
         UpdateDate();

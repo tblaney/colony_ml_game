@@ -9,16 +9,17 @@ public class CameraTargetController : MonoBehaviour
         Manual,
         Follow,
     }
-    public State state;
-    public float movementSpeed = 12f;
-    ITarget target;
+    public State _state;
+    public float _movementSpeed = 12f;
+    ITarget _target;
 
 
     void Update()
     {
         Vector3 targetPosition = transform.position;
+        float movementSpeed = _movementSpeed;
         float sprintFactor = 1f;
-        switch (state)
+        switch (_state)
         {
             case State.Manual:
                 float x = Input.GetAxis("Horizontal");
@@ -28,8 +29,9 @@ public class CameraTargetController : MonoBehaviour
                 targetPosition = transform.position + moveDirection;
                 break;
             case State.Follow:
-                targetPosition = target.GetPosition();
-                //sprintFactor = 1.8f;
+                targetPosition = _target.GetPosition();
+                sprintFactor = 0.6f;
+                movementSpeed = 10f;
                 break;
         }
         if (Input.GetKey(KeyCode.LeftShift))
@@ -39,12 +41,12 @@ public class CameraTargetController : MonoBehaviour
     }
     public void SetTarget(ITarget followTarget)
     {
-        target = followTarget;
-        state = State.Follow;
+        _target = followTarget;
+        _state = State.Follow;
     }
     public void SetManual()
     {
-        target = null;
-        state = State.Manual;
+        _target = null;
+        _state = State.Manual;
     }
 }
