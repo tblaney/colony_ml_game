@@ -38,6 +38,9 @@ public class UIHabBot : UIObject
         _buttonStates = new List<UIButton>();
         _buttonStateSelector.OnPointerClickFunc = () =>
         {
+            if (_bot._stateCooldown | _bot._stateLock)
+                return;
+            
             ActivateStateOptions(!_stateOptionsActive);
         };
         _buttonExpansion.OnPointerClickFunc = () =>
@@ -62,6 +65,7 @@ public class UIHabBot : UIObject
         _buttonMain.OnPointerClickFunc = () => { buttonClickFunc(this); };
         _bot.OnStateChange += Bot_StateChange;
         _bot._traits.OnTraitsChange += Bot_TraitsChange;
+        _bot.OnStateAccessChange += Bot_StateAccessChange;
         _inputFieldName.onValueChanged.AddListener(delegate{InputNameChange();});
         Refresh();
         Activate(false);
@@ -114,9 +118,14 @@ public class UIHabBot : UIObject
     }
     public void Bot_StateChange(object sender, EventArgs e)
     {
-        RefreshState();
+        //RefreshState();
+        Refresh();
     }
     public void Bot_TraitsChange(object sender, EventArgs e)
+    {
+        Refresh();
+    }
+    public void Bot_StateAccessChange(object sender, EventArgs e)
     {
         Refresh();
     }
@@ -124,6 +133,17 @@ public class UIHabBot : UIObject
     {
         RefreshStates();
         RefreshInventoryAddons();
+
+        if (_bot._stateLock)
+        {
+            _buttonStateSelector.ActivateController(52, true);
+        } else if (_bot._stateCooldown)
+        {
+            _buttonStateSelector.ActivateController(50, true);
+        } else
+        {
+            _buttonStateSelector.ActivateController(51, true);
+        }
 
         _buttonMain.GetController().SetText(_bot._name, "bot name");
         HabBotTraits traits = _bot._traits;
@@ -161,6 +181,7 @@ public class UIHabBot : UIObject
                     _bot.SetState(state);
 
                 ActivateStateOptions(false);
+                Refresh();
             };
             _buttonStates.Add(button);
             i++;

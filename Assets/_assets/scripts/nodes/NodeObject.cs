@@ -92,6 +92,8 @@ public abstract class NodeObject : MonoBehaviour
     }
     public Node GetNode()
     {
+        if (_node._position == default(Vector3Int))
+            _node._position = Utils.Tools.VectorToInt(transform.position);
         return _node;
     }
     public void SetPosition(Vector3Int position)

@@ -153,7 +153,7 @@ public class NodeSubProcessor : MonoBehaviour
         }
         return nodes;
     }
-    public Node GetClosestNodeOfType(Node.Type _type, Vector3 position)
+    public Node GetClosestNodeOfType(Node.Type _type, Vector3 position, int prefabIndex = 0)
     {
         Dictionary<Vector3Int, Node> dic;
         if (_nodes.TryGetValue(_type, out dic))
@@ -162,6 +162,11 @@ public class NodeSubProcessor : MonoBehaviour
             Node closest = null;
             foreach (Node node in dic.Values)
             {
+                if (prefabIndex != 0)
+                {
+                    if (node._prefab != prefabIndex)
+                        continue;
+                }
                 float distance = Vector3.Distance(position, node._position);
                 if (distance < distanceMin)
                 {
@@ -173,6 +178,7 @@ public class NodeSubProcessor : MonoBehaviour
         }
         return null;
     }
+
     public NodeObject GetNodeObject(Node node)
     {
         List<NodeObject> objs;

@@ -13,6 +13,7 @@ public class HabBotProcessor : MonoBehaviour
     public List<HabBotPrefab> _prefabs;
     public List<Color> _colorOptions;
     public List<HabBotStateSprite> _stateSprites;
+    public NodeProcessor _nodeProcessor;
     
     List<HabBotController> _controllers;
     Habitation _habitation;
@@ -21,9 +22,10 @@ public class HabBotProcessor : MonoBehaviour
     {
         _controllers = new List<HabBotController>();
     }
-    public void Setup(Habitation habitation)
+    public void Setup(Habitation habitation, NodeProcessor nodeProcessor)
     {
         _habitation = habitation;
+        _nodeProcessor = nodeProcessor;
         foreach (HabBot bot in _habitation._bots)
         {
             bot.OnStateChange += Bot_StateChange;
@@ -63,7 +65,10 @@ public class HabBotProcessor : MonoBehaviour
         // we basically need to get the associated spawned bot, destroy it, and respawn it in same position/rotation
         HabBot bot = e._bot;
         HabBotController botController = GetController(bot);
-        Vector3 position = _habitation.GetHabitationZonePosition(HabitationZone.Type.Rest);
+        Debug.Log("Bot State Change");
+        BuiltNodeObject obj = _nodeProcessor.GetClosestNodeObject(Node.Type.Building, e._bot._position, 6) as BuiltNodeObject;
+        Vector3 position = (obj._behaviour as BuiltNodeBehaviourRestMachine).GetZonePosition();
+        position.y = 30f;
         Quaternion rotation = Quaternion.identity;
         if (botController)
         {

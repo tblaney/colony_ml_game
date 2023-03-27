@@ -29,7 +29,7 @@ public class CameraTargetController : MonoBehaviour
                 break;
             case State.Follow:
                 targetPosition = target.GetPosition();
-                sprintFactor = 1.8f;
+                //sprintFactor = 1.8f;
                 break;
         }
         if (Input.GetKey(KeyCode.LeftShift))

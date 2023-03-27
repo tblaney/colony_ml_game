@@ -7,6 +7,7 @@ public class NodeProcessor : MonoBehaviour
 {
     [Header("Input:")]
     public List<NodeGroup> _groups;
+    public List<NodeObject> _objectsToSave;
     public Bounds _bounds;
     public Vector2Int _subProcessorAmount;
     public static float _boundsHeight;
@@ -25,6 +26,12 @@ public class NodeProcessor : MonoBehaviour
         _caster = GetComponent<NodeProcessorCaster>();
         InitializeSubProcessors();
         _boundsHeight = _bounds.center.y;
+        foreach (NodeObject obj in _objectsToSave)
+        {
+            AssignNode(obj.GetNode());
+            Destroy(obj.gameObject);
+        }
+        _objectsToSave.Clear();
     }
     void InitializeSubProcessors()
     {
@@ -292,13 +299,13 @@ public class NodeProcessor : MonoBehaviour
         }
         return null;
     }
-    public NodeObject GetClosestNodeObject(Node.Type _type, Vector3 position)
+    public NodeObject GetClosestNodeObject(Node.Type type, Vector3 position, int prefabIndex = 0)
     {
         // order sub processors:
         List<NodeSubProcessor> processorsOrders = GetOrdereredSubProcessors(position);
         foreach (NodeSubProcessor processor in processorsOrders)
         {
-            Node node = processor.GetClosestNodeOfType(_type, position);
+            Node node = processor.GetClosestNodeOfType(type, position, prefabIndex);
             if (node != null)
             {
                 return processor.GetNodeObject(node);

@@ -8,14 +8,11 @@ public class Habitation
 {
     // main class that stores all information regarding the habitation, should just be able to load this in from a save
     public List<HabBot> _bots;
-    public List<HabitationZone> _zones;
     public List<int> _itemInventories;
 
     public void NewHabitation(Bounds restBounds)
     {
         _bots = new List<HabBot>();
-        _zones = new List<HabitationZone>();
-        _zones.Add(new HabitationZone(){_type = HabitationZone.Type.Rest, _bounds = restBounds});
         for (int i = 0; i < HabitationHandler._parameters._botAmountStart; i++)
         {
             HabBot bot = new HabBot();
@@ -30,24 +27,6 @@ public class Habitation
         {
             bot.Initialize();
         }
-    }
-    public Vector3 GetHabitationZonePosition(HabitationZone.Type zoneType)
-    {
-        HabitationZone zone = GetZone(zoneType);
-        if (zone != null)
-        {
-            return zone.GetRandomPosition();
-        }
-        return default(Vector3);
-    }
-    public HabitationZone GetZone(HabitationZone.Type zoneType)
-    {
-        foreach (HabitationZone zone in _zones)
-        {
-            if (zone._type == zoneType)
-                return zone;
-        }
-        return null;
     }
     public HabBot GetClosestBot(Vector3 position)
     {
@@ -94,14 +73,4 @@ public class Habitation
         if (_itemInventories.Contains(index))
             _itemInventories.Remove(index);
     }
-    /*
-    public void AddItem(ItemInput itemInput)
-    {
-        _itemInventory.AddItem(itemInput);
-    }
-    public void RemoveItem(string name, int amount)
-    {
-        _itemInventory.RemoveItem(name, amount);
-    }
-    */
 }

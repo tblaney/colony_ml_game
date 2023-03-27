@@ -10,6 +10,7 @@ public class CameraController : MonoBehaviour
     Camera cam;
     CameraCaster _caster;
     bool _zoomLocked = false;
+    float _fov;
 
     void Awake()
     {
@@ -26,7 +27,11 @@ public class CameraController : MonoBehaviour
     void Zoom()
     {
         if (_zoomLocked)
+        {
+            float fovNew = Mathf.Lerp(cam.fieldOfView, _fov, Time.deltaTime*4f);
+            cam.fieldOfView = fovNew;
             return;
+        }
         
         if (UIHandler.Instance.IsMouseOverUI())
             return;
@@ -62,6 +67,7 @@ public class CameraController : MonoBehaviour
     public void SetFOV(float val)
     {
         _zoomLocked = true;
-        cam.fieldOfView = val;
+        //cam.fieldOfView = val;
+        _fov = val;
     }
 }

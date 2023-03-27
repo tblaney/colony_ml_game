@@ -52,7 +52,7 @@ public class HabitationHandler : MonoBehaviour, IHandler
     }
     public void SpawnHabitation()
     {
-        _botProcessor.Setup(_habitation);
+        _botProcessor.Setup(_habitation, _nodeProcessor);
     }
     public void NewNode(Node node)
     {

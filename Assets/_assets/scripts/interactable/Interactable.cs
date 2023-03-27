@@ -7,10 +7,6 @@ public abstract class Interactable : MonoBehaviour
 {
     [SerializeField] private MaterialController _controller;
 
-    public virtual TooltipInfo GetTooltipInfo()
-    {
-        return default(TooltipInfo);
-    }
     public virtual void InteractHover(bool isIn)
     {
         float val = 1f;

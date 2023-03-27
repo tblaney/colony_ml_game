@@ -38,6 +38,7 @@ public class HabBot : ITarget
     public Vector3 _position;
     // events
     public event EventHandler<StateChangeEventArgs> OnStateChange;
+    public event EventHandler<StateChangeEventArgs> OnStateAccessChange;
     public event EventHandler OnDeath;
     public class StateChangeEventArgs : EventArgs
     {
@@ -97,6 +98,13 @@ public class HabBot : ITarget
         _state = state;
         StateChangeEventArgs eventArgs = new StateChangeEventArgs() {_bot = this};
         OnStateChange?.Invoke(null, eventArgs);
+        Action OnDelayFunc = () =>
+        {
+            _stateCooldown = false;
+            OnStateAccessChange?.Invoke(null, eventArgs);
+        };
+        ActionHandler.Instance.ActionOnDelayUnscaled(5f, OnDelayFunc);
+        _stateCooldown = true;
     }
     public void StateFailure()
     {
