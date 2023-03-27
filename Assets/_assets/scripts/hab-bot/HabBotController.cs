@@ -50,6 +50,7 @@ public class HabBotController : MonoBehaviour
 
         RestCheck();
         _animator.SetFloat("Speed", _nav.GetVelocity().magnitude);
+        _bot._position = transform.position;
     }
     public void SetState(HabBot.State state)
     {

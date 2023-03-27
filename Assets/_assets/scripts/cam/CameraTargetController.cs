@@ -11,12 +11,13 @@ public class CameraTargetController : MonoBehaviour
     }
     public State state;
     public float movementSpeed = 12f;
-    Transform target;
+    ITarget target;
 
 
     void Update()
     {
         Vector3 targetPosition = transform.position;
+        float sprintFactor = 1f;
         switch (state)
         {
             case State.Manual:
@@ -27,16 +28,16 @@ public class CameraTargetController : MonoBehaviour
                 targetPosition = transform.position + moveDirection;
                 break;
             case State.Follow:
-                targetPosition = target.position;
+                targetPosition = target.GetPosition();
+                sprintFactor = 1.8f;
                 break;
         }
-        float sprintFactor = 1f;
         if (Input.GetKey(KeyCode.LeftShift))
             sprintFactor = 1.8f;
 
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.unscaledDeltaTime*movementSpeed*sprintFactor);
     }
-    public void SetTarget(Transform followTarget)
+    public void SetTarget(ITarget followTarget)
     {
         target = followTarget;
         state = State.Follow;

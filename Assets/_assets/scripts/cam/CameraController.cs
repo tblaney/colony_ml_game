@@ -6,8 +6,10 @@ using System;
 public class CameraController : MonoBehaviour
 {
     public float[] zoomRange = new float[] {16f, 26f};
+    [SerializeField] private CameraTargetController _targetController;
     Camera cam;
     CameraCaster _caster;
+    bool _zoomLocked = false;
 
     void Awake()
     {
@@ -23,6 +25,9 @@ public class CameraController : MonoBehaviour
     }
     void Zoom()
     {
+        if (_zoomLocked)
+            return;
+        
         if (UIHandler.Instance.IsMouseOverUI())
             return;
         
@@ -44,5 +49,19 @@ public class CameraController : MonoBehaviour
     public Vector3 GetMouseTerrainPosition()
     {
         return _caster.GetMouseTerrainPosition();
+    }
+    public void SetTargetFollow(ITarget target)
+    {
+        _targetController.SetTarget(target);
+    }
+    public void SetManualControl()
+    {
+        _targetController.SetManual();
+        _zoomLocked = false;
+    }
+    public void SetFOV(float val)
+    {
+        _zoomLocked = true;
+        cam.fieldOfView = val;
     }
 }

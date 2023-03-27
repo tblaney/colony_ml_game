@@ -16,7 +16,7 @@ public class Habitation
         _bots = new List<HabBot>();
         _zones = new List<HabitationZone>();
         _zones.Add(new HabitationZone(){_type = HabitationZone.Type.Rest, _bounds = restBounds});
-        for (int i = 0; i < HabitationProcessor._parameters._botAmountStart; i++)
+        for (int i = 0; i < HabitationHandler._parameters._botAmountStart; i++)
         {
             HabBot bot = new HabBot();
             bot.InitializeRandom(i);
@@ -48,6 +48,21 @@ public class Habitation
                 return zone;
         }
         return null;
+    }
+    public HabBot GetClosestBot(Vector3 position)
+    {
+        float distanceMin = 1000f;
+        HabBot botOut = null;
+        foreach (HabBot bot in _bots)
+        {
+            float distance = Vector3.Distance(bot.GetPosition(), position);
+            if (distance < distanceMin)
+            {
+                distanceMin = distance;
+                botOut = bot;
+            }
+        }
+        return botOut;
     }
     public List<Item> GetAllItems()
     {

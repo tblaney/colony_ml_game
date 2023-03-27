@@ -23,6 +23,9 @@ public class UIHabBot : UIObject
     public TMP_InputField _inputFieldName;
     public UICustomScrollbar _scrollbar;
 
+    // static:
+    public static HabBot _activeHabBotFollow;
+
     // cache:
     HabBot _bot;
     bool _stateOptionsActive;
@@ -70,11 +73,15 @@ public class UIHabBot : UIObject
         ActivateStateOptions(false);
         if (active)
         {
+            _activeHabBotFollow = this._bot;
+            UserHandler.Instance.SetUserState(UserController.State.Following);
             _buttonMain.GetController().ActivateBehaviour(1, true);
             _controllerInfo.ActivateBehaviour(2, true);
             _controllerInfo.ActivateBehaviour(1, true);
         } else
         {
+            _activeHabBotFollow = null;
+            UserHandler.Instance.SetUserState(UserController.State.Viewing);
             _buttonMain.GetController().ActivateBehaviour(1, false);
             _controllerInfo.ActivateBehaviour(1, false);
         }

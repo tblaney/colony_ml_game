@@ -14,7 +14,7 @@ public class HabBotStateRoam : HabBotState
     }
     void RoamCallback()
     {
-        if (Utils.Tools.IsHit(0.5f))
+        if (Utils.Tools.IsHit(0.1f))
         {
             // stop for period of time
             _nav.Stop();

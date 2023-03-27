@@ -3117,9 +3117,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9c197433e965604eb4a1657475a296a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _habitationProcessor: {fileID: 1825619311}
   _nodeProcessor: {fileID: 584655609}
+  _botProcessor: {fileID: 1825619312}
   _queues: []
+  _parametersIn:
+    _botAmountStart: 3
+    _resourceRefreshTime: 5
+  _restBoundsDefault: {fileID: 117659794}
+  _habitation:
+    _bots: []
+    _zones: []
+    _itemInventories: 
 --- !u!1 &723799509
 GameObject:
   m_ObjectHideFlags: 0
@@ -3618,6 +3626,7 @@ GameObject:
   - component: {fileID: 959263561}
   - component: {fileID: 959263560}
   - component: {fileID: 959263564}
+  - component: {fileID: 959263565}
   m_Layer: 0
   m_Name: User Camera
   m_TagString: MainCamera
@@ -3706,6 +3715,7 @@ MonoBehaviour:
   zoomRange:
   - 10
   - 30
+  _targetController: {fileID: 653021493}
 --- !u!114 &959263560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3795,6 +3805,20 @@ MonoBehaviour:
     _itemRequirements: []
     _itemOutputs: []
   _chain: 0
+--- !u!114 &959263565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959263555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34d9aea02eac71f49814ee89a2fa4567, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _state: 1
+  _active: 0
 --- !u!1 &973286260
 GameObject:
   m_ObjectHideFlags: 0
@@ -7072,7 +7096,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1825619310}
-  - component: {fileID: 1825619311}
   - component: {fileID: 1825619312}
   m_Layer: 0
   m_Name: Habitation
@@ -7097,27 +7120,6 @@ Transform:
   m_Father: {fileID: 1285022326}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1825619311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1825619309}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e87f0fa708f4fd0419d424b2890020b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _botProcessor: {fileID: 1825619312}
-  _parametersIn:
-    _botAmountStart: 3
-    _resourceRefreshTime: 5
-  _restBoundsDefault: {fileID: 117659794}
-  _habitation:
-    _bots: []
-    _zones: []
-    _itemInventories: 
 --- !u!114 &1825619312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7133,6 +7135,8 @@ MonoBehaviour:
   _prefabs:
   - _state: 0
     _prefab: {fileID: 4429560816973708524, guid: 2d4b6b0ad5ca7cb4cb96dcbbf6d38ac1, type: 3}
+  - _state: 2
+    _prefab: {fileID: 4429560816973708524, guid: 30b1ea56b99d3a548a714d412dacb90f, type: 3}
   _colorOptions: []
   _stateSprites: []
 --- !u!1 &1844538283

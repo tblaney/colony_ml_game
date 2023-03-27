@@ -15,6 +15,7 @@ public class TimeHandler : MonoBehaviour, IHandler
     {
         Instance = this;
         _timeWorld = new TimeWorld(){};
+        _timeWorld._dayMinutes = 6;
         _timeWorld.Initialize();
     }
 
@@ -89,7 +90,7 @@ public class TimeWorld
     }
     void UpdateDate()
     {
-        var ts = TimeSpan.FromSeconds(_dayTime*60*60);
+        var ts = TimeSpan.FromSeconds(_dayTime*60f*60f);
         string t = string.Format("{0:00}:{1:00}", ts.Hours, ts.Minutes);
         _date = t;
     }

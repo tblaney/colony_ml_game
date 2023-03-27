@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public class HabBot 
+public class HabBot : ITarget
 {
     public string _name;
     public int _index;
@@ -35,7 +35,7 @@ public class HabBot
     public int _inventoryIndex;
     public bool _stateLock;
     public bool _stateCooldown;
-
+    public Vector3 _position;
     // events
     public event EventHandler<StateChangeEventArgs> OnStateChange;
     public event EventHandler OnDeath;
@@ -171,6 +171,20 @@ public class HabBot
                 return vitality;
         }
         return null;
+    }
+    public Vector3 GetPosition()
+    {
+        return _position;
+    }
+    public bool Damage(int val)
+    {
+        Vitality vitality = GetVitality("health");
+        vitality.Damage(val);
+        if (vitality._val <= 0)
+        {
+            return false;
+        }
+        return true;
     }
 }
 [Serializable]
