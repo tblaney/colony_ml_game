@@ -31,7 +31,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _BlurSize: 0.0086
-    - _ColorThreshold: 0.117
+    - _ColorThreshold: 0.026
     - _MapThreshold: 0.009
     - _StandardDeviation: 0.0162
     m_Colors:

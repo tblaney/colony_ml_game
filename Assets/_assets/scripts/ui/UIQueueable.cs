@@ -24,8 +24,10 @@ public class UIQueueable : UIObject
         foreach (Queueable queueable in _queue._queueables)
         {
             UIButton button = Instantiate(_buttonQueueable, _buttonQueueable.transform.parent);
+            button.Activate(true);
             UIController controller = button.GetComponent<UIController>();
             button.OnPointerClickFunc = () => {ButtonClickCallback(queueable);};
+            
             switch (queueable._queueableType)
             {
                 case Queueable.Type.Node:

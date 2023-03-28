@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &3902535484950304682
 Transform:
@@ -101,7 +101,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &2271551344897365609
 Transform:
@@ -145,18 +145,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _node:
+    _queueableType: 0
+    _queued: 0
+    _name: 
     _prefab: 0
+    _inventoryIndex: 0
     _position: {x: 0, y: 0, z: 0}
     _active: 0
+    _surface: 0
+    _busy: 0
     _timer: 0
     _refreshRate: 0
-    _inventoryIndex: 0
-    _surface: 0
-    _type: 0
+    _propogationFactor: 0
+    _health:
+      _name: 
+      _val: 0
+    _nodeType: 0
   _health: 0
   _interactionTime: 30
   _itemInput:
     _name: 
+    _index: 0
     _amount: 0
 --- !u!114 &2677118573482455656
 MonoBehaviour:

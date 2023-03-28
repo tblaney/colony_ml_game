@@ -271,7 +271,7 @@ public class NodeSubProcessor : MonoBehaviour
         {
             SpawnNode(node);
             i++;
-            if (i % 15 == 0)
+            if (i % 45 == 0)
                 yield return null;
         }
         _loading = false;

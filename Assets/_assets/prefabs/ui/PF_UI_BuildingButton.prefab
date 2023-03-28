@@ -254,6 +254,8 @@ GameObject:
   - component: {fileID: 6939740812968543006}
   - component: {fileID: 327382334343048958}
   - component: {fileID: 7229709059789595853}
+  - component: {fileID: 7435559131521869121}
+  - component: {fileID: 5374093914104113529}
   m_Layer: 0
   m_Name: PF_UI_BuildingButton
   m_TagString: Untagged
@@ -335,7 +337,17 @@ MonoBehaviour:
     _object: {fileID: 8925103717384198713}
     _inverse: 0
     _destroy: 0
-  _behavioursFader: []
+  _behavioursFader:
+  - _name: hover
+    _index: 1
+    _runIndex: 
+    _stopIndex: 
+    _reset: 0
+    _fader: {fileID: 7435559131521869121}
+    _opacityOn: 1
+    _opacityOff: 0.65
+    _transitionTime: 0
+    _looping: 0
   _behavioursMisc: []
   _debug: 0
 --- !u!114 &6939740812968543006
@@ -398,6 +410,31 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7435559131521869121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6939740812968543075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2e8009d17e8ffb46a5124f909660cd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvas: {fileID: 5374093914104113529}
+--- !u!225 &5374093914104113529
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6939740812968543075}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6939740813144310107
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,7 +925,12 @@ MonoBehaviour:
   _scrollbar: {fileID: 2898037533999752795}
   _rectContents: {fileID: 822672123080535655}
   _mask: {fileID: 7366500315780896793}
-  _hoverObject: {fileID: 8925103717384198713}
+  _hoverObjects:
+  - {fileID: 3710423985176148886}
+  - {fileID: 9060256161612656416}
+  - {fileID: 5160469011989631208}
+  - {fileID: 6939740812854675442}
+  - {fileID: 8925103717384198713}
   _type: 0
 --- !u!1 &8445220296344749830
 GameObject:

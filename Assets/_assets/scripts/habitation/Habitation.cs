@@ -29,6 +29,13 @@ public class Habitation
             bot.Initialize();
         }
     }
+    public void UpdateHabitation()
+    {
+        foreach (HabBot bot in _bots)
+        {
+            bot.UpdateBot();
+        }
+    }
     public HabBot GetClosestBot(Vector3 position)
     {
         float distanceMin = 1000f;
@@ -60,7 +67,7 @@ public class Habitation
             {
                 if (item._amount == 0)
                     continue;
-                inventoryTemp.AddItem(item._name, item._amount);
+                inventoryTemp.AddItem(item._index, item._amount);
             }
         }
         return inventoryTemp._items;
@@ -80,7 +87,9 @@ public class Habitation
     }
     public void AddInventory(int index)
     {
-        _itemInventories.Add(index);
+        Debug.Log("Habitation Add Inventory: " + index);
+        if (!_itemInventories.Contains(index))
+            _itemInventories.Add(index);
     }
     public void RemoveInventory(int index)
     {

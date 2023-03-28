@@ -20,7 +20,7 @@ public class ItemHandler : MonoBehaviour, IHandler
         ItemInventory inventory = new ItemInventory(GetOpenIndex(), 100);
         foreach (Item item in _items)
         {
-            inventory._items.Add(item);
+            inventory._items.Add(item.DuplicateItem());
         }
         return inventory;
     }
@@ -108,6 +108,16 @@ public class Item : Queueable
     {
         return new ItemInput(){_name = this._name, _amount = this._amount, _index = this._index};
     }
+    public Item DuplicateItem()
+    {
+        return new Item() 
+        {
+            _name = this._name,
+            _index = this._index,
+            _amount = this._amount,
+            _options = this._options,
+        };
+    }
 }
 
 [Serializable]
@@ -146,6 +156,18 @@ public class ItemInventory
             return;
         
         Item itemTemp = GetItem(name);
+        if (itemTemp != null)
+        {
+            itemTemp.Add(amount);
+        } 
+    }
+    public void AddItem(int index, int amount)
+    {
+        Debug.Log("Item Inventory Add Item: " + index + ", " + amount);
+        if (GetItemAmount() + amount > _itemCapacity)
+            return;
+        
+        Item itemTemp = GetItem(index);
         if (itemTemp != null)
         {
             itemTemp.Add(amount);

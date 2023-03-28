@@ -10,7 +10,7 @@ public class UICustomScrollbar : MonoBehaviour
     [SerializeField] private Scrollbar _scrollbar;
     [SerializeField] private RectTransform _rectContents; 
     [SerializeField] private RectTransform _mask;
-    [SerializeField] private GameObject _hoverObject;
+    [SerializeField] private List<GameObject> _hoverObjects;
     public enum Type
     {
         Vertical,
@@ -25,21 +25,35 @@ public class UICustomScrollbar : MonoBehaviour
     private bool _canScroll;
     private List<RectTransform> _slotList;
     private Vector2 _slotSize;
-
+    bool _active;
     //-----------------------------------------------------
 
     void Awake()
     {
         Initialize();
-        if (_hoverObject == null)
-            _hoverObject = this.gameObject;
+        if (_hoverObjects == null)
+        {
+            _hoverObjects = new List<GameObject>() {this.gameObject};
+        }
     }
     void Update()
     {
+        RectCheck();
+        if (!_active)
+            return;
         if (_canScroll)
         {
             List<GameObject> objs = UIHandler.Instance.GetGameObjectsUnderMouse();
-            if (!objs.Contains(_hoverObject))
+            bool contains = false;
+            foreach (GameObject obj in objs)
+            {
+                if (_hoverObjects.Contains(obj))
+                {
+                    contains = true;
+                    break;
+                }
+            }
+            if (!contains)
                 return;
             
             float scroll = Input.GetAxis("Mouse ScrollWheel");
@@ -53,6 +67,18 @@ public class UICustomScrollbar : MonoBehaviour
             }
         }
     }
+    void RectCheck()
+    {
+        if (_rectContents.sizeDelta.y <= _mask.sizeDelta.y)
+        {
+            if (_active)
+                _active = false;
+        } else
+        {
+            if (!_active)
+                _active = true;
+        }
+    }
     void OnDisable()
     {
         Debug.Log("Custom Scrollbar Disabled: " + this.gameObject);
@@ -64,6 +90,7 @@ public class UICustomScrollbar : MonoBehaviour
         _maskSize = _mask.sizeDelta;
         _slotList = new List<RectTransform>();
         _scrollbar.onValueChanged.AddListener((float val) => ScrollbarCallback(val));
+        _active = true;
         Refresh();
     }
     public void Refresh()
@@ -95,7 +122,6 @@ public class UICustomScrollbar : MonoBehaviour
         Refresh();
         return newSlot;
     }
-
     public void ClearSlots()
     {
         foreach (RectTransform rect in _slotList)

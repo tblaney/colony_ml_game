@@ -55,6 +55,11 @@ public class HabitationHandler : MonoBehaviour, IHandler
         UIHandler.Instance.InitializeHabitation(_habitation);
         SpawnHabitation();
     }
+    void Update()
+    {
+        if (_habitation != null)
+            _habitation.UpdateHabitation();
+    }
     public void SpawnHabitation()
     {
         _botProcessor.Setup(_habitation, _nodeProcessor);
@@ -154,9 +159,9 @@ public class HabitationHandler : MonoBehaviour, IHandler
         }
         return false;
     }
-    public NodeObject GetClosestNodeObjectOfType(Node.Type type, Vector3 position)
+    public NodeObject GetClosestNodeObjectOfType(Node.Type type, Vector3 position, int prefabIndex = 0)
     {
-        return _nodeProcessor.GetClosestNodeObject(type, position);
+        return _nodeProcessor.GetClosestNodeObject(type, position, prefabIndex);
     }
     public NodeObject GetNodeObject(Node node)
     {

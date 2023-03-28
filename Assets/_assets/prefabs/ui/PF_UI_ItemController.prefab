@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 65.4, y: 0}
-  m_SizeDelta: {x: 140.0039, y: 50}
+  m_AnchoredPosition: {x: 73.8487, y: 0}
+  m_SizeDelta: {x: 123.1065, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6939740812588421487
 CanvasRenderer:
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 826958fd407ab0c469590b2c27159f83, type: 2}
   m_sharedMaterial: {fileID: -1810523484473999905, guid: 826958fd407ab0c469590b2c27159f83, type: 2}
@@ -302,6 +302,8 @@ GameObject:
   - component: {fileID: 6939740812968543006}
   - component: {fileID: 8654525272803895819}
   - component: {fileID: 7088602660596083985}
+  - component: {fileID: 8777008050756231930}
+  - component: {fileID: 7877678420045745188}
   m_Layer: 0
   m_Name: PF_UI_ItemController
   m_TagString: Untagged
@@ -380,7 +382,7 @@ MonoBehaviour:
     _runIndex: 
     _stopIndex: 
     _reset: 0
-    _text: {fileID: 6939740812588421486}
+    _text: {fileID: 6939740813489977787}
     color_in: {r: 0, g: 0, b: 0, a: 1}
     color_out: {r: 0, g: 0, b: 0, a: 1}
     _rectBackground: {fileID: 0}
@@ -393,7 +395,17 @@ MonoBehaviour:
     _object: {fileID: 6939740812600096049}
     _inverse: 0
     _destroy: 0
-  _behavioursFader: []
+  _behavioursFader:
+  - _name: hover
+    _index: 1
+    _runIndex: 
+    _stopIndex: 
+    _reset: 0
+    _fader: {fileID: 8777008050756231930}
+    _opacityOn: 1
+    _opacityOff: 0.65
+    _transitionTime: 0
+    _looping: 0
   _behavioursMisc: []
   _debug: 0
 --- !u!114 &6939740812968543006
@@ -456,6 +468,31 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8777008050756231930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6939740812968543075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2e8009d17e8ffb46a5124f909660cd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvas: {fileID: 7877678420045745188}
+--- !u!225 &7877678420045745188
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6939740812968543075}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6939740813144310107
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,8 +528,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -66.3, y: 0}
-  m_SizeDelta: {x: 140.0039, y: 50}
+  m_AnchoredPosition: {x: -51.43029, y: 0}
+  m_SizeDelta: {x: 169.7433, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6939740813144310102
 CanvasRenderer:
@@ -552,9 +589,9 @@ MonoBehaviour:
   m_fontSize: 24
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 24
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512

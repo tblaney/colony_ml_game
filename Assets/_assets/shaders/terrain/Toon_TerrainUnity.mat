@@ -55,17 +55,17 @@ Material:
     - _SnowAmount: 0
     - _SpecSmooth: 0.1
     - _TextureInfluence: 1
-    - _ToonSteps: 3.34
+    - _ToonSteps: 3
     - _TopSpread: 0.51
     - _TopThreshold: 1.42
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.5995194, g: 0.8313876, b: 0.9716981, a: 1}
     - _GridColorSpecial: {r: 0, g: 0, b: 0, a: 1}
     - _GridColorX: {r: 0, g: 0, b: 0, a: 1}
     - _GridColorY: {r: 0, g: 0, b: 0, a: 1}
     - _HColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor2: {r: 0, g: 0, b: 0, a: 1}
-    - _SColor: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
+    - _SColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
   m_BuildTextureStacks: []

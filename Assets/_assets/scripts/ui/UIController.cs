@@ -30,6 +30,8 @@ public class UIController : MonoBehaviour
     }
     public void FormList()
     {
+        if (_behaviours != null)
+            return;
         _behaviours = new List<UIBehaviour>();
         _behaviours.AddRange(_behavioursObject);
         _behaviours.AddRange(_behavioursImage);
@@ -176,6 +178,16 @@ public class UIController : MonoBehaviour
             {
                 rect.SetAction(OnBehaviourFunc);
             }
+        }
+    }
+    public void ResetBehaviour(int index)
+    {
+        if (_behaviours == null)
+            FormList();
+        foreach (UIBehaviour behaviour in _behaviours)
+        {
+            if (behaviour._index == index)
+                behaviour.Reset();
         }
     }
 
@@ -679,7 +691,8 @@ public class UIBehaviourText : UIBehaviour
             //Debug.Log("Set Text Refresh Box Size");
             _text.ForceMeshUpdate(true, true);
             //Vector2 preferredValues = new Vector2(_text.GetRenderedWidth(), _text.GetRenderedHeight());
-            Vector2 preferredValues = _text.GetPreferredValues();
+            //Vector2 preferredValues = _text.GetPreferredValues();
+            Vector2 preferredValues = _text.GetRenderedValues()*1.2f;
             //Vector2 preferredValues = _text.bounds.size;
             Debug.Log("Set Text Refresh Box Size: " + preferredValues + ", " + _text.bounds);
             Vector2 newSize = new Vector2(preferredValues.x, preferredValues.y);
@@ -919,6 +932,6 @@ public class UIBehaviourFader: UIBehaviour
 
     public override void Reset()
     {
-        Stop();
+        _fader.SetOpacity(_opacityOff);
     }
 }

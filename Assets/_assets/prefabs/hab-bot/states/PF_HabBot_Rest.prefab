@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4498627444891019416, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4498627445462052563, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
       propertyPath: _state
@@ -17,7 +17,7 @@ PrefabInstance:
       objectReference: {fileID: 6973947295138604926}
     - target: {fileID: 4498627445462052565, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
       propertyPath: m_Name
-      value: PF_HabBot_Path
+      value: PF_HabBot_Rest
       objectReference: {fileID: 0}
     - target: {fileID: 4498627445462052574, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
       propertyPath: m_RootOrder
@@ -79,7 +79,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4429560816973708524}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 956942a6bca788b42967ab0294a7677c, type: 3}
+  m_Script: {fileID: 11500000, guid: b66850ec4fe4529428108cf3d92de580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _state: 12
+  _state: 1

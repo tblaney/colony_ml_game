@@ -135,11 +135,12 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
-    void ResetBehaviours()
+    public void ResetBehaviours()
     {
         foreach (UIButtonBehaviour behaviour in _behaviours)
         {
-            _controller.GetBehaviour(behaviour._controllerIndex).Reset();
+            _controller.ResetBehaviour(behaviour._controllerIndex);
+            Debug.Log("UI Button Reset Behaviour; " + this.gameObject.name);
         }
     }
 

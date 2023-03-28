@@ -35,6 +35,7 @@ public class HabBot : ITarget
     public bool _stateLock;
     public bool _stateCooldown;
     public Vector3 _position;
+    public Vector3 _velocity;
     // events
     public event EventHandler<StateChangeEventArgs> OnStateChange;
     public event EventHandler<StateChangeEventArgs> OnStateAccessChange;
@@ -82,11 +83,29 @@ public class HabBot : ITarget
     public void Initialize()
     {
         if (_inventoryIndex == 0)
+        {
             _inventoryIndex = ItemHandler.Instance.NewInventory();
+            ItemInventory inventory = ItemHandler.Instance.GetItemInventory(_inventoryIndex);
+            inventory.AddItem(2, 1);
+            inventory.AddItem(3, 1);
+            inventory.AddItem(4, 1);
+            inventory.AddItem(5, 1);
+            inventory.AddItem(6, 1);
+        }
 
-        HabitationHandler.Instance.AddInventory(_inventoryIndex);
+        //HabitationHandler.Instance.AddInventory(_inventoryIndex);
         _stateCooldown = false;
         _stateLock = false;
+    }
+    public void UpdateBot()
+    {
+        VitalityUpdate();
+    }
+    void VitalityUpdate()
+    {
+        Vitality energy = GetVitality("energy");
+        Vitality hunger = GetVitality("hunger");
+        energy.Damage(1);
     }
     public void DetermineDefaultState()
     {
@@ -327,6 +346,7 @@ public class Vitality
 {
     public string _name;
     public int _val;
+    public float _periodicDecreaseRate;
     public event EventHandler OnValueChange;
 
     public void Damage(int val)

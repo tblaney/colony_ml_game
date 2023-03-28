@@ -914,7 +914,11 @@ MonoBehaviour:
   _scrollbar: {fileID: 3761073140314397540}
   _rectContents: {fileID: 1360098744118858471}
   _mask: {fileID: 4033509767900806306}
-  _hoverObject: {fileID: 7013376287520226713}
+  _hoverObjects:
+  - {fileID: 7013376287520226713}
+  - {fileID: 6229115676566670053}
+  - {fileID: 1767900021040477093}
+  - {fileID: 589318734607342242}
   _type: 0
 --- !u!114 &6377931303618639710
 MonoBehaviour:
@@ -6460,7 +6464,7 @@ MonoBehaviour:
   _scrollbar: {fileID: 1639276125391842685}
   _rectContents: {fileID: 1639276125311128760}
   _mask: {fileID: 1639276125320368355}
-  _hoverObject: {fileID: 1639276125212745669}
+  _hoverObjects: []
   _type: 1
 --- !u!1 &1639276125422754367
 GameObject:
@@ -7664,8 +7668,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -34.640503, y: -0.000030517578}
-  m_SizeDelta: {x: 38.7097, y: 16.214}
+  m_AnchoredPosition: {x: -15.255, y: -0.000030517578}
+  m_SizeDelta: {x: 77.48, y: 16.214}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1639464323025612035
 CanvasRenderer:
@@ -7722,12 +7726,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
+  m_fontSize: 9.75
   m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 12
-  m_fontSizeMax: 16
+  m_fontSizeMin: 8
+  m_fontSizeMax: 14
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
@@ -8324,7 +8328,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -0.00078964, y: -0.000015258789}
-  m_SizeDelta: {x: 131.58, y: 542.8267}
+  m_SizeDelta: {x: 131.58, y: 176.5817}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1389031049209779472
 MonoBehaviour:
@@ -9050,7 +9054,8 @@ MonoBehaviour:
   _scrollbar: {fileID: 165366814200905250}
   _rectContents: {fileID: 1153447975550407456}
   _mask: {fileID: 2163249452735188391}
-  _hoverObject: {fileID: 690739246950848442}
+  _hoverObjects:
+  - {fileID: 690739246950848442}
   _type: 0
 --- !u!1 &3523230931351660112
 GameObject:
@@ -10304,7 +10309,8 @@ MonoBehaviour:
   _scrollbar: {fileID: 3015531251637014291}
   _rectContents: {fileID: 9078058254688878111}
   _mask: {fileID: 4768307074191009113}
-  _hoverObject: {fileID: 5709122329997190151}
+  _hoverObjects:
+  - {fileID: 5709122329997190151}
   _type: 0
 --- !u!1 &6007749136993178587
 GameObject:

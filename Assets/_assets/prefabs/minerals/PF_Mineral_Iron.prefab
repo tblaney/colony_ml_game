@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1091083360465268425, guid: 256f5b81b65d74a4f8057e490e566a31, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 2271551344897365609, guid: 256f5b81b65d74a4f8057e490e566a31, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -66,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 7567328675204524891, guid: 256f5b81b65d74a4f8057e490e566a31, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: e45ab93ac2f69f242bce6609f31df7e0, type: 2}
+      objectReference: {fileID: 2100000, guid: 67298b6039cf22e4d8a07200f00179cb, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 256f5b81b65d74a4f8057e490e566a31, type: 3}
 --- !u!1 &2544828270995048969 stripped
@@ -114,4 +118,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6362fb3a7c2cd74d8fa25509d276900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _controller: {fileID: 331627514038070023}
+  _controllers: []

@@ -19,7 +19,7 @@ public class UIHabBotAddons : UIObject
     public void Setup(HabBot bot)
     {
         _bot = bot;
-        RefreshAddonOptions();
+        //RefreshAddonOptions();
         _buttonAdd.ActivateController(2, false);
     }
     public void RefreshAddonOptions()
@@ -32,6 +32,7 @@ public class UIHabBotAddons : UIObject
             if (item != null && item._amount > 0)
             {
                 HabBotAddon.Type addonType = (HabBotAddon.Type)(j - 2);
+                Debug.Log("Refresh Addon Options: " + addonType);
                 if (_bot.ContainsAddon(addonType))
                     continue;
                 
@@ -52,10 +53,14 @@ public class UIHabBotAddons : UIObject
                     continue;
                 Destroy(child.gameObject);
             }
+            Vector2 rect = _buttonAddOption.GetComponent<RectTransform>().sizeDelta;
+            int i = 0;
             foreach (Item item in itemsToAdd)
             {
                 UIButton button = Instantiate(_buttonAddOption, _buttonAddOption.transform.parent);
+                button.Activate(true);
                 UIController controller = button.GetComponent<UIController>();
+                controller.FormList();
                 HabBotAddon.Type addonType = (HabBotAddon.Type)(item._index - 2);
                 controller.SetText(addonType.ToString(), "name");
                 button.OnPointerClickFunc = () =>
@@ -67,7 +72,9 @@ public class UIHabBotAddons : UIObject
                     _buttonAdd.OnPointerClickFunc();
                     RefreshAddonOptions();
                 };
+                i++;
             }
+            _buttonAddOption.transform.parent.GetComponent<RectTransform>().sizeDelta = new Vector2(rect.x, rect.y*i);
             _buttonAdd.OnPointerClickFunc = () =>
             {
                 // show tooltip

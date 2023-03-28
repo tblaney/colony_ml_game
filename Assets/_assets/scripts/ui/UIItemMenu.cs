@@ -43,6 +43,7 @@ public class UIItemMenu : UIObject
             GameObject prefab = PrefabHandler.Instance.GetPrefab(_prefabNameItem);
             GameObject obj = Instantiate(prefab, _controllerContainer.transform);
             UIController controller = obj.GetComponent<UIController>();
+            controller.FormList();
             controller.SetText(item._name, "name");
             controller.SetText(item._options._description, "description");
             controller.SetText(item._amount.ToString(), "amount");

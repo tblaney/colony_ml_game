@@ -239,6 +239,8 @@ public class UIHabBot : UIObject
         ClearInventoryAddons();
         List<Item> items = ItemHandler.Instance.GetItemInventory(_bot._inventoryIndex)._items;
         List<HabBotAddon> addons = _bot._addons;
+        int y = 0;
+        Vector2 size = _controllerInventoryItem.GetComponent<RectTransform>().sizeDelta;
         foreach (Item item in items)
         {
             if (item._amount <= 0)
@@ -250,7 +252,11 @@ public class UIHabBot : UIObject
             controllerItem.SetText(item._name, "name");
             controllerItem.SetText(item._amount.ToString(), "amount");
             _controllersItems.Add(controllerItem);
+            y++;
         }
+        _controllerInventoryItem.transform.parent.GetComponent<RectTransform>().sizeDelta = new Vector2(size.x, size.y*y);
+        y = 0;
+        size = _controllerAddonItem.GetComponent<RectTransform>().sizeDelta;
         foreach (HabBotAddon addon in addons)
         {
             UIController controllerAddon = Instantiate(_controllerAddonItem, _controllerAddonItem.transform.parent);
@@ -258,7 +264,9 @@ public class UIHabBot : UIObject
             controllerAddon.FormList();
             controllerAddon.SetText(addon._type.ToString(), "name");
             _controllersItems.Add(controllerAddon);
+            y++;
         }
+        _controllerAddonItem.transform.parent.GetComponent<RectTransform>().sizeDelta = new Vector2(size.x, size.y*y + 26f);
         _uiAddons.RefreshAddonOptions();
     }
     public HabBot GetBot()
