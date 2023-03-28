@@ -676,10 +676,12 @@ public class UIBehaviourText : UIBehaviour
 
         if (_rectBackground != null)
         {
-            Debug.Log("Set Text Refresh Box Size");
-            _text.ForceMeshUpdate(true);
+            //Debug.Log("Set Text Refresh Box Size");
+            _text.ForceMeshUpdate(true, true);
+            //Vector2 preferredValues = new Vector2(_text.GetRenderedWidth(), _text.GetRenderedHeight());
             Vector2 preferredValues = _text.GetPreferredValues();
-            //Vector2 newSize = new Vector2(preferredValues.x*1.1f, preferredValues.y*1.4f);
+            //Vector2 preferredValues = _text.bounds.size;
+            Debug.Log("Set Text Refresh Box Size: " + preferredValues + ", " + _text.bounds);
             Vector2 newSize = new Vector2(preferredValues.x, preferredValues.y);
             _rectBackground.sizeDelta = newSize;
         }

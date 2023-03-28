@@ -214,7 +214,7 @@ public class NodeProcessor : MonoBehaviour
         }
         foreach (Node node in nodesAll)
         {
-            _nodeStatus._dicAmount[node._type]++;
+            _nodeStatus._dicAmount[node._nodeType]++;
         }
         foreach (Node.Type type in _nodeStatus._dicAmount.Keys)
         {
@@ -356,6 +356,15 @@ public class NodeProcessor : MonoBehaviour
         }
         return null;
     }
+    public NodeObject GetNodeObject(Node node)
+    {
+        NodeSubProcessor processor = GetSubProcessor(node._position);
+        if (processor != null)
+        {
+            return processor.GetNodeObject(node);
+        }
+        return null;
+    }
     public List<NodeSubProcessor> GetOrdereredSubProcessors(Vector3 position)
     {
         List<NodeSubProcessor> processorsSorted = new List<NodeSubProcessor>();
@@ -388,6 +397,15 @@ public class NodeProcessor : MonoBehaviour
             }   
         }
         return processorsSorted;
+    }
+    public List<Node> GetNodesByType(Node.Type type)
+    {
+        List<Node> nodes = new List<Node>();
+        foreach (NodeSubProcessor processor in _processors)
+        {
+            nodes.AddRange(processor.GetNodes(type));
+        }
+        return nodes;
     }
 }
 

@@ -6,6 +6,7 @@ using System;
 public class UIVitality : UIObject
 {
     Vitality _vitality;
+    bool _subscribed = false;
     public override void Initialize()
     {
 
@@ -13,11 +14,27 @@ public class UIVitality : UIObject
     public void Setup(Vitality vitality)
     {
         _vitality = vitality;
+        Subscribe();
+    }
+    void Subscribe()
+    {
+        if (_subscribed)
+            return;
+        if (_vitality == null)
+            return;
         _vitality.OnValueChange += VitalityRefresh;
+        _subscribed = true;
+    }
+    void OnEnable()
+    {
+        Subscribe();
     }
     void OnDisable()
     {
+        if (_vitality == null)
+            return;
         _vitality.OnValueChange -= VitalityRefresh;
+        _subscribed = false;
     }
     void VitalityRefresh(object sender, EventArgs e)
     {

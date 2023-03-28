@@ -167,6 +167,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _node:
+    _type: 0
+    _queued: 0
+    _name: 
     _prefab: 9
     _inventoryIndex: 0
     _position: {x: 0, y: 0, z: 0}
@@ -176,6 +179,9 @@ MonoBehaviour:
     _timer: 0
     _refreshRate: 0
     _propogationFactor: 0
+    _health:
+      _name: 
+      _val: 0
     _type: 0
   _health: 100
   _interactionTime: 30

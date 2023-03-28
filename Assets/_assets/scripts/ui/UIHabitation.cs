@@ -6,11 +6,14 @@ public class UIHabitation : UIObject
 {
     [Header("Inputs:")]
     [SerializeField] private string _buttonDefaultPrefabName;
-    [SerializeField] private UIItemInventory _uiItemInventory;
+    [SerializeField] private UIItemMenu _uiItemMenu;
+    [SerializeField] private UIBuildingMenu _uiBuildingMenu;
+    [SerializeField] private UIHabitationQueue _uiQueue;
     [Header("Debug:")]
     [SerializeField] private List<UIHabBot> _uiBots;
     Habitation _habitation;
     UIHabBot _uiBotCurrent;
+    [SerializeField] UINode _uiNode;
 
     public override void Initialize()
     {
@@ -19,7 +22,7 @@ public class UIHabitation : UIObject
     public void Setup(Habitation habitation)
     {
         _habitation = habitation;
-        _uiItemInventory.Setup(habitation);
+        _uiItemMenu.Setup(habitation);
         RefreshBots();
     }
     void RefreshBots()
@@ -55,6 +58,7 @@ public class UIHabitation : UIObject
     }
     void BotClickFunc(UIHabBot uiHabBot)
     {
+        _uiNode.ActivateUI(false);
         if (_uiBotCurrent != null)
         {
             if (_uiBotCurrent == uiHabBot)
@@ -90,13 +94,21 @@ public class UIHabitation : UIObject
             i++;
         }
     }
-    public void ActivateButton(HabBot bot)
+    public void ActivateBot(HabBot bot)
     {
         UIHabBot uiBot = GetUIHabBot(bot);
         if (uiBot != null)
         {
             BotClickFunc(uiBot);
         }
+    }
+    public void ActivateNode(Node node, Building building = null)
+    {
+        if (_uiBotCurrent != null)
+        {
+            BotClickFunc(_uiBotCurrent);    
+        }
+        _uiNode.Setup(node);
     }
     public UIHabBot GetUIHabBot(HabBot bot)
     {

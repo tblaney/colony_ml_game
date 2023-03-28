@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class UserControllerStateFollowing : UserControllerState
 {
-    HabBot _bot;
     public override void Initialize()
     {
         base.Initialize();
     }
     public override void OnStartState()
     {
-        _bot = UIHabBot._activeHabBotFollow;
-        if (_bot != null)
+        ITarget target = UserHandler._target;
+        if (target != null)
         {
-            _cam.SetTargetFollow(_bot);
+            _cam.SetTargetFollow(target);
             _cam.SetFOV(10f);
         } else
         {

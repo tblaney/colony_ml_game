@@ -48,11 +48,11 @@ public class NodeSubProcessor : MonoBehaviour
         _nodeObjects = new Dictionary<Node.Type, List<NodeObject>>();
         if (active)
         {
-            //_loadingRoutine = StartCoroutine(LoadRoutine());
-            foreach (Node node in GetNodes())
-            {
-                SpawnNode(node);
-            }
+            _loadingRoutine = StartCoroutine(LoadRoutine());
+            //foreach (Node node in GetNodes())
+            //{
+            //    SpawnNode(node);
+            //}
         } else
         {
             foreach (Node node in GetNodes())
@@ -87,12 +87,12 @@ public class NodeSubProcessor : MonoBehaviour
         NodeObject nodeObject = obj.GetComponent<NodeObject>();
         nodeObject.Initialize(node, DestroyNodeCallback);
         List<NodeObject> objs;
-        if (_nodeObjects.TryGetValue(node._type, out objs))
+        if (_nodeObjects.TryGetValue(node._nodeType, out objs))
         {
             objs.Add(nodeObject);
         } else
         {
-            _nodeObjects.Add(node._type, new List<NodeObject>(){nodeObject});
+            _nodeObjects.Add(node._nodeType, new List<NodeObject>(){nodeObject});
         }
     }
     void DestroyNodeCallback(Node node)
@@ -104,7 +104,7 @@ public class NodeSubProcessor : MonoBehaviour
         if (obj != null)
         {
             List<NodeObject> objs;
-            if (_nodeObjects.TryGetValue(node._type, out objs))
+            if (_nodeObjects.TryGetValue(node._nodeType, out objs))
             {
                 if (objs.Contains(obj))
                 {
@@ -155,6 +155,16 @@ public class NodeSubProcessor : MonoBehaviour
         }
         return nodes;
     }
+    public List<Node> GetNodes(Node.Type type)
+    {
+        List<Node> nodes = new List<Node>();
+        Dictionary<Vector3Int, Node> dic;
+        if (_nodes.TryGetValue(type, out dic))
+        {
+            nodes.AddRange(dic.Values);
+        }
+        return nodes;
+    }
     public Node GetClosestNodeOfType(Node.Type type, Vector3 position, int prefabIndex = 0)
     {
         Dictionary<Vector3Int, Node> dic;
@@ -186,7 +196,7 @@ public class NodeSubProcessor : MonoBehaviour
     public NodeObject GetNodeObject(Node node)
     {
         List<NodeObject> objs;
-        if (_nodeObjects.TryGetValue(node._type, out objs))
+        if (_nodeObjects.TryGetValue(node._nodeType, out objs))
         {
             foreach (NodeObject obj in objs)
             {
@@ -213,14 +223,14 @@ public class NodeSubProcessor : MonoBehaviour
             _nodes = new Dictionary<Node.Type, Dictionary<Vector3Int, Node>>();
 
         Dictionary<Vector3Int, Node> dic;
-        if (_nodes.TryGetValue(node._type, out dic))
+        if (_nodes.TryGetValue(node._nodeType, out dic))
         {
             dic.Add(node._position, node);
         } else
         {
             dic = new Dictionary<Vector3Int, Node>();
             dic.Add(node._position, node);
-            _nodes.Add(node._type, dic);
+            _nodes.Add(node._nodeType, dic);
         }
         if (_active)
         {
@@ -233,7 +243,7 @@ public class NodeSubProcessor : MonoBehaviour
             return;
 
         Dictionary<Vector3Int, Node> dic;
-        if (_nodes.TryGetValue(node._type, out dic))
+        if (_nodes.TryGetValue(node._nodeType, out dic))
         {
             Node nodeTemp;
             if (dic.TryGetValue(node._position, out nodeTemp))

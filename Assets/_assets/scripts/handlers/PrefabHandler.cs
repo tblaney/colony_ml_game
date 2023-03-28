@@ -29,6 +29,15 @@ public class PrefabHandler : MonoBehaviour, IHandler
         }
         return null;
     }
+    public PrefabInput GetPrefabInput(int index)
+    {
+        foreach (PrefabInput prefab in _prefabs)
+        {
+            if (prefab._index == index)
+                return prefab;
+        }
+        return default(PrefabInput);
+    }
 }
 
 [Serializable]

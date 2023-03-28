@@ -8,7 +8,6 @@ public class ItemHandler : MonoBehaviour, IHandler
     public static ItemHandler Instance;
     [Header("Inputs:")]
     public List<Item> _items;
-    public List<ItemParameter> _parameters;
     public List<ItemInventory> _inventories;
 
     public void Initialize()
@@ -25,21 +24,21 @@ public class ItemHandler : MonoBehaviour, IHandler
         }
         return inventory;
     }
-    public ItemParameter GetParameter(string name)
-    {
-        foreach (ItemParameter parameter in _parameters)
-        {
-            if (parameter._name == name)
-                return parameter;
-        }
-        return null;
-    }
     public ItemInventory GetItemInventory(int index)
     {
         foreach (ItemInventory inventory in _inventories)
         {
             if (inventory._index == index)
                 return inventory;
+        }
+        return null;
+    }
+    public Item GetItem(int itemIndex, int inventoryIndex)
+    {
+        ItemInventory inventory = GetItemInventory(inventoryIndex);
+        if (inventory != null)
+        {
+            return inventory.GetItem(itemIndex);
         }
         return null;
     }
@@ -86,13 +85,14 @@ public class ItemHandler : MonoBehaviour, IHandler
 }
 
 [Serializable]
-public class Item
+public class Item : Queueable
 {
+    [Header("Input:")]
     public string _name;
     public int _index;
-
+    [Header("Debug:")]
     public int _amount;
-    public Node.Type _type;
+    public ItemOptions _options;
 
     public void Add(int val)
     {
@@ -104,6 +104,21 @@ public class Item
         if (_amount < 0)
             _amount = 0;
     }
+    public ItemInput GetItemInput()
+    {
+        return new ItemInput(){_name = this._name, _amount = this._amount, _index = this._index};
+    }
+}
+
+[Serializable]
+public struct ItemOptions
+{
+    [Header("Item Options:")]
+    public Node.Type _type;
+    public bool _addon;
+    public HabBotAddon.Type _addonType;
+    public string _description;
+    public List<ItemInput> _recipe;
 }
 
 [Serializable]
@@ -173,11 +188,11 @@ public class ItemInventory
         }
         return null;
     }
-    public Item GetItem(string index)
+    public Item GetItem(string name)
     {
         foreach (Item item in _items)
         {
-            if (item._name == index)
+            if (item._name == name)
                 return item;
         }
         return null;
@@ -193,18 +208,11 @@ public class ItemInventory
     }
 }
 
-[Serializable]
-public class ItemParameter
-{
-    public string _name;
-    public Sprite _sprite;
-    public string _description;
-    public List<ItemInput> _recipe;
-}
 
 [Serializable]
 public struct ItemInput
 {
     public string _name;
+    public int _index;
     public int _amount;
 }

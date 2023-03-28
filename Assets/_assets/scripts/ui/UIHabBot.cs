@@ -7,12 +7,18 @@ using TMPro;
 
 public class UIHabBot : UIObject
 {
-    [Header("Inputs:")]
+    [Header("Button Inputs:")]
     public UIButton _buttonMain;
+    [Space(10)]
+    [Header("States:")]
     public UIButton _buttonStateSelector;
     public UIButton _buttonStateDefault;
+    [Space(10)]
+    [Header("Expansion:")]
     public UIButton _buttonExpansion;
     List<UIButton> _buttonStates;
+    [Space(10)]
+    [Header("Controller Inputs:")]
     public UIController _controllerInfo;
     public UIController _controllerInventoryItem;
     public UIController _controllerAddonItem;
@@ -23,8 +29,8 @@ public class UIHabBot : UIObject
     public UICustomScrollbar _scrollbar;
     public UIColorSwitcher _colorSwitcher;
     public List<Color> _colors;
+    public UIHabBotAddons _uiAddons;
     // static:
-    public static HabBot _activeHabBotFollow;
 
     // cache:
     HabBot _bot;
@@ -50,6 +56,7 @@ public class UIHabBot : UIObject
         _stateOptionsActive = false;
         _controllersItems = new List<UIController>();
         _controllsAddons = new List<UIController>();
+        _uiAddons.Setup(_bot);
     }
     public void Setup(HabBot bot, Action<UIHabBot> buttonClickFunc)
     {
@@ -83,14 +90,14 @@ public class UIHabBot : UIObject
         ActivateStateOptions(false);
         if (active)
         {
-            _activeHabBotFollow = this._bot;
+            UserHandler._target = this._bot;
             UserHandler.Instance.SetUserState(UserController.State.Following);
             _buttonMain.GetController().ActivateBehaviour(1, true);
             _controllerInfo.ActivateBehaviour(2, true);
             _controllerInfo.ActivateBehaviour(1, true);
         } else
         {
-            _activeHabBotFollow = null;
+            UserHandler._target = null;
             UserHandler.Instance.SetUserState(UserController.State.Viewing);
             _buttonMain.GetController().ActivateBehaviour(1, false);
             _controllerInfo.ActivateBehaviour(1, false);
@@ -163,6 +170,9 @@ public class UIHabBot : UIObject
             _controller.SetTextColor(GetColor(trait._val), trait._type.ToString());
         }
 
+        HabBotStateParameter param = Habitation._stateParameters.GetParameter(_bot._state);
+        _controller.SetText(param._description, "state description");
+
         RefreshState();
     }
     void ClearStates()
@@ -192,6 +202,12 @@ public class UIHabBot : UIObject
 
                 ActivateStateOptions(false);
                 Refresh();
+
+                HabBotStateParameter param = Habitation._stateParameters.GetParameter(state);
+                if (param._closeOnSelect)
+                {
+                    _buttonMain.OnPointerClickFunc();
+                }
             };
             _buttonStates.Add(button);
             i++;
@@ -204,6 +220,7 @@ public class UIHabBot : UIObject
         controller.FormList();
         controller.SetText(_bot._state.ToString(), 1);
     }
+
     void ClearInventoryAddons()
     {
         foreach (UIController controller in _controllersItems)
@@ -242,6 +259,7 @@ public class UIHabBot : UIObject
             controllerAddon.SetText(addon._type.ToString(), "name");
             _controllersItems.Add(controllerAddon);
         }
+        _uiAddons.RefreshAddonOptions();
     }
     public HabBot GetBot()
     {

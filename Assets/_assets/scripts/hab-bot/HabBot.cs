@@ -22,7 +22,6 @@ public class HabBot : ITarget
         Rescue,
         Craft,
         Stockpile,
-        Path,
         Recreation,
         Machine,
         Haul,
@@ -201,6 +200,17 @@ public class HabBot : ITarget
             return false;
         }
         return true;
+    }
+    public bool ContainsAddon(HabBotAddon.Type type)
+    {
+        if (_addons == null)
+            return false;
+        foreach (HabBotAddon addon in _addons)
+        {
+            if (addon._type == type)
+                return true;
+        }
+        return false;
     }
 }
 [Serializable]

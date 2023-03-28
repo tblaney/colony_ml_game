@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIItemInventory : UIObject
+public class UIItemMenu : UIObject
 {
     [Header("Inputs:")]
     public string _prefabNameItem;
@@ -43,11 +43,10 @@ public class UIItemInventory : UIObject
             GameObject prefab = PrefabHandler.Instance.GetPrefab(_prefabNameItem);
             GameObject obj = Instantiate(prefab, _controllerContainer.transform);
             UIController controller = obj.GetComponent<UIController>();
-            ItemParameter parameter = ItemHandler.Instance.GetParameter(item._name);
-            controller.SetText(parameter._name, "name");
-            controller.SetText(parameter._description, "description");
+            controller.SetText(item._name, "name");
+            controller.SetText(item._options._description, "description");
             controller.SetText(item._amount.ToString(), "amount");
-            controller.SetText("(" + item._type.ToString() + ")", "type");
+            controller.SetText("(" + item._options._type.ToString() + ")", "type");
             _controllers.Add(controller);
             y++;
         }

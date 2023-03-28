@@ -11,6 +11,7 @@ public class UIHandler : MonoBehaviour, IHandler
     public UITooltip _uiTooltip;
     public UINotification _uiNoficiation;
     public static event EventHandler OnStateViewToggle;
+    public static event EventHandler OnNullClick;
 
     List<GameObject> _objs;
 
@@ -22,6 +23,11 @@ public class UIHandler : MonoBehaviour, IHandler
     void Update()
     {
         MouseUpdate();
+        if (Input.GetMouseButtonDown(0) && !IsMouseOverUI())
+        {
+            // null click
+            OnNullClick?.Invoke(this, EventArgs.Empty);
+        }
     }
     void MouseUpdate()
     {
@@ -53,7 +59,11 @@ public class UIHandler : MonoBehaviour, IHandler
     }
     public void ActivateHabBotFocus(HabBot bot)
     {
-        _uiHabitation.ActivateButton(bot);
+        _uiHabitation.ActivateBot(bot);
+    }
+    public void ActivateNodeFocus(Node node, Building building = null)
+    {
+        _uiHabitation.ActivateNode(node, building);
     }
 }
 [Serializable]

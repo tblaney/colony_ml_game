@@ -8,13 +8,14 @@ public class HabitationHandler : MonoBehaviour, IHandler
     public static HabitationHandler Instance;
     [Header("Inputs:")]
     public NodeProcessor _nodeProcessor;
-        public HabBotProcessor _botProcessor;
-    public List<HabitationQueue> _queues;
+    public HabBotProcessor _botProcessor;
     public HabitationParameters _parametersIn;
     public MeshRenderer _restBoundsDefault;
+    public HabBotStateParameters _stateParameters;
 
     [Header("Debug:")]
     public Habitation _habitation;
+    public List<HabitationQueue> _queues;
     public static HabitationParameters _parameters;
 
     public void Initialize()
@@ -23,9 +24,13 @@ public class HabitationHandler : MonoBehaviour, IHandler
         _parameters = _parametersIn;
         _nodeProcessor.Initialize();
         _botProcessor.Initialize();
+        
         _queues = new List<HabitationQueue>();
         _queues.Add(new HabitationQueue(HabBot.State.Craft){});
         _queues.Add(new HabitationQueue(HabBot.State.Machine){});
+        _queues.Add(new HabitationQueue(HabBot.State.CollectFood){});
+        _queues.Add(new HabitationQueue(HabBot.State.CollectMinerals){});
+        _queues.Add(new HabitationQueue(HabBot.State.CollectTrees){});
         //_queues.Add(new HabitationQueue(){_state = HabBot.State.Heal, _nodes = new List<NodeObject>()});
     }
     public void Load(Habitation habitation = null, List<Node> nodes = null)
@@ -45,7 +50,7 @@ public class HabitationHandler : MonoBehaviour, IHandler
             _habitation = new Habitation();
             _habitation.NewHabitation(_restBoundsDefault.bounds);
         }
-         _habitation.Initialize();
+         _habitation.Initialize(_stateParameters);
         Destroy(_restBoundsDefault.gameObject);
         UIHandler.Instance.InitializeHabitation(_habitation);
         SpawnHabitation();
@@ -90,23 +95,33 @@ public class HabitationHandler : MonoBehaviour, IHandler
     {
         _habitation.RemoveInventory(index);
     }
-    public void AddObjectToQueue(HabBot.State state, QueueObject obj)
+    public Item GetItem(int index)
+    {
+        return _habitation.GetItem(index);
+    }
+    public List<ItemInventory> GetItemInventoriesWithItem(ItemInput item)
+    {
+        return _habitation.GetItemInventoriesWithItem(item);
+    }
+    public void AddObjectToQueue(HabBot.State state, Queueable obj)
     {
         HabitationQueue queue = GetQueue(state);
         if (queue != null)
         {
+            obj._queued = true;
             queue.Add(obj);
         }
     }
-    public void RemoveObjectFromQueue(HabBot.State state, QueueObject obj)
+    public void RemoveObjectFromQueue(HabBot.State state, Queueable obj)
     {
         HabitationQueue queue = GetQueue(state);
         if (queue != null)
         {
+            obj._queued = false;
             queue.Remove(obj);
         }
     }
-    public QueueObject GetQueuedObject(HabBot.State state)
+    public Queueable GetQueuedObject(HabBot.State state)
     {
         HabitationQueue queue = GetQueue(state);
         if (queue != null)
@@ -124,67 +139,95 @@ public class HabitationHandler : MonoBehaviour, IHandler
         }
         return null;
     }
+    public bool IsAddonQueued(ItemInput item, HabBot bot)
+    {
+        // check to see if we have already queued this addon type for placement on this bot
+        HabitationQueue queue = GetQueue(HabBot.State.Machine);
+        foreach (Queueable queueable in queue._queueables)
+        {
+            MachineQueuable machine = queueable as MachineQueuable;
+            if (machine._bot == bot)
+            {
+                if (machine._item._index == item._index)
+                    return true;
+            }
+        }
+        return false;
+    }
     public NodeObject GetClosestNodeObjectOfType(Node.Type type, Vector3 position)
     {
         return _nodeProcessor.GetClosestNodeObject(type, position);
     }
+    public NodeObject GetNodeObject(Node node)
+    {
+        return _nodeProcessor.GetNodeObject(node);
+    }
+    public NodeObject GetClosestNodeObjectWithItem(ItemInput item, Vector3 position)
+    {
+        List<ItemInventory> inventories = GetItemInventoriesWithItem(item);
+        if (inventories != null && inventories.Count > 0)
+        {
+            List<NodeObject> nodes = new List<NodeObject>();
+            foreach (ItemInventory inventory in inventories)
+            {
+                if (inventory._obj == null)
+                    continue;
+                
+                NodeObject obj = inventory._obj.GetNodeObject();
+                if (obj != null)
+                {
+                    nodes.Add(obj);
+                }
+            }
+            float distanceMin = 10000f;
+            NodeObject objectOut = null;
+            foreach (NodeObject node in nodes)
+            {
+                float distance = Vector3.Distance(position, node.GetPosition());
+                if (distance < distanceMin)
+                {
+                    distanceMin = distance;
+                    objectOut = node;
+                }
+            }
+            return objectOut;
+        } else
+        {
+            return null;
+        }
+    }
 }
-
 
 [Serializable]
 public class HabitationQueue
 {
     // this class handles any queue's set by the player - for machining state mostly
     public HabBot.State _state;
-    public List<QueueObject> _objs;
+    public List<Queueable> _queueables;
+
     public HabitationQueue(HabBot.State state)
     {
         _state = state;
-        _objs = new List<QueueObject>();
+        _queueables = new List<Queueable>();
     }
-    public QueueObject Pop()
+    public Queueable Pop()
     {
-        if (_objs.Count > 0)
+        if (_queueables.Count > 0)
         {
-            QueueObject obj = _objs[0];
-            _objs.RemoveAt(0);
+            Queueable obj = _queueables[0];
+            _queueables.RemoveAt(0);
             return obj;
         }
         return null;
     }
-    public void Add(QueueObject obj)
+    public void Add(Queueable obj)
     {
-        _objs.Add(obj);
+        _queueables.Add(obj);
     }
-    public void Remove(QueueObject obj)
+    public void Remove(Queueable obj)
     {
-        if (_objs.Contains(obj))
-            _objs.Remove(obj);
-    }
-}
-
-public abstract class QueueObject
-{
-
-}
-
-public class NodeQueueObject : QueueObject
-{
-    public NodeObject _nodeObject;
-    public NodeQueueObject(NodeObject obj)
-    {
-        _nodeObject = obj;
-    }
-}
-
-public class HealQueueObject : QueueObject
-{
-    public ItemInput _itemInput;
-    public HabBot _bot;
-    public HealQueueObject(ItemInput input, HabBot bot)
-    {
-        _itemInput = input;
-        _bot = bot;
+        if (_queueables.Contains(obj))
+            _queueables.Remove(obj);
     }
 }
 

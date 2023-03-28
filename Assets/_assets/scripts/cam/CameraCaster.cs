@@ -38,6 +38,9 @@ public class CameraCaster : MonoBehaviour
     }
     public Interactable GetInteractable()
     {
+        if (UIHandler.Instance.IsMouseOverUI())
+            return null;
+        
         Vector2 mousePos = Input.mousePosition;
         Ray ray = _cam.ScreenPointToRay(new Vector3(mousePos.x, mousePos.y, 0f));
         RaycastHit hit;

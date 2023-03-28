@@ -18,7 +18,7 @@ public class BuildingNodeObject : NodeObject
     {
         _building = BuildingHandler.Instance.GetBuilding(_buildingIndex);
         _canPlace = false;
-        HabitationHandler.Instance.AddObjectToQueue(HabBot.State.Craft, new NodeQueueObject(this));
+        HabitationHandler.Instance.AddObjectToQueue(this._node.GetState(), this._node);
     }
     public void UpdatePosition(Vector3Int position)
     {
@@ -35,7 +35,7 @@ public class BuildingNodeObject : NodeObject
     }
     public override void OnDestroyNode()
     {
-        HabitationHandler.Instance.RemoveObjectFromQueue(HabBot.State.Craft, new NodeQueueObject(this));
+        HabitationHandler.Instance.RemoveObjectFromQueue(this._node.GetState(), this._node);
 
         //base.OnDestroyNode();
         if (_finished)

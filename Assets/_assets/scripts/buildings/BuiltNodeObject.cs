@@ -12,16 +12,16 @@ public class BuiltNodeObject : NodeObject
     public InteractableBuiltObject _interactable;
 
     [Header("Debug:")]
-    Building _building;
+    public Building _building;
 
     // cache:
     
     public override void InitializeNode()
     {
         _building = BuildingHandler.Instance.GetBuilding(_buildingIndex);
-        _interactable.Setup(_building);
+        _interactable.Setup(_node, _building);
         if (_behaviour != null)
-            _behaviour.Initialize(_building, _node);
+            _behaviour.Initialize(this);
     }
     public override void OnDestroyNode()
     {
@@ -42,14 +42,12 @@ public class BuiltNodeObject : NodeObject
 [Serializable]
 public abstract class BuiltNodeBehaviour : MonoBehaviour
 {
-    protected Building _building;
-    protected Node _node;
+    protected BuiltNodeObject _obj;
     public Bounds _zone;
 
-    public void Initialize(Building building, Node node)
+    public void Initialize(BuiltNodeObject obj)
     {
-        _building = building;
-        _node = node;
+        _obj = obj;
         _zone.center = transform.position;
         StartBehaviour();
     }

@@ -7,9 +7,11 @@ public class InventoryObject : MonoBehaviour
     public int _inventoryIndex;
     public bool _habitation = false;
     public ItemInventory _inventory;
+    NodeObject _nodeObject;
 
     public void Initialize(int inventoryIndex = 0, bool habitation = false)
     {
+        _nodeObject = GetComponent<NodeObject>();
         if (inventoryIndex == 0)
         {
             inventoryIndex = ItemHandler.Instance.NewInventory();
@@ -42,5 +44,13 @@ public class InventoryObject : MonoBehaviour
     public Vector3 GetPosition()
     {
         return transform.position;
+    }
+    public Node GetNode()
+    {
+        return _nodeObject.GetNode();
+    }
+    public NodeObject GetNodeObject()
+    {
+        return _nodeObject;
     }
 }

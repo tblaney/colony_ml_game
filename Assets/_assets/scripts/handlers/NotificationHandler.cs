@@ -32,8 +32,8 @@ public class NotificationHandler : MonoBehaviour, IHandler
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            NewNotification(new Notification() {_name = "test", _notification = "test notification please", _type = Notification.Type.General});
-            NewNotification(new Notification() {_name = "test", _notification = "test notification please", _type = Notification.Type.State});
+            //NewNotification(new Notification() {_notification = "test notification please", _type = Notification.Type.General});
+            //NewNotification(new Notification() {_notification = "test notification please", _type = Notification.Type.State});
         }
     }
 
@@ -48,11 +48,15 @@ public class Notification
         Item, // top left item
     }
     public Type _type;
-    public string _name;
-    public int _index;
     public string _notification;
     public NotificationEvent _event;
     public Action OnClickFunc;
+
+    public Notification(Type type, string notification)
+    {
+        _type = type;
+        _notification = notification;
+    }
 }
 
 [Serializable]

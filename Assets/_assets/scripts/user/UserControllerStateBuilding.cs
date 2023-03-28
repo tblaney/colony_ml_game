@@ -17,7 +17,7 @@ public class UserControllerStateBuilding : UserControllerState
     public override void OnStartState()
     {
         //_cam.SetManual();
-        _building = BuildingHandler.Instance.GetBuilding(UIBuilding._currentBuildingIndex);
+        _building = BuildingHandler.Instance.GetBuilding(UIBuildingMenu._currentBuildingIndex);
         Debug.Log("User Controller State Building: " + _building._name);
         // spawn in prefab
         Vector3 spawnPosition = CameraHandler.Instance.GetBuildingPosition();

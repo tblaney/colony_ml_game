@@ -149,6 +149,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _node:
+    _queueableType: 0
+    _queued: 0
+    _name: 
     _prefab: 6
     _inventoryIndex: 0
     _position: {x: 0, y: 0, z: 0}
@@ -158,12 +161,24 @@ MonoBehaviour:
     _timer: 0
     _refreshRate: 0
     _propogationFactor: 0
-    _type: 5
+    _health:
+      _name: 
+      _val: 0
+    _nodeType: 5
   _health: 100
   _interactionTime: 30
   _buildingIndex: 1
   _behaviour: {fileID: 7836508863756688400}
   _interactable: {fileID: 5094930069848071660}
+  _building:
+    _name: 
+    _description: 
+    _index: 0
+    _prefabBuilding: 0
+    _prefabBuilt: 0
+    _buildTime: 0
+    _itemRequirements: []
+    _itemOutputs: []
 --- !u!114 &2677118573482455656
 MonoBehaviour:
   m_ObjectHideFlags: 0

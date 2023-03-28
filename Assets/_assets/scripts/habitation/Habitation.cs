@@ -9,7 +9,7 @@ public class Habitation
     // main class that stores all information regarding the habitation, should just be able to load this in from a save
     public List<HabBot> _bots;
     public List<int> _itemInventories;
-
+    public static HabBotStateParameters _stateParameters;
     public void NewHabitation(Bounds restBounds)
     {
         _bots = new List<HabBot>();
@@ -21,8 +21,9 @@ public class Habitation
         }
         _itemInventories = new List<int>();
     }
-    public void Initialize()
+    public void Initialize(HabBotStateParameters parameters)
     {
+        _stateParameters = parameters;
         foreach (HabBot bot in _bots)
         {
             bot.Initialize();
@@ -64,6 +65,19 @@ public class Habitation
         }
         return inventoryTemp._items;
     }
+    public List<ItemInventory> GetItemInventoriesWithItem(ItemInput item)
+    {
+        List<ItemInventory> inventories = new List<ItemInventory>();
+        foreach (int i in _itemInventories)
+        {
+            ItemInventory inventory = ItemHandler.Instance.GetItemInventory(i);
+            if (inventory.Contains(item._index, item._amount))
+            {
+                inventories.Add(inventory);
+            }
+        }
+        return inventories;
+    }
     public void AddInventory(int index)
     {
         _itemInventories.Add(index);
@@ -73,4 +87,41 @@ public class Habitation
         if (_itemInventories.Contains(index))
             _itemInventories.Remove(index);
     }
+    public Item GetItem(int index)
+    {
+        foreach (int j in _itemInventories)
+        {
+            Item item = ItemHandler.Instance.GetItem(index, j);
+            if (item != null && item._amount > 0)
+                return item;
+        }
+        return null;
+    }
+}
+[Serializable]
+public class HabBotStateParameters
+{
+    [Header("Inputs:")]
+    public List<HabBotStateParameter> _parameters;
+    public HabBotStateParameter GetParameter(HabBot.State state)
+    {
+        foreach (HabBotStateParameter param in _parameters)
+        {
+            if (param._state == state)
+                return param;
+        }
+        return default(HabBotStateParameter);
+    }
+}
+
+[Serializable]
+public struct HabBotStateParameter
+{
+    [Header("Inputs:")]
+    public string _name;
+    public HabBot.State _state;
+    public string _description;
+    [Header("Options:")]
+    [Tooltip("Closes the UI window to allow fast transition if selected")]
+    public bool _closeOnSelect;
 }
