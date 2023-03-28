@@ -36,6 +36,7 @@ public class HabBot : ITarget
     public bool _stateCooldown;
     public Vector3 _position;
     public Vector3 _velocity;
+    float _timer;
     // events
     public event EventHandler<StateChangeEventArgs> OnStateChange;
     public event EventHandler<StateChangeEventArgs> OnStateAccessChange;
@@ -103,9 +104,15 @@ public class HabBot : ITarget
     }
     void VitalityUpdate()
     {
-        Vitality energy = GetVitality("energy");
-        Vitality hunger = GetVitality("hunger");
-        energy.Damage(1);
+        _timer += Time.deltaTime;
+        if (_timer >= 1f)
+        {
+            Vitality energy = GetVitality("energy");
+            Vitality hunger = GetVitality("hunger");
+            energy.Damage(1);
+            hunger.Damage(1);
+            _timer = 0f;
+        }
     }
     public void DetermineDefaultState()
     {
@@ -346,7 +353,6 @@ public class Vitality
 {
     public string _name;
     public int _val;
-    public float _periodicDecreaseRate;
     public event EventHandler OnValueChange;
 
     public void Damage(int val)
@@ -367,7 +373,7 @@ public class Vitality
     }
     public float GetVitalityNormalized()
     {
-        return (float)(_val/100);
+        return (float)((float)_val/100f);
     }
 }
 
