@@ -37,22 +37,22 @@ public class UIQueueable : UIObject
             UIController controller = button.GetComponent<UIController>();
             controller.FormList();
             button.OnPointerClickFunc = () => {ButtonClickCallback(queueable);};
-            switch (queueable._queueableType)
+            switch (queueable._state)
             {
-                case Queueable.Type.Node:
+                case HabBot.State.CollectMinerals:
                     Node node = queueable as Node;
                     PrefabInput input = PrefabHandler.Instance.GetPrefabInput(node._prefab);
                     controller.SetText(input._name, "name");
                     break;
-                case Queueable.Type.Machine:
+                case HabBot.State.Machine:
                     MachineQueuable machineQueuable = queueable as MachineQueuable;
                     controller.SetText(machineQueuable._item._name, "name");
                     break;
-                case Queueable.Type.Craft:
-                    Item item = queueable as Item;
+                case HabBot.State.Craft:
+                    ItemInput item = queueable as ItemInput;
                     controller.SetText(item._name, "name");
                     break;
-                case Queueable.Type.Haul:
+                case HabBot.State.Haul:
                     HaulQueueable haulQueueable = queueable as HaulQueueable;
                     controller.SetText(haulQueueable._item._name, "name");
                     break;

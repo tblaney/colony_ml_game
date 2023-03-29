@@ -6,15 +6,17 @@ using System;
 [Serializable]
 public abstract class Queueable 
 {
-    public enum Type
-    {
-        Node,
-        Machine,
-        Craft,
-        Haul,
-    }
-    public Type _queueableType;
+    public HabBot.State _state;
     public bool _queued;
+
+    public virtual void AddQueueable()
+    {
+        HabitationHandler.Instance.AddObjectToQueue(_state, this);
+    }
+    public virtual void DestroyQueueable()
+    {
+        HabitationHandler.Instance.RemoveObjectFromQueue(_state, this);
+    }
 }
 
 [Serializable]
@@ -26,7 +28,7 @@ public class MachineQueuable : Queueable
     {
         _item = input;
         _bot = bot;
-        _queueableType = Type.Machine;
+        _state = HabBot.State.Machine;
     }
 }
 
@@ -41,6 +43,6 @@ public class HaulQueueable : Queueable
         _item = item;
         _inventoryIn = inventoryIn;
         _inventoryOut = inventoryOut;
-        _queueableType = Type.Haul;
+        _state = HabBot.State.Haul;
     }
 }

@@ -10,6 +10,8 @@ public class HabBotStateRest : HabBotState
 
     public override void StartState()
     {
+        _animator.SetAnimationState("Grounded", 0.2f);
+
         BuiltNodeObject obj = HabitationHandler.Instance.GetClosestNodeObjectOfType(Node.Type.Building, _controller.GetBot()._position, 6) as BuiltNodeObject;
         Vector3 position = (obj._behaviour as BuiltNodeBehaviourRestMachine).GetZonePosition();
         position.y = 30f;

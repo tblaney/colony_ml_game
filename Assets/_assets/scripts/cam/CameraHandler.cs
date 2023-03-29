@@ -29,4 +29,8 @@ public class CameraHandler : MonoBehaviour, IHandler
             return _controller.GetCenterTerrainPosition();
         }
     }
+    public Transform GetCameraTransform()
+    {
+        return _controller.transform;
+    }
 }

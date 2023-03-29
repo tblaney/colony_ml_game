@@ -45,5 +45,9 @@ namespace Utils
             pos.y = y;
             return pos;
         }
+        public static Vector3Int VectorToIntCeiling(Vector3 vectorIn)
+        {
+            return new Vector3Int((int)Mathf.Ceil(vectorIn.x), (int)Mathf.Ceil(vectorIn.y), (int)Mathf.Ceil(vectorIn.z));
+        }
     }
 }

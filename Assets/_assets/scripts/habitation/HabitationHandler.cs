@@ -13,6 +13,8 @@ public class HabitationHandler : MonoBehaviour, IHandler
     public MeshRenderer _restBoundsDefault;
     public HabBotStateParameters _stateParameters;
 
+    public List<EnemyAgent> _enemies;
+
     [Header("Debug:")]
     public Habitation _habitation;
 
@@ -25,7 +27,7 @@ public class HabitationHandler : MonoBehaviour, IHandler
         _parameters = _parametersIn;
         _nodeProcessor.Initialize();
         _botProcessor.Initialize();
-        
+        _enemies = new List<EnemyAgent>();
         _queues = new List<HabitationQueue>();
 
         _queues.Add(new HabitationQueue(HabBot.State.Build){});

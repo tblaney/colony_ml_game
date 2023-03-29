@@ -8,12 +8,14 @@ public abstract class NodeObject : MonoBehaviour
     protected Action<Node> OnDestroyFunc;
     public Node _node;
     protected NodeCaster _caster;
-    public int _health;
 
     public float _interactionTime = 30f;
     bool _interacting;
     HabBotController _botController;
     Action InteractCallbackFunc;
+    Func<bool> StateContinueFunc;
+
+    public event EventHandler OnDamage;
 
     void Awake()
     {
@@ -23,7 +25,6 @@ public abstract class NodeObject : MonoBehaviour
     public void Initialize(Node node, Action<Node> OnDestroyFunc)
     {
         _node = node;
-        _health = 100;
         this.OnDestroyFunc = OnDestroyFunc;
 
         InitializeNode();
@@ -39,6 +40,7 @@ public abstract class NodeObject : MonoBehaviour
     }
     void Node_PositionChange(object sender, EventArgs e)
     {
+        Debug.Log("Node Position Change: " + _node._position);
         transform.position = _node._position;
     }
     public virtual void InitializeNode(){}
@@ -52,19 +54,20 @@ public abstract class NodeObject : MonoBehaviour
         OnDestroyNode();
         Destroy(this.gameObject);
     }
-
-
-    public virtual void Interact(HabBotController botController, Action CallbackFunc)
+    public virtual void Interact(HabBotController botController, Func<bool> StateContinueFunc, Action CallbackFunc)
     {
         if (_interacting)
             return;
         _botController = botController;
         _interacting = true;
         this.InteractCallbackFunc = CallbackFunc;
+        this.StateContinueFunc = StateContinueFunc;
         StartCoroutine(DelayedActionRealtime(_interactionTime, InteractCallback));
     }
     void InteractCallback()
     {
+        if (!StateContinueFunc())
+            return;
         _interacting = false;
         if (InteractCallbackFunc != null)
             InteractCallbackFunc();
@@ -85,6 +88,8 @@ public abstract class NodeObject : MonoBehaviour
     }
     public Node GetNode()
     {
+        if (_node._health == null)
+            _node._health =  new Vitality() {_name = "health", _val = 100};
         if (_node._position == default(Vector3Int))
             _node._position = Utils.Tools.VectorToInt(transform.position);
         return _node;
@@ -94,10 +99,16 @@ public abstract class NodeObject : MonoBehaviour
         transform.position = position;
         _node._position = position;
     }
+    public void SetBusy(bool val)
+    {
+        _node.SetBusy(val);
+    }
     public bool Damage(int val)
     {
-        _health -= val;
-        if (_health <= 0 )
+        Debug.Log("Node Object Damage: " + val);
+        _node._health.Damage(val);
+        OnDamage?.Invoke(this, EventArgs.Empty);
+        if (_node._health._val <= 0 )
         {
             DestroyNode();
             return false;

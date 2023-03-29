@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - Agent 1
   - Agent 2
+  - Agent
   layers:
   - Default
   - TransparentFX

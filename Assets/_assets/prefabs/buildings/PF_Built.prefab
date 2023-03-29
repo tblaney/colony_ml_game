@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 5094930069848071660}
   m_Layer: 6
   m_Name: PF_Built
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _node:
-    _queueableType: 0
+    _state: 0
     _queued: 0
     _name: 
     _prefab: 6
@@ -163,7 +163,6 @@ MonoBehaviour:
       _name: 
       _val: 0
     _nodeType: 5
-  _health: 100
   _interactionTime: 30
   _buildingIndex: 1
   _behaviour: {fileID: 0}

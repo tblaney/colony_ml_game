@@ -74,9 +74,11 @@ public class Node : Queueable, ITarget
     {
         // check for height drop:
         List<Node> nodes = new List<Node>();
-        for (int i = 0; i < 100; i++)
+        for (int i = 1; i < 100; i++)
         {
             Vector3Int position = _position + new Vector3Int(0, i, 0);
+            Debug.Log("Node Destroy Neighbour Checks: " + position);
+
             Node node = NodeProcessor._nodeActions.GetNodeFunc(position);
             if (node != null)
             {
@@ -86,6 +88,7 @@ public class Node : Queueable, ITarget
                 break;
             }
         }
+        Debug.Log("Node Destroy Neighbour Checks: " + nodes.Count);
         foreach (Node node in nodes)
         {
             node.SetPosition(node._position - new Vector3Int(0, 1, 0));

@@ -6,20 +6,22 @@ using System;
 public abstract class HabBotState : MonoBehaviour
 {
     // controls what the _controller is doing at runtime when occupying this _state
+    [Header("Inputs:")]
     public HabBot.State _state;
+    public float _interactionDistance = 2.5f;
+    // cache:
     protected HabBotController _controller;
     protected NavigationController _nav;
     protected AnimatorHandler _animator;
-    protected HabBotModelController _modelController;
 
     void Awake()
     {
         _controller = GetComponent<HabBotController>();
         _nav = GetComponent<NavigationController>();
         _animator = GetComponent<AnimatorHandler>();
-        _modelController = GetComponent<HabBotModelController>();
+        Initialize();
     } 
-    public void Initialize()
+    public virtual void Initialize()
     {
 
     }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7494914336930777883}
   m_Layer: 6
   m_Name: PF_Tree
-  m_TagString: Untagged
+  m_TagString: Mineral
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _node:
-    _queueableType: 0
+    _state: 0
     _queued: 0
     _name: 
     _prefab: 0
@@ -78,12 +78,14 @@ MonoBehaviour:
       _name: 
       _val: 0
     _nodeType: 0
-  _health: 100
   _interactionTime: 30
   _itemInput:
+    _state: 0
+    _queued: 0
     _name: Earth Block
     _index: 1
     _amount: 10
+  _interactable: {fileID: 0}
 --- !u!114 &2677118573482455656
 MonoBehaviour:
   m_ObjectHideFlags: 0

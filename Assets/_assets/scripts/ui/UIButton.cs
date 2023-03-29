@@ -67,9 +67,10 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         ResetBehaviours();
     }
-
     void OnDisable()
     {
+        ResetBehaviours();
+
         if (_selectedClick == this)
             ClearClick();
     }
@@ -140,7 +141,11 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         foreach (UIButtonBehaviour behaviour in _behaviours)
         {
             _controller.ResetBehaviour(behaviour._controllerIndex);
-            Debug.Log("UI Button Reset Behaviour; " + this.gameObject.name);
+            if (behaviour._tooltip != null && behaviour._tooltip != "")
+            {
+                if (UIHandler.Instance != null)
+                    UIHandler.Instance.ActivateTooltip(false);
+            }
         }
     }
 

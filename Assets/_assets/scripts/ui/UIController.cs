@@ -934,4 +934,8 @@ public class UIBehaviourFader: UIBehaviour
     {
         _fader.SetOpacity(_opacityOff);
     }
+    public void SetOpacity(float val)
+    {
+        _fader.SetOpacity(val);
+    }
 }

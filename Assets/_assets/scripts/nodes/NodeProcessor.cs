@@ -243,6 +243,28 @@ public class NodeProcessor : MonoBehaviour
         }
         return default(Vector3Int);
     }
+    public Vector3Int GetOpenPosition(MeshRenderer planeBounds)
+    {
+        // try for 30 iterations
+        Bounds bounds = planeBounds.bounds;
+        for (int i = 0; i < 30; i++)
+        {
+            Vector3Int position = new Vector3Int(UnityEngine.Random.Range((int)bounds.min.x, (int)bounds.max.x), (int)bounds.center.y, UnityEngine.Random.Range((int)bounds.min.z, (int)bounds.max.z));
+            NodeSubProcessor subProcessor = GetSubProcessor(position);
+            if (subProcessor != null)
+            {
+                Node node = subProcessor.GetNode(position);
+                if (node == null)
+                {
+                    // need to also cast
+                    RaycastHit[] hits = _caster.BlockerCast(position);
+                    if (hits.Length == 0)
+                        return position;
+                }
+            } 
+        }
+        return default(Vector3Int);
+    }
     NodeSubProcessor GetSubProcessor(Vector3 position)
     {
         foreach (NodeSubProcessor processor in _processors)

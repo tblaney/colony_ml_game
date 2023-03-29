@@ -81,6 +81,9 @@ public class HabBot : ITarget
             }
             _vitalities.Add(vitality);
         }
+        _addons.Add(new HabBotAddon(){_type = HabBotAddon.Type.Drill});
+        _addons.Add(new HabBotAddon(){_type = HabBotAddon.Type.Axe});
+        _addons.Add(new HabBotAddon(){_type = HabBotAddon.Type.Sword});
     }
     public void Initialize()
     {
@@ -239,7 +242,34 @@ public class HabBot : ITarget
         }
         return false;
     }
+    public int GetDamage(State state)
+    {
+        switch (state)
+        {
+            case State.CollectMinerals:
+                return (int)(1+(20f * _traits.GetTraitVal(HabBotTrait.Type.Strength)* _traits.GetTraitVal(HabBotTrait.Type.Mining)));
+            case State.CollectTrees:
+                return (int)(20f * _traits.GetTraitVal(HabBotTrait.Type.Strength)* _traits.GetTraitVal(HabBotTrait.Type.Foraging));
+        }
+        return 0;
+    }
+    public float GetInteractTime(State state)
+    {
+        switch (state)
+        {
+            case State.Build:
+                return (30f*(1+_traits.GetTraitVal(HabBotTrait.Type.Laziness)))*(1.1f-_traits.GetTraitVal(HabBotTrait.Type.Intelligence))*(1.1f-_traits.GetTraitVal(HabBotTrait.Type.Building));
+            case State.Farm:
+                return (30f*(1+_traits.GetTraitVal(HabBotTrait.Type.Laziness)))*(1.1f-_traits.GetTraitVal(HabBotTrait.Type.Intelligence))*(1.1f-_traits.GetTraitVal(HabBotTrait.Type.Farming));
+            case State.Machine:
+                return (30f*(1+_traits.GetTraitVal(HabBotTrait.Type.Laziness)))*(1.1f-_traits.GetTraitVal(HabBotTrait.Type.Intelligence))*(1.1f-_traits.GetTraitVal(HabBotTrait.Type.Machining));
+            case State.CollectMinerals:
+                return (5f*(1.1f-_traits.GetTraitVal(HabBotTrait.Type.Strength)));
+        }
+        return 30f;
+    }
 }
+
 [Serializable]
 public class HabBotTraits
 {
@@ -252,7 +282,9 @@ public class HabBotTraits
         int i = 0;
         foreach(HabBotTrait.Type traitType in Enum.GetValues(typeof(HabBotTrait.Type)))
         {
-            float val = UnityEngine.Random.Range(0.1f, 0.9f);
+            float val = UnityEngine.Random.Range(0.2f, 0.9f);
+            if (traitType == HabBotTrait.Type.Speed)
+                val = UnityEngine.Random.Range(0.6f, 0.95f);
             bool editable = false;
             if (i >= 4)
             {
@@ -312,6 +344,11 @@ public class HabBotTraits
         }
         return null;
     }
+    public float GetTraitVal(HabBotTrait.Type type)
+    {
+        HabBotTrait trait = GetTrait(type);
+        return trait._val;
+    }
     public void SetTrait(HabBotTrait.Type type, float val)
     {
         HabBotTrait trait = GetTrait(type);
@@ -334,7 +371,7 @@ public class HabBotTrait
         Mining,
         Foraging,
         Farming,
-        Healing,
+        Crafting,
     }
     public Type _type;
     [Range(0f, 1f)]

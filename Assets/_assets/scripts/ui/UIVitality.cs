@@ -13,8 +13,10 @@ public class UIVitality : UIObject
     }
     public void Setup(Vitality vitality)
     {
+        Unsubscribe();
         _vitality = vitality;
         Subscribe();
+        VitalityRefresh(null, EventArgs.Empty);
     }
     void Subscribe()
     {
@@ -25,21 +27,24 @@ public class UIVitality : UIObject
         _vitality.OnValueChange += VitalityRefresh;
         _subscribed = true;
     }
-    void OnEnable()
-    {
-        Subscribe();
-    }
-    void OnDisable()
+    void Unsubscribe()
     {
         if (_vitality == null)
             return;
         _vitality.OnValueChange -= VitalityRefresh;
         _subscribed = false;
     }
+    void OnEnable()
+    {
+        Subscribe();
+    }
+    void OnDisable()
+    {
+        Unsubscribe();
+    }
     void VitalityRefresh(object sender, EventArgs e)
     {
         float valNormalized = _vitality.GetVitalityNormalized();
-        //Debug.Log("Vitality Refresh: " + valNormalized);
         Vector3 scale = new Vector3(1f, valNormalized, 1f);
         _controller.SetScale(scale, 1, 0.25f);
         _controller.SetText(_vitality._val.ToString(), 2);

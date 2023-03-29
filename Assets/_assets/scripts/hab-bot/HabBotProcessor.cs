@@ -11,6 +11,8 @@ public class HabBotProcessor : MonoBehaviour
     */
     [Header("Inputs:")]
     public List<HabBotPrefab> _prefabs;
+    public List<HabBotController> _controllerLoading;
+
     public NodeProcessor _nodeProcessor;
     
     List<HabBotController> _controllers;
@@ -29,6 +31,13 @@ public class HabBotProcessor : MonoBehaviour
             bot.OnStateChange += Bot_StateChange;
         }
         SpawnBots();
+    }
+    void Start()
+    {
+        foreach (HabBotController controller in _controllerLoading)
+        {
+            Destroy(controller.gameObject);
+        }
     }
     void SpawnBots()
     {

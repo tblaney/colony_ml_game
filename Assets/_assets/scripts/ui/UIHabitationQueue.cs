@@ -50,16 +50,16 @@ public class UIHabitationQueue : UIObject
     }
     void ButtonClickCallback(Queueable queueable)
     {
-        switch (queueable._queueableType)
+        switch (queueable._state)
         {
-            case Queueable.Type.Node:
+            case HabBot.State.CollectMinerals:
                 Node node = queueable as Node;
                 NodeObject nodeObject = HabitationHandler.Instance.GetNodeObject(node);
                 Interactable interactable = nodeObject.GetComponent<Interactable>();
                 if (interactable != null)
                     interactable.Interact();
                 break;
-            case Queueable.Type.Machine:
+            case HabBot.State.Machine:
                 MachineQueuable machineQueuable = queueable as MachineQueuable;
                 UIHandler.Instance.ActivateHabBotFocus(machineQueuable._bot);
                 break;

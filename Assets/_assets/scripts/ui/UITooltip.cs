@@ -33,6 +33,7 @@ public class UITooltip : MonoBehaviour
     }   
     public void ActivateTooltip(bool active, string text = "")
     {
+        Clear();
         _active = active;
         UIController controller = GetController(Input.mousePosition);
         if (_active)
@@ -45,6 +46,13 @@ public class UITooltip : MonoBehaviour
                 _controller.ActivateBehaviour("activate", false);
         }
         _controller = controller;
+    }
+    void Clear()
+    {
+        foreach (UIController controller in _controllers)
+        {
+            controller.ActivateBehaviour("activate", false);
+        }
     }
     UIController GetController(Vector2 mousePos)
     {

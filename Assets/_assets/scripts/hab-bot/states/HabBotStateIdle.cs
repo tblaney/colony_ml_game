@@ -7,6 +7,8 @@ public class HabBotStateIdle : HabBotState
 {
     public override void StartState()
     {
+        _animator.SetAnimationState("Grounded", 0.2f);
+
         _nav.SetVelocity(Vector3.zero);
     }
 

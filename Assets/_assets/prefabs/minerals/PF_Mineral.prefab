@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 4277110242045676517}
   m_Layer: 6
   m_Name: PF_Mineral
-  m_TagString: Untagged
+  m_TagString: Mineral
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _node:
-    _queueableType: 0
+    _state: 0
     _queued: 0
     _name: 
     _prefab: 0
@@ -186,9 +186,10 @@ MonoBehaviour:
       _name: 
       _val: 0
     _nodeType: 0
-  _health: 0
   _interactionTime: 30
   _itemInput:
+    _state: 0
+    _queued: 0
     _name: 
     _index: 0
     _amount: 0

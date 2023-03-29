@@ -29,20 +29,20 @@ public class CameraTargetController : MonoBehaviour
                 Vector3 moveDirection = (new Vector3(transform.forward.x, 0f, transform.forward.z))*y + transform.right*x;
                 moveDirection = moveDirection.normalized;
                 targetPosition = transform.position + moveDirection;
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    sprintFactor = 2.4f;
+                    _sprinting = true;
+                } else
+                {
+                    _sprinting = false;
+                }
                 break;
             case State.Follow:
                 targetPosition = _target.GetPosition();
                 sprintFactor = 0.6f;
-                movementSpeed = 10f;
+                movementSpeed = 6f;
                 break;
-        }
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            sprintFactor = 1.8f;
-            _sprinting = true;
-        } else
-        {
-            _sprinting = false;
         }
 
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.unscaledDeltaTime*movementSpeed*sprintFactor);
@@ -68,7 +68,7 @@ public class CameraTargetController : MonoBehaviour
             if (_mousePosition == default(Vector2))
                 delta.x = 0f;
             
-            transform.Rotate(0f, delta.x*Time.deltaTime, 0f, Space.World);
+            transform.Rotate(0f, delta.x*Time.deltaTime*4f, 0f, Space.World);
             _mousePosition = mousePosition;
         } else
         {

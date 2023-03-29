@@ -41,7 +41,10 @@ public class UIBuildingCraft : UIBuilding
     }
     public override void ActivateBuilding(bool val)
     {
-
+        if (!val)
+        {
+            _controller.ActivateBehaviour(101, false);
+        }
     }
     public override void Refresh()
     {
@@ -79,6 +82,10 @@ public class UIBuildingCraft : UIBuilding
             return;
         } else
         {
+            if (_buttonCache != null)
+            {
+                _buttonCache.ActivateController("select", false);
+            }
             _controller.ActivateBehaviour(101, true);
             _itemSelected = item;
             _itemSelected._amount = 1;
@@ -101,7 +108,7 @@ public class UIBuildingCraft : UIBuilding
             _buttonCache.ActivateController("select", false);
             _buttonCache = null;
             _itemSelected = default(ItemInput);
-            
+            _controller.ActivateBehaviour(101, false);
         }
     }
 }

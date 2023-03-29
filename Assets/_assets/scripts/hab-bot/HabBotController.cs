@@ -39,7 +39,8 @@ public class HabBotController : MonoBehaviour
     }
     void OnDisable()
     {
-        _bot.OnColorChange -= Bot_ColorChange;
+        if (_bot != null)
+            _bot.OnColorChange -= Bot_ColorChange;
     }
     void SetupState()
     {
@@ -74,7 +75,7 @@ public class HabBotController : MonoBehaviour
     // checks
     void RestCheck()
     {
-        if (_bot.GetVitality("energy")._val < 1) // on scale 1-100 so, will automatically rest when this occurs no matter the state that is persisting
+        if (_bot.GetVitality("energy")._val < 5) // on scale 1-100 so, will automatically rest when this occurs no matter the state that is persisting
         {
             SetState(HabBot.State.Rest);
         }
@@ -110,7 +111,7 @@ public class HabBotController : MonoBehaviour
             }
         }
     }
-    void ClearAddons()
+    public void ClearAddons()
     {
         foreach (HabBotAddonObject obj in _addons)
         {

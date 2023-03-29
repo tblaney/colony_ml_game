@@ -2490,7 +2490,7 @@ GameObject:
   - component: {fileID: 1639276124098342768}
   - component: {fileID: 1639276124098342771}
   m_Layer: 0
-  m_Name: Text Healing
+  m_Name: Text Crafting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2544,7 +2544,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Healing:'
+  m_text: 'Crafting:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 643bc56746fdb33429510898f94f871e, type: 2}
   m_sharedMaterial: {fileID: 728430568819126001, guid: 643bc56746fdb33429510898f94f871e, type: 2}
@@ -2875,7 +2875,7 @@ GameObject:
   - component: {fileID: 1639276124321488386}
   - component: {fileID: 1639276124321488389}
   m_Layer: 0
-  m_Name: Text Healing Value
+  m_Name: Text Crafting Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3824,7 +3824,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1639276124575500055}
   m_Layer: 0
-  m_Name: Healing
+  m_Name: Crafting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5370,7 +5370,7 @@ MonoBehaviour:
     color_in: {r: 0, g: 0, b: 0, a: 0}
     color_out: {r: 0, g: 0, b: 0, a: 0}
     _rectBackground: {fileID: 0}
-  - _name: Healing
+  - _name: Crafting
     _index: 13
     _runIndex: 
     _stopIndex: 
