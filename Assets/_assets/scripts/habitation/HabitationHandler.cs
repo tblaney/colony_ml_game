@@ -9,6 +9,7 @@ public class HabitationHandler : MonoBehaviour, IHandler
     [Header("Inputs:")]
     public NodeProcessor _nodeProcessor;
     public HabBotProcessor _botProcessor;
+    public EnemyProcessor _enemyProcessor;
     public HabitationParameters _parametersIn;
     public MeshRenderer _restBoundsDefault;
     public HabBotStateParameters _stateParameters;
