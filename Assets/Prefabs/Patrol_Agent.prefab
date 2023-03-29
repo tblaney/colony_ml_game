@@ -63,9 +63,9 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 5cbc603a9b0484c46b98debd02121bbf, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: f7c65ed740005be4ab642114475073b4, type: 3}
   m_InferenceDevice: 0
-  m_BehaviorType: 0
+  m_BehaviorType: 2
   m_BehaviorName: PatrolAgent
   TeamId: 0
   m_UseChildSensors: 1
@@ -177,10 +177,7 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
   heuristics: 0
-  speedRotation: 12
-  minspeedstat: 0.8
-  maxspeedstat: 1.5
-  cooldown: 0
+  _cooldown: 0
   areaIndex: 0
   damage: 15
   hitRadius: 2

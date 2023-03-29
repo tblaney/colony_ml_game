@@ -14,29 +14,28 @@ public class ColonistAgent : Agent
     [SerializeField] private bool heuristics;
     [Space(10)]
     [Header("Movement:")]
-    [SerializeField] private float speedRotation = 8f;
-    public float minspeedstat;
-    public float maxspeedstat;
-    private float speedstat;
+    private float _speedRotation = 8f;
+    private float _speedMovement=1.2f;
+    private float _speedUp=8f;
     protected NavigationController nav;
-
-    public bool cooldown;
+    public bool _cooldown;
 
     public int areaIndex;
 
     LayerMask mask;
     Rigidbody rb;
 
-    float speed;
+    float _speed;
 
     //-------------------------------------------//
     public void Setup(int area_index)
     {
-        speedstat = Random.Range(minspeedstat, maxspeedstat);
+        // speedstat = Random.Range(minspeedstat, maxspeedstat);
         areaIndex = area_index;
         nav = GetComponent<NavigationController>();
-        nav.SetSpeed(speedstat*2f);
-        speed = speedstat*2f;
+        _speedMovement = _speedMovement*UnityEngine.Random.Range(0.6f, 0.95f);
+        // nav.SetSpeed(speedstat*2f);
+        // speed = speedstat*2f;
     }
     public override void Initialize()
     {
@@ -49,8 +48,9 @@ public class ColonistAgent : Agent
     }
     void CooldownCallback()
     {
-        cooldown = false;
+        _cooldown = false;
     }
+
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
         //negative reward for passage of time
@@ -60,6 +60,12 @@ public class ColonistAgent : Agent
         var move_forward = actionBuffers.DiscreteActions[0];
         var rotate = actionBuffers.DiscreteActions[1];
 
+        if (_cooldown)
+        {
+            nav.SetVelocity(Vector3.zero);
+            return;
+        }
+
         switch (rotate)
         {
             case 0:
@@ -67,26 +73,28 @@ public class ColonistAgent : Agent
                 break;
             case 1:
                 // rotate right
-                transform.Rotate(0f, 1f*speedRotation*speedstat, 0f, Space.World);
+                transform.Rotate(0f, 1f*_speedRotation, 0f, Space.World);
                 break;
             case 2:
                 // rotate left
-                transform.Rotate(0f, -1f*speedRotation*speedstat, 0f, Space.World);
+                transform.Rotate(0f, -1f*_speedRotation, 0f, Space.World);
                 break;
         }
 
+        Vector3 vel = transform.forward;
+        float speed = _speedMovement;
         switch (move_forward)
         {
             case 0:
                 // stay still
-                Vector3 zeroVel = new Vector3(0f, 0f, 0f);
-                nav.SetVelocity(zeroVel);
+                _speed = Mathf.Lerp(_speed, 0f, Time.fixedDeltaTime*_speedUp);
+                nav.SetVelocity(vel*_speed);
                 break;
             case 1:
-                Vector3 forwardVel = transform.forward;
-                nav.SetVelocity(forwardVel*speed);
+                // move forward
+                _speed = Mathf.Lerp(_speed, speed, Time.fixedDeltaTime*_speedUp);
+                nav.SetVelocity(vel*_speed);
                 break;
-            
         }
     }
     public override void Heuristic(in ActionBuffers actionsOut)
