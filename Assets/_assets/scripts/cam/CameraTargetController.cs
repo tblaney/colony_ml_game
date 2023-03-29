@@ -11,6 +11,8 @@ public class CameraTargetController : MonoBehaviour
     }
     public State _state;
     public float _movementSpeed = 12f;
+    public bool _sprinting;
+    public Vector2 _mousePosition;
     ITarget _target;
 
 
@@ -35,9 +37,17 @@ public class CameraTargetController : MonoBehaviour
                 break;
         }
         if (Input.GetKey(KeyCode.LeftShift))
+        {
             sprintFactor = 1.8f;
+            _sprinting = true;
+        } else
+        {
+            _sprinting = false;
+        }
 
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.unscaledDeltaTime*movementSpeed*sprintFactor);
+
+        RotateUpdate();
     }
     public void SetTarget(ITarget followTarget)
     {
@@ -48,5 +58,21 @@ public class CameraTargetController : MonoBehaviour
     {
         _target = null;
         _state = State.Manual;
+    }
+    void RotateUpdate()
+    {
+        if (Input.GetMouseButton(1))
+        {
+            Vector2 mousePosition = Input.mousePosition;
+            Vector2 delta = mousePosition - _mousePosition;
+            if (_mousePosition == default(Vector2))
+                delta.x = 0f;
+            
+            transform.Rotate(0f, delta.x*Time.deltaTime, 0f, Space.World);
+            _mousePosition = mousePosition;
+        } else
+        {
+            _mousePosition = default(Vector2);
+        }
     }
 }

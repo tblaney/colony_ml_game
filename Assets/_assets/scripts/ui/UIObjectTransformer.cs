@@ -9,7 +9,6 @@ public class UIObjectTransformer : MonoBehaviour
     [SerializeField] List<UITransformPoint> _transforms;
     [SerializeField] private bool _unscaledTime;
 
-
     // cache
     private RectTransform _rect;
     [Tooltip("Do not edit")]
@@ -23,10 +22,8 @@ public class UIObjectTransformer : MonoBehaviour
     private Coroutine _routine;
     List<UITransformPoint> _transformsCache;
 
-
     private UITransformPoint _defaultPoint;
     bool _performing;
-    int _indexCache;
 
 
     void Awake()
@@ -52,7 +49,10 @@ public class UIObjectTransformer : MonoBehaviour
             {
                 StopCoroutine(_routine);
             }
-            SetTransformPoint(_transforms[_indexCache]);
+            if (_transformsCache != null)
+            {
+                SetTransformPoint(_transformsCache[_index]);
+            } 
             //OnTransformPointFunc = null;
             _performing = false;
         }
@@ -66,12 +66,6 @@ public class UIObjectTransformer : MonoBehaviour
             StopCoroutine(_routine);
         }
         _performing = false;
-        //OnTransformPointFunc = null;
-        /*
-        OnTransformFunc = null;
-        _performing = false;
-        */
-        //Reset();
     }
 
     public void Reset()
@@ -81,8 +75,6 @@ public class UIObjectTransformer : MonoBehaviour
 
         SetTransformPoint(_defaultPoint);
     }
-
-
     public void ActivateSeries(List<UITransformPoint> transformPoints)
     {
         if (_routine != null)
@@ -91,7 +83,6 @@ public class UIObjectTransformer : MonoBehaviour
         }
 
         _index = 0;
-
         this._transformsCache = transformPoints;
         UITransformPoint point = _transformsCache[_index];
         Vector3 anchoredPos = _rect.anchoredPosition;
@@ -128,7 +119,7 @@ public class UIObjectTransformer : MonoBehaviour
             {
                 List<UITransformPoint> points = new List<UITransformPoint>();
                 points.Add(_transforms[index]);
-                _indexCache = index;
+                _index = index;
                 ActivateSeries(points);
             }
         }   

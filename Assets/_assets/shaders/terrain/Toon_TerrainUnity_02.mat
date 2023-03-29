@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Toon_TerrainUnity_02
-  m_Shader: {fileID: 4800000, guid: f81b63ff9d142e54b80fa20116e7ebfd, type: 3}
+  m_Shader: {fileID: 4800000, guid: 3cf40fd6f875da84cb206c4be9283284, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 8f8cca0520dbcdb42b9512a4e9c904c9, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6cf02462decea754e8579b1700e13a1d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTexSide:
@@ -42,8 +42,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Angle: 89
     - _EdgeWidth: 0.88
+    - _FirstOutlineWidth: 0.025
     - _NoiseScale: 0.33
+    - _OutlineOpacity: 0
     - _RampSmooth: 0
     - _RampThreshold: 0.6
     - _RimPower: 4
@@ -56,10 +59,12 @@ Material:
     - _SpecSmooth: 0.1
     - _TextureInfluence: 1
     - _ToonSteps: 3
+    - _TopScale: 1
     - _TopSpread: 0.51
     - _TopThreshold: 1.42
     m_Colors:
-    - _Color: {r: 0.92289263, g: 0.972549, b: 0.6, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _FirstOutlineColor: {r: 1, g: 1, b: 1, a: 0.5}
     - _GridColorSpecial: {r: 0, g: 0, b: 0, a: 1}
     - _GridColorX: {r: 0, g: 0, b: 0, a: 1}
     - _GridColorY: {r: 0, g: 0, b: 0, a: 1}
@@ -68,4 +73,5 @@ Material:
     - _RimColor2: {r: 0, g: 0, b: 0, a: 1}
     - _SColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
+    - _ToonColor: {r: 0.57924527, g: 0.8920145, b: 1, a: 1}
   m_BuildTextureStacks: []

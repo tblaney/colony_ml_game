@@ -9,11 +9,13 @@ public class UIHabitation : UIObject
     [SerializeField] private UIItemMenu _uiItemMenu;
     [SerializeField] private UIBuildingMenu _uiBuildingMenu;
     [SerializeField] private UIHabitationQueue _uiQueue;
+    [SerializeField] private UINode _uiNode;
+    [SerializeField] private List<UIBuilding> _uiBuildings;
+
     [Header("Debug:")]
     [SerializeField] private List<UIHabBot> _uiBots;
     Habitation _habitation;
     UIHabBot _uiBotCurrent;
-    [SerializeField] UINode _uiNode;
 
     public override void Initialize()
     {
@@ -59,6 +61,10 @@ public class UIHabitation : UIObject
     void BotClickFunc(UIHabBot uiHabBot)
     {
         _uiNode.ActivateUI(false);
+        foreach (UIBuilding uIBuilding in _uiBuildings)
+        {
+            uIBuilding.ActivateUI(false);
+        }
         if (_uiBotCurrent != null)
         {
             if (_uiBotCurrent == uiHabBot)
@@ -108,7 +114,27 @@ public class UIHabitation : UIObject
         {
             BotClickFunc(_uiBotCurrent);    
         }
-        _uiNode.Setup(node);
+        foreach (UIBuilding uIBuilding in _uiBuildings)
+        {
+            uIBuilding.ActivateUI(false);
+        }
+        if (building != null)
+        {
+            UIBuilding uiBuilding = GetUIBuilding(building._index);
+            uiBuilding.Setup(node, building);
+        } else
+        {
+            _uiNode.Setup(node);
+        }
+    }
+    public UIBuilding GetUIBuilding(int index)
+    {
+        foreach (UIBuilding build in _uiBuildings)
+        {
+            if (build._indexBuilding == index)
+                return build;
+        }
+        return null;
     }
     public UIHabBot GetUIHabBot(HabBot bot)
     {

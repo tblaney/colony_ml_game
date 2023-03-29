@@ -15,7 +15,8 @@ public class HabitationHandler : MonoBehaviour, IHandler
 
     [Header("Debug:")]
     public Habitation _habitation;
-    public List<HabitationQueue> _queues;
+
+    List<HabitationQueue> _queues;
     public static HabitationParameters _parameters;
 
     public void Initialize()
@@ -26,8 +27,12 @@ public class HabitationHandler : MonoBehaviour, IHandler
         _botProcessor.Initialize();
         
         _queues = new List<HabitationQueue>();
+
+        _queues.Add(new HabitationQueue(HabBot.State.Build){});
         _queues.Add(new HabitationQueue(HabBot.State.Craft){});
         _queues.Add(new HabitationQueue(HabBot.State.Machine){});
+        _queues.Add(new HabitationQueue(HabBot.State.Haul){});
+        _queues.Add(new HabitationQueue(HabBot.State.Destroy){});
         _queues.Add(new HabitationQueue(HabBot.State.CollectFood){});
         _queues.Add(new HabitationQueue(HabBot.State.CollectMinerals){});
         _queues.Add(new HabitationQueue(HabBot.State.CollectTrees){});
@@ -35,20 +40,22 @@ public class HabitationHandler : MonoBehaviour, IHandler
     }
     public void Load(Habitation habitation = null, List<Node> nodes = null)
     {
+        if (habitation != null)
+        {
+            _habitation = habitation;
+            _queues = _habitation._queues;
+        } else
+        {
+            _habitation = new Habitation();
+            _habitation.NewHabitation(_restBoundsDefault.bounds);
+            _habitation._queues = _queues;
+        }
         if (nodes != null)
         {
             _nodeProcessor.Load(nodes);
         } else
         {
             _nodeProcessor.Load(null);
-        }
-        if (habitation != null)
-        {
-            _habitation = habitation;
-        } else
-        {
-            _habitation = new Habitation();
-            _habitation.NewHabitation(_restBoundsDefault.bounds);
         }
          _habitation.Initialize(_stateParameters);
         Destroy(_restBoundsDefault.gameObject);
@@ -108,8 +115,15 @@ public class HabitationHandler : MonoBehaviour, IHandler
     {
         return _habitation.GetItemInventoriesWithItem(item);
     }
+    public List<int> GetItemInventories(bool includeBots = true)
+    {
+        return _habitation.GetItemInventories(includeBots);
+    }
     public void AddObjectToQueue(HabBot.State state, Queueable obj)
     {
+        if (obj._queued)
+            return;
+        Debug.Log("Queue Object: " + state + ", " + obj);
         HabitationQueue queue = GetQueue(state);
         if (queue != null)
         {
@@ -201,6 +215,10 @@ public class HabitationHandler : MonoBehaviour, IHandler
             return null;
         }
     }
+    public List<HabitationQueue> GetQueues()
+    {
+        return _queues;
+    }
 }
 
 [Serializable]
@@ -209,6 +227,7 @@ public class HabitationQueue
     // this class handles any queue's set by the player - for machining state mostly
     public HabBot.State _state;
     public List<Queueable> _queueables;
+    public event EventHandler OnQueueChange;
 
     public HabitationQueue(HabBot.State state)
     {
@@ -221,6 +240,7 @@ public class HabitationQueue
         {
             Queueable obj = _queueables[0];
             _queueables.RemoveAt(0);
+            OnQueueChange?.Invoke(null, EventArgs.Empty);
             return obj;
         }
         return null;
@@ -228,11 +248,14 @@ public class HabitationQueue
     public void Add(Queueable obj)
     {
         _queueables.Add(obj);
+        OnQueueChange?.Invoke(null, EventArgs.Empty);
     }
     public void Remove(Queueable obj)
     {
         if (_queueables.Contains(obj))
             _queueables.Remove(obj);
+        
+        OnQueueChange?.Invoke(null, EventArgs.Empty);
     }
 }
 

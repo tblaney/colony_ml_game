@@ -59,7 +59,7 @@ public class UIBuildingMenu : UIObject
     }
     void ButtonClickCallback(Building building)
     {
-        Debug.Log("UIBuilding Button Click Callback");
+        Debug.Log("UIBuilding Button Click Callback: " + building._index);
         _currentBuildingIndex = building._index;
         //ActivateUI(false);
         UserHandler.Instance.SetUserState(UserController.State.Building);

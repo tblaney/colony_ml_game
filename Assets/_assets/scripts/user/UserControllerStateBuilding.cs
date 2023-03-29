@@ -26,7 +26,12 @@ public class UserControllerStateBuilding : UserControllerState
             StopState();
             return;
         }
+        if (_node != null)
+        {
+            Destroy(_node.gameObject);
+        }
         _node = HabitationHandler.Instance.SpawnNodeUnassigned(_building.GetNodeBuilding(Utils.Tools.VectorToInt(spawnPosition))) as BuildingNodeObject;
+        _node.RemoveFromQueue();
         _controller.ActivateSelector(true);
         ShaderHandler.Instance.SetGridOpacity(0.2f);
     }
@@ -36,6 +41,7 @@ public class UserControllerStateBuilding : UserControllerState
         if (_node != null)
         {
             Destroy(_node.gameObject);
+            _node = null;
         }
         _chain = 0;
         _controller.ActivateSelector(false);
@@ -47,6 +53,7 @@ public class UserControllerStateBuilding : UserControllerState
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             StopState();
+            return;
         }
         Vector3 position = CameraHandler.Instance.GetBuildingPosition();
         position.y = 30f;

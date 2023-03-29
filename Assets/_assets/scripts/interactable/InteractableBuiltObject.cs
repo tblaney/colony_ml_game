@@ -16,8 +16,7 @@ public class InteractableBuiltObject : Interactable
     }
     public override void Interact()
     {
-        //throw new System.NotImplementedException();
-        UIHandler.Instance.ActivateNodeFocus(_node);
+        UIHandler.Instance.ActivateNodeFocus(_node, _building);
     }
 
     public override void InteractHover(bool isIn)

@@ -10,7 +10,6 @@ public class UINode : UIObject
     [SerializeField] private UIButton _buttonClose;
 
     Node _node;
-    UIBuilding _buildingExtension;
     bool _active;
 
     public override void Initialize()

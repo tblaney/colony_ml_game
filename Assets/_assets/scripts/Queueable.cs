@@ -11,6 +11,7 @@ public abstract class Queueable
         Node,
         Machine,
         Craft,
+        Haul,
     }
     public Type _queueableType;
     public bool _queued;
@@ -26,5 +27,20 @@ public class MachineQueuable : Queueable
         _item = input;
         _bot = bot;
         _queueableType = Type.Machine;
+    }
+}
+
+[Serializable]
+public class HaulQueueable : Queueable
+{
+    public ItemInput _item;
+    public int _inventoryIn;
+    public int _inventoryOut;
+    public HaulQueueable(ItemInput item, int inventoryIn, int inventoryOut)
+    {
+        _item = item;
+        _inventoryIn = inventoryIn;
+        _inventoryOut = inventoryOut;
+        _queueableType = Type.Haul;
     }
 }

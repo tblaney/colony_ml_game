@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3902535484950304682}
   - component: {fileID: 8839611551169399589}
   - component: {fileID: 7567328675204524891}
+  - component: {fileID: 8241256376030227337}
   m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
@@ -83,6 +84,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8241256376030227337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091083360465268425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85096ead772674641b879e928cdb7d28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _behavioursFloat:
+  - _name: _OutlineOpacity
+    _index: 1
+    _active: 0
+    _blocks: []
+    _in: 1
+    _out: 0
+    _time: 0
+    _hardIn: 0
+  _behavioursColor: []
+  _materialIndex: 0
 --- !u!1 &6146409238781871401
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,6 +120,7 @@ GameObject:
   - component: {fileID: 8488635851522689992}
   - component: {fileID: 2677118573482455656}
   - component: {fileID: 7494914336930777883}
+  - component: {fileID: 4277110242045676517}
   m_Layer: 6
   m_Name: PF_Mineral
   m_TagString: Untagged
@@ -167,6 +192,7 @@ MonoBehaviour:
     _name: 
     _index: 0
     _amount: 0
+  _interactable: {fileID: 4277110242045676517}
 --- !u!114 &2677118573482455656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,3 +224,17 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.5, y: 0.5, z: 0.5}
   m_TimeToStationary: 0.5
+--- !u!114 &4277110242045676517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6146409238781871401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c4db88996bf03a41b65d7a9039e441f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _controllers:
+  - {fileID: 8241256376030227337}

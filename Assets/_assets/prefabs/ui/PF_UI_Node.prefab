@@ -40,7 +40,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 133.2, y: 143.6}
+  m_AnchoredPosition: {x: 133.08, y: 143.6}
   m_SizeDelta: {x: 36.2693, y: 35.4739}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7918907147107392019
@@ -752,7 +752,7 @@ MonoBehaviour:
     _spriteOut: {fileID: 0}
   _behavioursRect: []
   _behavioursText:
-  - _name: node name
+  - _name: name
     _index: 1
     _runIndex: 
     _stopIndex: 
@@ -761,7 +761,7 @@ MonoBehaviour:
     color_in: {r: 1, g: 1, b: 1, a: 1}
     color_out: {r: 1, g: 1, b: 1, a: 1}
     _rectBackground: {fileID: 0}
-  - _name: node description
+  - _name: description
     _index: 2
     _runIndex: 
     _stopIndex: 

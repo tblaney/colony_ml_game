@@ -6,6 +6,8 @@ using System;
 public class HabBotStateRest : HabBotState
 {
     Notification _notification;
+    float _timer;
+
     public override void StartState()
     {
         BuiltNodeObject obj = HabitationHandler.Instance.GetClosestNodeObjectOfType(Node.Type.Building, _controller.GetBot()._position, 6) as BuiltNodeObject;
@@ -23,6 +25,16 @@ public class HabBotStateRest : HabBotState
     }
     public override void UpdateState()
     {
-
+        float distance = Vector3.Distance(transform.position, _nav.GetDestination());
+        if (distance < 2f)
+        {
+            // heal
+            _timer += Time.deltaTime;
+            if (_timer > 1f)
+            {
+                _timer = 0f;
+                _controller.GetBot().GetVitality("energy").Heal(5);
+            }
+        }
     }
 }   

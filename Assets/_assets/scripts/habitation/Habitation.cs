@@ -9,6 +9,7 @@ public class Habitation
     // main class that stores all information regarding the habitation, should just be able to load this in from a save
     public List<HabBot> _bots;
     public List<int> _itemInventories;
+    public List<HabitationQueue> _queues;
     public static HabBotStateParameters _stateParameters;
     public void NewHabitation(Bounds restBounds)
     {
@@ -85,6 +86,30 @@ public class Habitation
         }
         return inventories;
     }
+    public List<int> GetItemInventories(bool includeHabBots = true)
+    {
+        if (includeHabBots)
+            return _itemInventories;
+        
+        List<int> ints = new List<int>();
+        foreach (int i in _itemInventories)
+        {
+            bool botHasIndex = false;
+            foreach (HabBot bot in _bots)
+            {
+                if (bot._inventoryIndex == i)
+                {
+                    botHasIndex = true;
+                    break;
+                }
+            }
+            if (!botHasIndex)
+            {
+                ints.Add(i);
+            }
+        }
+        return ints;
+    }
     public void AddInventory(int index)
     {
         Debug.Log("Habitation Add Inventory: " + index);
@@ -93,6 +118,7 @@ public class Habitation
     }
     public void RemoveInventory(int index)
     {
+        Debug.Log("Habitation Remove Inventory: " + index);
         if (_itemInventories.Contains(index))
             _itemInventories.Remove(index);
     }

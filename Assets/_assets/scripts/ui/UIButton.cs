@@ -253,6 +253,11 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (_controller != null)
             _controller.ActivateBehaviour(index, active);
     }
+    public void ActivateController(string name, bool active)
+    {
+        if (_controller != null)
+            _controller.ActivateBehaviour(name, active);
+    }
     public UIController GetController()
     {
         return _controller;

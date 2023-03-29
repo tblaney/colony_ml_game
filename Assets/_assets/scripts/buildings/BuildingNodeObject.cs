@@ -14,6 +14,7 @@ public class BuildingNodeObject : NodeObject
     bool _finished = false;
     bool _canPlace = false;
 
+
     public override void InitializeNode()
     {
         _building = BuildingHandler.Instance.GetBuilding(_buildingIndex);
@@ -40,5 +41,9 @@ public class BuildingNodeObject : NodeObject
         //base.OnDestroyNode();
         if (_finished)
             HabitationHandler.Instance.NewNode(BuildingHandler.Instance.GetBuilding(_buildingIndex).GetNodeBuilt(this._node._position));
+    }
+    public void RemoveFromQueue()
+    {
+        HabitationHandler.Instance.RemoveObjectFromQueue(this._node.GetState(), this._node);
     }
 }

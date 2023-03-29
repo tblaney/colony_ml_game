@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BuiltNodeBehaviourStorage : BuiltNodeBehaviour
 {
+    public InventoryObject _inventoryObject;
     ItemInventory _inventory;
     public override void StartBehaviour()
     {
@@ -12,6 +13,7 @@ public class BuiltNodeBehaviourStorage : BuiltNodeBehaviour
             _obj._node._inventoryIndex = ItemHandler.Instance.NewInventory();
         }
         _inventory = ItemHandler.Instance.GetItemInventory(_obj._node._inventoryIndex);
+        _inventoryObject.Initialize(_obj._node._inventoryIndex, true);
     }
     public override void UpdateBehaviour()
     {

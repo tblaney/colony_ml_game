@@ -17,6 +17,15 @@ public class UIQueueable : UIObject
         this.ButtonClickCallback = ButtonClickCallback;
         this._queue = queue;
         Refresh();
+        queue.OnQueueChange += Queue_OnQueueChange;
+    }
+    void OnDisable()
+    {
+        _queue.OnQueueChange -= Queue_OnQueueChange;
+    }
+    void Queue_OnQueueChange(object sender, EventArgs e)
+    {
+        Refresh();
     }
     void Refresh()
     {
@@ -26,8 +35,8 @@ public class UIQueueable : UIObject
             UIButton button = Instantiate(_buttonQueueable, _buttonQueueable.transform.parent);
             button.Activate(true);
             UIController controller = button.GetComponent<UIController>();
+            controller.FormList();
             button.OnPointerClickFunc = () => {ButtonClickCallback(queueable);};
-            
             switch (queueable._queueableType)
             {
                 case Queueable.Type.Node:
@@ -42,6 +51,10 @@ public class UIQueueable : UIObject
                 case Queueable.Type.Craft:
                     Item item = queueable as Item;
                     controller.SetText(item._name, "name");
+                    break;
+                case Queueable.Type.Haul:
+                    HaulQueueable haulQueueable = queueable as HaulQueueable;
+                    controller.SetText(haulQueueable._item._name, "name");
                     break;
             }
         }

@@ -37,6 +37,10 @@ public class Node : Queueable, ITarget
         _active = true;
         _health = new Vitality() {_name = "health", _val = 100};
     }
+    public Node()
+    {
+        
+    }
     public void SetPosition(Vector3Int position)
     {
         _position = position;

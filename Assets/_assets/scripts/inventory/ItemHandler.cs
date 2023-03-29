@@ -22,6 +22,11 @@ public class ItemHandler : MonoBehaviour, IHandler
         {
             inventory._items.Add(item.DuplicateItem());
         }
+        inventory.AddItem(2, 1);
+        inventory.AddItem(3, 1);
+        inventory.AddItem(4, 1);
+        inventory.AddItem(5, 1);
+        inventory.AddItem(6, 1);
         return inventory;
     }
     public ItemInventory GetItemInventory(int index)
@@ -81,6 +86,15 @@ public class ItemHandler : MonoBehaviour, IHandler
                 return val;
         }
         return -1;
+    }
+    public Item GetUnlinkedItem(int index)
+    {
+        foreach (Item item in _items)
+        {
+            if (item._index == index)
+                return item.DuplicateItem();
+        }
+        return null;
     }
 }
 
@@ -232,7 +246,7 @@ public class ItemInventory
 
 
 [Serializable]
-public struct ItemInput
+public class ItemInput : Queueable
 {
     public string _name;
     public int _index;

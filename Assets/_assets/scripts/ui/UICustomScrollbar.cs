@@ -26,6 +26,7 @@ public class UICustomScrollbar : MonoBehaviour
     private List<RectTransform> _slotList;
     private Vector2 _slotSize;
     bool _active;
+    GameObject _handle;
     //-----------------------------------------------------
 
     void Awake()
@@ -35,10 +36,12 @@ public class UICustomScrollbar : MonoBehaviour
         {
             _hoverObjects = new List<GameObject>() {this.gameObject};
         }
+        _handle = transform.Find("Sliding Area").GetChild(0).gameObject;
+        _defaultContentPosition = _rectContents.anchoredPosition;
     }
     void Update()
     {
-        RectCheck();
+        Refresh();
         if (!_active)
             return;
         if (_canScroll)
@@ -102,15 +105,17 @@ public class UICustomScrollbar : MonoBehaviour
         }
         if (condition)
         {
-            _scrollbar.gameObject.SetActive(true);
+            if (_handle != null)
+                _handle.SetActive(true);
+
             _canScroll = true;
         }
         else
         {
-            _scrollbar.gameObject.SetActive(false);
+            if (_handle != null)
+                _handle.SetActive(false);
             _canScroll = false;
         }
-        _defaultContentPosition = _rectContents.anchoredPosition;
     }
     public RectTransform AddSlot(RectTransform slot, Vector2 slotSize)
     {

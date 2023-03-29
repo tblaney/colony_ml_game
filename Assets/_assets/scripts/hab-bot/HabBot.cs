@@ -25,6 +25,7 @@ public class HabBot : ITarget
         Recreation,
         Machine,
         Haul,
+        Destroy,
     }
     public State _state;
     public State _stateDefault;
@@ -87,11 +88,11 @@ public class HabBot : ITarget
         {
             _inventoryIndex = ItemHandler.Instance.NewInventory();
             ItemInventory inventory = ItemHandler.Instance.GetItemInventory(_inventoryIndex);
-            inventory.AddItem(2, 1);
-            inventory.AddItem(3, 1);
-            inventory.AddItem(4, 1);
-            inventory.AddItem(5, 1);
-            inventory.AddItem(6, 1);
+            //inventory.AddItem(2, 1);
+            //inventory.AddItem(3, 1);
+            //inventory.AddItem(4, 1);
+            //inventory.AddItem(5, 1);
+            //inventory.AddItem(6, 1);
         }
 
         //HabitationHandler.Instance.AddInventory(_inventoryIndex);

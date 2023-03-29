@@ -101,6 +101,10 @@ public class NavigationController : MonoBehaviour
     {
         return navAgent.desiredVelocity;
     }
+    public Vector3 GetDestination()
+    {
+        return navAgent.destination;
+    }
 
     public Vector3 GetVelocity()
     {

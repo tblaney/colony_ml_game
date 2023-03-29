@@ -8,6 +8,7 @@ public class UIHabitationQueue : UIObject
     public string _prefabNameQueue;
     public GameObject _buttonContainer;
     public float _controllerSpacing = 40f;
+    public UIButton _buttonMain;
 
     [Space(10)]
     List<UIButton> _buttons;
@@ -28,7 +29,7 @@ public class UIHabitationQueue : UIObject
     }
     void Refresh()
     {
-        List<HabitationQueue> queues = HabitationHandler.Instance._queues;
+        List<HabitationQueue> queues = HabitationHandler.Instance.GetQueues();
         ClearAll();
         int y = 0;
         foreach (HabitationQueue queue in queues)
@@ -49,7 +50,21 @@ public class UIHabitationQueue : UIObject
     }
     void ButtonClickCallback(Queueable queueable)
     {
-
+        switch (queueable._queueableType)
+        {
+            case Queueable.Type.Node:
+                Node node = queueable as Node;
+                NodeObject nodeObject = HabitationHandler.Instance.GetNodeObject(node);
+                Interactable interactable = nodeObject.GetComponent<Interactable>();
+                if (interactable != null)
+                    interactable.Interact();
+                break;
+            case Queueable.Type.Machine:
+                MachineQueuable machineQueuable = queueable as MachineQueuable;
+                UIHandler.Instance.ActivateHabBotFocus(machineQueuable._bot);
+                break;
+        }
+        _buttonMain.OnPointerClickFunc();
     }
     void ClearAll()
     {
