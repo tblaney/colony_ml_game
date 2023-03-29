@@ -4,11 +4,20 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Wall
-  - Poison
-  - Food
-  - Agent
-  - Mineral
+  - wall
+  - blueGoal
+  - purpleGoal
+  - purpleAgent
+  - blueAgent
+  - ball
+  - agent
+  - walkableSurface
+  - block
+  - goal
+  - ground
+  - boundary
+  - blueBoundary
+  - purpleBoundary
   layers:
   - Default
   - TransparentFX
@@ -16,9 +25,9 @@ TagManager:
   - 
   - Water
   - UI
-  - Obstacles
-  - Agents
-  - Terrain
+  - 
+  - 
+  - 
   - 
   - 
   - 
