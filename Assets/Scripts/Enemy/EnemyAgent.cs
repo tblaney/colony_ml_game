@@ -126,7 +126,7 @@ public class Enemy
         health = 100 + UnityEngine.Random.Range(-30, 30);
         damage = 10 + UnityEngine.Random.Range(0, 10);
         //enemy speed (0.8 - 1.8) is higher on average than colonist speed (0.5-1.0). we can adjust this as needed.
-        speed = 0.8f + UnityEngine.Random.Range(0f, 1f);
+        speed = 5f + UnityEngine.Random.Range(-1.5f, 1.5f);
         Debug.Log("Enemy speed initialized to " + speed.ToString());
     }
 }

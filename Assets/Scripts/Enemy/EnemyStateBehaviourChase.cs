@@ -60,7 +60,7 @@ public  class EnemyStateBehaviourChase : EnemyStateBehaviour
         }
 
         float distance = Vector3.Distance(positionCache, targetAgent.GetPosition());
-        if (distance > 6f)
+        if (distance > 2f)
         {
             // repath
             positionCache = targetAgent.GetPosition();

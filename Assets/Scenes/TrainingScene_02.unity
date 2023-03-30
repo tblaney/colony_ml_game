@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -359,9 +359,9 @@ MonoBehaviour:
   areas:
   - {fileID: 306302583641004878}
   parametersIn:
-    colonistAmount: 5
+    colonistAmount: 15
     enemyAmountMin: 20
-    enemyAmountMax: 80
+    enemyAmountMax: 60
     enemyRepeatSpawning: 0
     enemySpawnRate: 30
     foodAmount: 250
@@ -893,7 +893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   areaIndex: 1
-  agentPrefab: {fileID: 911526879165222238, guid: b38d80be7b32e014aad62dbb1c938e4e, type: 3}
+  agentPrefab: {fileID: 911526879165222238, guid: 4cd3d8c0efee2254085cc2dd8bcec8b2, type: 3}
   enemyPrefab: {fileID: 5531459114273244970, guid: e77b579a0ed3a424d9e9785b8e9f5063, type: 3}
   resetThresholdMinutes: 5
 --- !u!114 &306302583641004879

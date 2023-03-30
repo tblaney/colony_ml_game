@@ -11,32 +11,30 @@ using Utils;
 public class ColonistAgent : Agent
 {    
     [Header("Inputs:")]
-    [SerializeField] private bool heuristics;
+    [SerializeField] 
+    private bool heuristics;
     [Space(10)]
     [Header("Movement:")]
-    [SerializeField] private float speedRotation = 8f;
-    public float minspeedstat;
-    public float maxspeedstat;
-    private float speedstat;
     protected NavigationController nav;
+    protected float _speedRotation = 8f;
+    protected float _speedMovement= 1.2f;
+    protected float _speedUp= 8f;
 
     public bool cooldown;
 
     public int areaIndex;
+    protected float _speed;
 
     LayerMask mask;
     Rigidbody rb;
 
-    float speed;
-
     //-------------------------------------------//
     public void Setup(int area_index)
     {
-        speedstat = Random.Range(minspeedstat, maxspeedstat);
+        cooldown = false;
         areaIndex = area_index;
         nav = GetComponent<NavigationController>();
-        nav.SetSpeed(speedstat*2f);
-        speed = speedstat*2f;
+        _speedMovement = _speedMovement*UnityEngine.Random.Range(0.7f, 1.15f);
     }
     public override void Initialize()
     {
@@ -50,6 +48,7 @@ public class ColonistAgent : Agent
     void CooldownCallback()
     {
         cooldown = false;
+        Debug.Log("projectile cooldown callback");
     }
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
@@ -67,26 +66,28 @@ public class ColonistAgent : Agent
                 break;
             case 1:
                 // rotate right
-                transform.Rotate(0f, 1f*speedRotation*speedstat, 0f, Space.World);
+                transform.Rotate(0f, 1f*_speedRotation, 0f, Space.World);
                 break;
             case 2:
                 // rotate left
-                transform.Rotate(0f, -1f*speedRotation*speedstat, 0f, Space.World);
+                transform.Rotate(0f, -1f*_speedRotation, 0f, Space.World);
                 break;
         }
 
+        Vector3 vel = transform.forward;
+        float speed = _speedMovement;
         switch (move_forward)
         {
             case 0:
                 // stay still
-                Vector3 zeroVel = new Vector3(0f, 0f, 0f);
-                nav.SetVelocity(zeroVel);
+                _speed = Mathf.Lerp(_speed, 0f, Time.fixedDeltaTime*_speedUp);
+                nav.SetVelocity(vel*_speed);
                 break;
             case 1:
-                Vector3 forwardVel = transform.forward;
-                nav.SetVelocity(forwardVel*speed);
+                // move forward
+                _speed = Mathf.Lerp(_speed, speed, Time.fixedDeltaTime*_speedUp);
+                nav.SetVelocity(vel*_speed);
                 break;
-            
         }
     }
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -107,8 +108,6 @@ public class ColonistAgent : Agent
             rotate_out = 2;
         } 
 
-        //OnActionReceived(actionsOut);
-
         Debug.Log("Colony Agent Heuristic: " + move_forward_out + ", " + rotate_out);
     }
 
@@ -122,11 +121,6 @@ public class ColonistAgent : Agent
         Destroy(this.gameObject);
     }
 
-    // public void Damage(float damage)
-    // {   
-    //     //TODO implement agent health and damage-taking
-    //     Debug.Log("Colonist agent took " + damage.ToString() + " damage");
-    // }
     public void Damage(float damage)
     {
         Debug.Log("Colonist agent took " + damage.ToString() + " damage");

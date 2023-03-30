@@ -17,7 +17,7 @@ public abstract class EnemyStateBehaviour : MonoBehaviour
     }
     public void Initialize()
     {
-        nav.SetSpeed(agent.enemy.speed*6f);
+        nav.SetSpeed(agent.enemy.speed);
     }
 
     void OnDisable()
