@@ -4,7 +4,6 @@ using UnityEngine;
 
 public  class EnemyStateBehaviourChase : EnemyStateBehaviour
 {
-    public bool active = false;
     HabBot target;
     bool cooldown = false;
     Vector3 positionCache;
@@ -15,47 +14,49 @@ public  class EnemyStateBehaviourChase : EnemyStateBehaviour
     void Refresh()
     {
         HabBot bot = HabitationHandler.Instance.GetClosestBot(transform.position);
-        float distance = Vector3.Distance(transform.position, bot.GetPosition());
-        if (distance < agent.enemy.chaseRadius){
-            active = true;
-            if (bot == null)
-            {
-                active = false;
-                nav.Stop();
-                Invoke("CooldownCallback", agent.enemy.cooldown);
-                return;
-            }
+        if (bot == null)
+        {
+            nav.Stop();
+            Invoke("CooldownCallback", agent.enemy.cooldown);
+            return;
+        } else
+        {
             target = bot;
             positionCache = target.GetPosition();
             nav.MoveTo(positionCache, NavCallback);
-        } else {
-            active = true;
-            RoamRefresh();
         }
-        
     }
-    public virtual void StopBehaviour()
+    public override void StopBehaviour()
     {
         nav.Stop();
     }
     public override bool RunCheck()
     {
-        return true;
+        HabBot bot = HabitationHandler.Instance.GetClosestBot(transform.position);
+        float distance = Vector3.Distance(transform.position, bot.GetPosition());
+        if (distance < agent.enemy.chaseRadius)
+        {
+            return true;
+        }
+        return false;
     }
     public override void UpdateBehaviour()
     {
-        if (!active)
-        {
-            return;
-        }
         if (target == null)
         {
             Refresh();
             return;
         }
+        float distanceToTarget = Vector3.Distance(transform.position, target.GetPosition());
+        if (distanceToTarget > agent.enemy.chaseRadius)
+        {
+            agent.SetDefaultState();
+            return;
+        }
         if (cooldown)
         {
             UpdateRotation((target.GetPosition() - transform.position).normalized);
+            nav.Stop();
             return;
         }
         float distance = Vector3.Distance(positionCache, target.GetPosition());
@@ -69,6 +70,7 @@ public  class EnemyStateBehaviourChase : EnemyStateBehaviour
     void AttackTarget()
     {
         nav.Stop();
+        animator.SetAnimationState("Attack", 0.1f);
         target.Damage((int)agent.enemy.damage);
         cooldown = true;
         Invoke("CooldownCallback", agent.enemy.cooldown);
@@ -93,13 +95,5 @@ public  class EnemyStateBehaviourChase : EnemyStateBehaviour
         {
             Refresh();
         }
-    }
-    void RoamRefresh()
-    {
-        nav.MoveToRandomLocation(agent.enemy.roamRange, NavCallbackRoam);
-    }
-    void NavCallbackRoam()
-    {
-        Refresh();
     }
 }

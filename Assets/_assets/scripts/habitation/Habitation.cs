@@ -11,6 +11,7 @@ public class Habitation
     public List<int> _itemInventories;
     public List<HabitationQueue> _queues;
     public static HabBotStateParameters _stateParameters;
+    public event EventHandler OnBotAmountChange;
     public void NewHabitation(Bounds restBounds)
     {
         _bots = new List<HabBot>();
@@ -51,6 +52,17 @@ public class Habitation
             }
         }
         return botOut;
+    }
+    public void RemoveBot(HabBot bot)
+    {
+        if (_bots.Contains(bot))
+            _bots.Remove(bot);
+        
+        OnBotAmountChange?.Invoke(null, EventArgs.Empty);
+    }
+    public void NewBot()
+    {
+
     }
     public List<Item> GetAllItems()
     {

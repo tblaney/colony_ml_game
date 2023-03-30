@@ -65,6 +65,10 @@ public class UIHandler : MonoBehaviour, IHandler
     {
         _uiHabitation.ActivateNode(node, building);
     }
+    public void ActivateEnemyFocus(IEnemy enemy)
+    {
+        _uiHabitation.ActivateEnemy(enemy);
+    }
 }
 [Serializable]
 public class UIButtonInput

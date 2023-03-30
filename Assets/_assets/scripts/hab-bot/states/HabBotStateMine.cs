@@ -16,6 +16,10 @@ public class HabBotStateMine : HabBotState
     }
     void RefreshTarget()
     {
+        if (_targetNode != null)
+        {
+            _targetNode.SetBusy(false);
+        }
         Queueable queueable = HabitationHandler.Instance.GetQueuedObject(HabBot.State.CollectMinerals);
         if (queueable != null)
         {

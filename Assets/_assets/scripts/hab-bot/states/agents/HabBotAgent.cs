@@ -18,15 +18,16 @@ public class HabBotAgent : Agent
     public float _speedMovement = 6f;
     public float _speedUp = 12f;
     public bool _cooldown;
-
+    public Action OnAttackFunc;
     protected NavigationController nav;
     float _speed;
 
     //-------------------------------------------//
-    public void Setup(HabBot bot)
+    public void Setup(HabBot bot, Action OnAttackFunc)
     {
         nav = GetComponent<NavigationController>();
         _speedMovement = _speedMovement*bot._traits.GetTraitVal(HabBotTrait.Type.Speed);
+        this.OnAttackFunc = OnAttackFunc;
     }
     public override void Initialize()
     {
@@ -48,6 +49,12 @@ public class HabBotAgent : Agent
         //------discrete-actions-------//
         var move_forward = actionBuffers.DiscreteActions[0];
         var rotate = actionBuffers.DiscreteActions[1];
+
+        if (_cooldown)
+        {
+            nav.SetVelocity(Vector3.zero);
+            return;
+        }
 
         switch (rotate)
         {
@@ -79,6 +86,7 @@ public class HabBotAgent : Agent
                 nav.SetVelocity(vel*_speed);
                 break;
         }
+
     }
     public override void Heuristic(in ActionBuffers actionsOut)
     {

@@ -6,11 +6,13 @@ public abstract class EnemyStateBehaviour : MonoBehaviour
 {
     public int priority;
     protected EnemyAgent agent;
+    protected AnimatorHandler animator;
     protected NavigationController nav;
 
     void Awake()
     {
         agent = GetComponent<EnemyAgent>();
+        animator = GetComponent<AnimatorHandler>();
     }
 
     void OnDisable()

@@ -79,6 +79,7 @@ public class HabBot : ITarget
                     vitality._val = 50;
                     break;
             }
+            //vitality._timerLimit = GetDrainTimer(vitality._name);
             _vitalities.Add(vitality);
         }
         _addons.Add(new HabBotAddon(){_type = HabBotAddon.Type.Drill});
@@ -108,14 +109,15 @@ public class HabBot : ITarget
     }
     void VitalityUpdate()
     {
-        _timer += Time.deltaTime;
-        if (_timer >= 1f)
+        for (int i = 1; i < _vitalities.Count; i++)
         {
-            Vitality energy = GetVitality("energy");
-            Vitality hunger = GetVitality("hunger");
-            energy.Damage(1);
-            hunger.Damage(1);
-            _timer = 0f;
+            Vitality vitality = _vitalities[i];
+            vitality._timer += Time.deltaTime;
+            if (vitality._timer >= GetDrainTimer(vitality._name))
+            {
+                vitality._timer = 0f;
+                vitality.Damage(1);
+            }
         }
     }
     public void DetermineDefaultState()
@@ -224,9 +226,12 @@ public class HabBot : ITarget
     public bool Damage(int val)
     {
         Vitality vitality = GetVitality("health");
+        if (vitality._val <=0)
+            return false;
         vitality.Damage(val);
         if (vitality._val <= 0)
         {
+            OnDeath?.Invoke(this, EventArgs.Empty);
             return false;
         }
         return true;
@@ -268,6 +273,27 @@ public class HabBot : ITarget
         }
         return 30f;
     }
+    public float GetDrainTimer(string name)
+    {
+        switch (name)
+        {
+            case "energy":
+                return 10f*((1f-_traits.GetTraitVal(HabBotTrait.Type.Laziness)));
+            case "hunger":
+                float factor = 1f;
+                if (_velocity.magnitude > 0.2f)
+                    factor = 0.5f;
+                return 10f*(factor);
+            case "happiness":
+                return 10f;
+
+        }
+        return 1f;
+    }
+    public int GetHealth()
+    {
+        return GetVitality("health")._val;
+    }
 }
 
 [Serializable]
@@ -291,6 +317,9 @@ public class HabBotTraits
                 editable = true;
             }
             HabBotTrait trait = new HabBotTrait(i, traitType, val, editable);
+            if (traitType == HabBotTrait.Type.Laziness)
+                trait._reversed = true;
+
             _traits.Add(trait);
             i++;
         }
@@ -377,6 +406,7 @@ public class HabBotTrait
     [Range(0f, 1f)]
     public float _val;
     public bool _editable = false;
+    public bool _reversed = false;
 
     public HabBotTrait(int index, Type type, float val, bool editable = false)
     {
@@ -392,7 +422,7 @@ public class Vitality
     public string _name;
     public int _val;
     public event EventHandler OnValueChange;
-
+    public float _timer;
     public void Damage(int val)
     {
         _val -= val;

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public  class EnemyStateBehaviourIdle : EnemyStateBehaviour
 {
-    public virtual void StartBehaviour()
+    public override void StartBehaviour()
     {
-
+        base.StartBehaviour();
     }
-    public virtual void StopBehaviour()
+    public override void StopBehaviour()
     {
         nav.Stop();
     }

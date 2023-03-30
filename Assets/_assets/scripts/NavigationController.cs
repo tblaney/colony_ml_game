@@ -23,6 +23,8 @@ public class NavigationController : MonoBehaviour
 
     void Update()
     {
+        this.destination = navAgent.destination;
+
         if (navAgent.speed != speed)
         {
             navAgent.speed = speed;
@@ -81,8 +83,9 @@ public class NavigationController : MonoBehaviour
     {
         OnDestinationFunc = destinationFunc;
         Vector2 randomDir = UnityEngine.Random.insideUnitCircle;
+        Debug.Log("Navigation Controller Move To Random Location: " + randomDir);
         Vector3 targetPosition = transform.position + new Vector3(randomDir.x, 0f, randomDir.y)*radius;
-        SetDestination(targetPosition);
+        SetDestination(GetNearestPointOnNavMesh(targetPosition));
     }
 
     public Vector3 GetNearestPointOnNavMesh(Vector3 point)
@@ -113,6 +116,9 @@ public class NavigationController : MonoBehaviour
 
     public void Stop() 
     {
+        pathing = false;
+        if (!navAgent.enabled)
+            return;
         navAgent.Stop();
         navAgent.ResetPath();
         navAgent.velocity = Vector3.zero;
@@ -147,6 +153,9 @@ public class NavigationController : MonoBehaviour
 
     public bool ReachedDestinationOrGaveUp()
     {
+        if (!navAgent.enabled)
+            return true;
+
         if (!navAgent.pathPending)
         {
             if (navAgent.remainingDistance <= navAgent.stoppingDistance)

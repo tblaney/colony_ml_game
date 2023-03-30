@@ -458,4 +458,12 @@ public class AnimatorEvent
     public bool looping = false;
     public bool remove = false;
     public bool executed = false;
+
+    public AnimatorEvent(string name, Action OnEventFunc, float timeThreshold, int layer = 0)
+    {
+        this.name = name;
+        this.OnEventFunc = OnEventFunc;
+        this.timeThreshold = timeThreshold;
+        this.index = layer;
+    }
 }

@@ -11,6 +11,7 @@ public class UIHabitation : UIObject
     [SerializeField] private UIHabitationQueue _uiQueue;
     [SerializeField] private UINode _uiNode;
     [SerializeField] private List<UIBuilding> _uiBuildings;
+    [SerializeField] private UIEnemy _uiEnemy;
 
     [Header("Debug:")]
     [SerializeField] private List<UIHabBot> _uiBots;
@@ -25,6 +26,11 @@ public class UIHabitation : UIObject
     {
         _habitation = habitation;
         _uiItemMenu.Setup(habitation);
+        RefreshBots();
+        _habitation.OnBotAmountChange += Habitation_BotChange;
+    }
+    private void Habitation_BotChange(object sender, EventArgs e)
+    {
         RefreshBots();
     }
     void RefreshBots()
@@ -65,6 +71,7 @@ public class UIHabitation : UIObject
         {
             uIBuilding.ActivateUI(false);
         }
+        _uiEnemy.Activate(false);
         if (_uiBotCurrent != null)
         {
             if (_uiBotCurrent == uiHabBot)
@@ -86,7 +93,7 @@ public class UIHabitation : UIObject
         float x = 0f;
         if (count % 2 == 0)
         {
-            x = -(count_half*120f) - 60f;
+            x = -(count_half*120f) + 60f;
         } else
         {
             x = -(count_half*120f);
@@ -110,14 +117,7 @@ public class UIHabitation : UIObject
     }
     public void ActivateNode(Node node, Building building = null)
     {
-        if (_uiBotCurrent != null)
-        {
-            BotClickFunc(_uiBotCurrent);    
-        }
-        foreach (UIBuilding uIBuilding in _uiBuildings)
-        {
-            uIBuilding.ActivateUI(false);
-        }
+        ClearBottom();
         if (building != null)
         {
             UIBuilding uiBuilding = GetUIBuilding(building._index);
@@ -126,6 +126,24 @@ public class UIHabitation : UIObject
         {
             _uiNode.Setup(node);
         }
+    }
+    public void ActivateEnemy(IEnemy enemy)
+    {
+        ClearBottom();
+        _uiEnemy.Setup(enemy);
+    }
+    void ClearBottom()
+    {
+        _uiNode.ActivateUI(false);
+        if (_uiBotCurrent != null)
+        {
+            BotClickFunc(_uiBotCurrent);    
+        }
+        foreach (UIBuilding uIBuilding in _uiBuildings)
+        {
+            uIBuilding.ActivateUI(false);
+        }
+        _uiEnemy.ActivateUI(false);
     }
     public UIBuilding GetUIBuilding(int index)
     {

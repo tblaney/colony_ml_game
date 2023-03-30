@@ -57,6 +57,11 @@ public class UIHabBot : UIObject
         _controllersItems = new List<UIController>();
         _controllsAddons = new List<UIController>();
         _uiAddons.Setup(_bot);
+
+    }
+    void OnDisable()
+    {
+
     }
     public void Setup(HabBot bot, Action<UIHabBot> buttonClickFunc)
     {
@@ -83,6 +88,8 @@ public class UIHabBot : UIObject
         Refresh();
         Activate(false);
         Expand(false);
+
+        ActivateStateOptions(false);
     }
     public void Activate(bool active = true)
     {
@@ -167,7 +174,13 @@ public class UIHabBot : UIObject
         foreach (HabBotTrait trait in traits._traits)
         {
             _controller.SetText(trait._val.ToString("F1"), trait._type.ToString());
-            _controller.SetTextColor(GetColor(trait._val), trait._type.ToString());
+            if (trait._reversed)
+            {
+                _controller.SetTextColor(GetColorReversed(trait._val), trait._type.ToString());
+            } else
+            {
+                _controller.SetTextColor(GetColor(trait._val), trait._type.ToString());
+            }
         }
 
         HabBotStateParameter param = Habitation._stateParameters.GetParameter(_bot._state);
@@ -284,6 +297,19 @@ public class UIHabBot : UIObject
         } else
         {
             return _colors[2];
+        }
+    }
+    Color GetColorReversed(float val)
+    {
+        if (val < 0.33f)
+        {
+            return _colors[2];
+        } else if (val >= 0.33f && val < 0.66f)
+        {
+            return _colors[1];
+        } else
+        {
+            return _colors[0];
         }
     }
     public void SetPostion(Vector2 position)

@@ -29,6 +29,7 @@ public class HabBotProcessor : MonoBehaviour
         foreach (HabBot bot in _habitation._bots)
         {
             bot.OnStateChange += Bot_StateChange;
+            bot.OnDeath += Bot_OnDeath;
         }
         SpawnBots();
     }
@@ -67,6 +68,16 @@ public class HabBotProcessor : MonoBehaviour
             controller.DestroyBot();
     }
     // events
+    private void Bot_OnDeath(object sender, EventArgs e)
+    {
+        HabBot bot = sender as HabBot;
+        HabBotController controller = GetController(bot);
+        if (controller != null)
+        {
+            controller.DestroyBot();
+        }
+        _habitation.RemoveBot(bot);
+    }
     private void Bot_StateChange(object sender, HabBot.StateChangeEventArgs e)
     {
         // we basically need to get the associated spawned bot, destroy it, and respawn it in same position/rotation

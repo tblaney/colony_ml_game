@@ -19,7 +19,8 @@ public class BuiltNodeObject : NodeObject
     public override void InitializeNode()
     {
         _building = BuildingHandler.Instance.GetBuilding(_buildingIndex);
-        _interactable.Setup(_node, _building);
+        if (_interactable != null)
+            _interactable.Setup(_node, _building);
         if (_behaviour != null)
             _behaviour.Initialize(this);
     }

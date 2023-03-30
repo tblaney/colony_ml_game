@@ -96,6 +96,8 @@ public class HabBotController : MonoBehaviour
     // end of this state
     public void DestroyBot()
     {
+        if (_state != null)
+            _state.StopState();
         if (OnDeathFunc != null)
             OnDeathFunc(this);
         Destroy(this.gameObject);

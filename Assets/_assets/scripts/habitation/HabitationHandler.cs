@@ -64,6 +64,7 @@ public class HabitationHandler : MonoBehaviour, IHandler
         Destroy(_restBoundsDefault.gameObject);
         UIHandler.Instance.InitializeHabitation(_habitation);
         SpawnHabitation();
+        _enemyProcessor.Setup(_habitation, _nodeProcessor);
     }
     void Update()
     {
@@ -221,6 +222,39 @@ public class HabitationHandler : MonoBehaviour, IHandler
     public List<HabitationQueue> GetQueues()
     {
         return _queues;
+    }
+    public int GetBotAmount()
+    {
+        return _habitation._bots.Count;
+    }
+    public int GetBotAmountToColonists(List<ColonistAgent> colonists)
+    {
+        int amount = 0;
+        foreach (HabBot bot in _habitation._bots)
+        {
+            float minDistance = 10000f;
+            foreach (ColonistAgent agent in colonists)
+            {
+                float distance = Vector3.Distance(bot.GetPosition(), agent.GetPosition());
+                if (distance < minDistance)
+                    minDistance = distance;
+            }
+            if (minDistance <= 20f)
+                amount++;
+        }
+        Debug.Log("Habitation Handler Bot Amount: " + amount);
+        return amount;
+    }
+    public int GetBotAmountToColonist(ColonistAgent colonist)
+    {
+        int amount = 0;
+        foreach (HabBot bot in _habitation._bots)
+        {
+            float distance = Vector3.Distance(bot.GetPosition(), colonist.GetPosition());
+            if (distance <= 20f)
+                amount++;
+        }
+        return amount;
     }
 }
 

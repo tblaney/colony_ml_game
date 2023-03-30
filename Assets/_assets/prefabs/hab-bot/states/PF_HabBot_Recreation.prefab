@@ -1,0 +1,159 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &222545326846923321
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4498627444891019416, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498627445462052563, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+      propertyPath: _state
+      value: 
+      objectReference: {fileID: 7564773158472025079}
+    - target: {fileID: 4498627445462052565, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+      propertyPath: m_Name
+      value: PF_HabBot_Recreation
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498627445462052565, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+      propertyPath: m_TagString
+      value: Agent
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498627445462052574, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498627445462052574, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498627445462052574, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498627445462052574, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498627445462052574, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498627445462052574, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498627445462052574, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498627445462052574, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498627445462052574, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498627445462052574, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4498627445462052574, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+--- !u!4 &4247544695851636727 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4171719390325540302, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+  m_PrefabInstance: {fileID: 222545326846923321}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4429560816973708524 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4498627445462052565, guid: 330ee6ff77e587f488403ab1d865b23f, type: 3}
+  m_PrefabInstance: {fileID: 222545326846923321}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &264932144382772998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4429560816973708524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BrainParameters:
+    VectorObservationSize: 11
+    NumStackedVectorObservations: 1
+    m_ActionSpec:
+      m_NumContinuousActions: 0
+      BranchSizes: 03000000030000000300000002000000
+    VectorActionSize: 03000000030000000300000002000000
+    VectorActionDescriptions: []
+    VectorActionSpaceType: 0
+    hasUpgradedBrainParametersWithActionSpec: 1
+  m_Model: {fileID: 5022602860645237092, guid: 234ac1eff0b0e364f8f7cff42deb2dad, type: 3}
+  m_InferenceDevice: 1
+  m_BehaviorType: 0
+  m_BehaviorName: Volleyball
+  TeamId: 0
+  m_UseChildSensors: 1
+  m_UseChildActuators: 1
+  m_ObservableAttributeHandling: 0
+--- !u!114 &787917063960939565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4429560816973708524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  TakeActionsBetweenDecisions: 1
+--- !u!114 &1522883355781987029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4429560816973708524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253d132067d875d4d88f23e3a25f6915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 5000
+  model: {fileID: 5022602860645237092, guid: 234ac1eff0b0e364f8f7cff42deb2dad, type: 3}
+--- !u!114 &7564773158472025079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4429560816973708524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9208d54b7533fc46ad7e006f7ed1056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _state: 12
+  _interactionDistance: 2.5
+  _agent: {fileID: 1522883355781987029}
+  _physicsMaterial: {fileID: 13400000, guid: 019343abadf032a46b8ebe49fbcd13f0, type: 2}
+  _rotator: {fileID: 4247544695851636727}

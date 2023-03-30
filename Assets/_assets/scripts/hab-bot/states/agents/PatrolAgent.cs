@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PatrolAgent : HabBotAgent
 {
@@ -8,6 +9,7 @@ public class PatrolAgent : HabBotAgent
     public float hitRadius;
     public float cooldownTime;
     private EnemyAgent enemy;
+
 
 
     void FixedUpdate()
@@ -28,7 +30,6 @@ public class PatrolAgent : HabBotAgent
             }
         }
     }
-
     void Attack()
     {
         //ensure last bumped enemy is still alive
@@ -37,6 +38,8 @@ public class PatrolAgent : HabBotAgent
             Debug.Log("attack hit a non-null enemy");
             //Damage enemy and set cooldown flag. Gain reward if enemy is killed.
             bool enemyAlive = enemy.Damage(damage);
+            if (OnAttackFunc != null)
+                OnAttackFunc();
             AddReward(0.10f);
             _cooldown = true;
             if (!enemyAlive)

@@ -6,6 +6,7 @@ using System;
 public class EnemyProcessor : MonoBehaviour
 {
     [Header("Inputs:")]
+    public bool _active;
     public List<EnemyPrefab> _prefabs;
     public List<MeshRenderer> _spawnAreas;
     public NodeProcessor _nodeProcessor;
@@ -27,10 +28,13 @@ public class EnemyProcessor : MonoBehaviour
     {
         _habitation = habitation;
         _nodeProcessor = nodeProcessor;
-
+        //ColonyHandler.Instance.NewColony(_spawnAreas[0]);
     }
     void FixedUpdate()
     {
+        if (!_active)
+            return;
+            
         enemySpawnTimer += Time.deltaTime;
         if (enemySpawnTimer >= spawnThreshold)
         {
