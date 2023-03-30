@@ -1,0 +1,65 @@
+{
+    "Agent": {
+        "checkpoints": [
+            {
+                "steps": 22137,
+                "file_path": "results\\test_run_22\\Agent\\Agent-22137.onnx",
+                "reward": -1.0896551167142803,
+                "creation_time": 1679009035.284965,
+                "auxillary_file_paths": [
+                    "results\\test_run_22\\Agent\\Agent-22137.pt"
+                ]
+            },
+            {
+                "steps": 23632,
+                "file_path": "results\\test_run_22\\Agent\\Agent-23632.onnx",
+                "reward": 0.11630441313204558,
+                "creation_time": 1679009246.193334,
+                "auxillary_file_paths": [
+                    "results\\test_run_22\\Agent\\Agent-23632.pt"
+                ]
+            },
+            {
+                "steps": 27243,
+                "file_path": "results\\test_run_22\\Agent\\Agent-27243.onnx",
+                "reward": 0.3543478665144547,
+                "creation_time": 1679009647.65622,
+                "auxillary_file_paths": [
+                    "results\\test_run_22\\Agent\\Agent-27243.pt"
+                ]
+            },
+            {
+                "steps": 27718,
+                "file_path": "results\\test_run_22\\Agent\\Agent-27718.onnx",
+                "reward": 4.13593752682209,
+                "creation_time": 1679009854.0886416,
+                "auxillary_file_paths": [
+                    "results\\test_run_22\\Agent\\Agent-27718.pt"
+                ]
+            },
+            {
+                "steps": 101484,
+                "file_path": "results\\test_run_22\\Agent\\Agent-101484.onnx",
+                "reward": 1.9821428273405348,
+                "creation_time": 1679015167.625825,
+                "auxillary_file_paths": [
+                    "results\\test_run_22\\Agent\\Agent-101484.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 101484,
+            "file_path": "results\\test_run_22\\Agent.onnx",
+            "reward": 1.9821428273405348,
+            "creation_time": 1679015167.625825,
+            "auxillary_file_paths": [
+                "results\\test_run_22\\Agent\\Agent-101484.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.26.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}
