@@ -18,6 +18,7 @@ public class ColonistAgent : Agent, IEnemy, ITarget
     public Colonist colonist;
     public ColonistStateBehaviour currentBehaviour;
     public float timer;
+    public MaterialController materialController;
     Action<ColonistAgent> OnDestroyFunc;
     public Action OnActionsFunc;
 
@@ -65,7 +66,7 @@ public class ColonistAgent : Agent, IEnemy, ITarget
         if (timer > 5f)
         {
             //if (colonist.state == Colonist.State.Heal | colonist.state == Colonist.State.Patrol)
-            if (colonist.state == Colonist.State.Heal)
+            if (colonist.state == Colonist.State.Heal | colonist.state == Colonist.State.Patrol)
                 RequestDecision();
             //RequestAction();
             timer = 0f;
@@ -130,6 +131,7 @@ public class ColonistAgent : Agent, IEnemy, ITarget
     {
         Debug.Log("Colonist Set State: " + this.gameObject + ", " + stateIn);
         Colonist.State state = (Colonist.State)stateIn;
+        materialController.ActivateBehaviour((int)state + 2, true);
         if (state != colonist.state)
         {
             AddReward(-0.05f);

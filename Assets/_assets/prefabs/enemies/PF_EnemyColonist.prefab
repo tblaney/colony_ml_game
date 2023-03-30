@@ -49,13 +49,13 @@ GameObject:
   - component: {fileID: 4466168757884662901}
   - component: {fileID: 8950738687749878599}
   - component: {fileID: 6405468936170469532}
+  - component: {fileID: 5508105554375847337}
   - component: {fileID: 418691326583668455}
   - component: {fileID: 8462267711534808360}
   - component: {fileID: 8723041197628668890}
   - component: {fileID: 4107996849562262906}
   - component: {fileID: 5735762415180247482}
   - component: {fileID: 999256641425525605}
-  - component: {fileID: 5508105554375847337}
   m_Layer: 7
   m_Name: PF_EnemyColonist
   m_TagString: Enemy
@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controllers:
-  - {fileID: 0}
+  - {fileID: 2903396637829956933}
 --- !u!114 &4466168757884662901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +212,7 @@ MonoBehaviour:
     state: 0
   currentBehaviour: {fileID: 0}
   timer: 0
+  materialController: {fileID: 2903396637829956933}
 --- !u!114 &6405468936170469532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +235,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 79308465a914ff74cb8eac6f08e21e48, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: b4f8586e3a67d024e831c32c5c559d64, type: 3}
   m_InferenceDevice: 1
   m_BehaviorType: 2
   m_BehaviorName: Agent
@@ -242,6 +243,21 @@ MonoBehaviour:
   m_UseChildSensors: 1
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
+--- !u!114 &5508105554375847337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4498627445462052565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38b7cc1f5819445aa85e9a9b054552dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SensorName: VectorSensor
+  m_ObservationSize: 19
+  m_ObservationType: 0
 --- !u!114 &418691326583668455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,21 +345,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 1
   materialController: {fileID: 0}
---- !u!114 &5508105554375847337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4498627445462052565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38b7cc1f5819445aa85e9a9b054552dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SensorName: VectorSensor
-  m_ObservationSize: 19
-  m_ObservationType: 0
 --- !u!1001 &4557142472436503704
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -437,6 +438,70 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c026f077bd4ff564282eecd7450f7c83, type: 3}
+--- !u!1 &3319606954710303961 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7984983290555609023, guid: c026f077bd4ff564282eecd7450f7c83, type: 3}
+  m_PrefabInstance: {fileID: 4557142472436503704}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2903396637829956933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3319606954710303961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85096ead772674641b879e928cdb7d28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _behavioursFloat:
+  - _name: _OutlineOpacity
+    _index: 1
+    _active: 0
+    _blocks: []
+    _in: 1
+    _out: 0
+    _time: 0.2
+    _hardIn: 0
+  _behavioursColor:
+  - _name: _ToonColor
+    _index: 2
+    _active: 0
+    _blocks: []
+    _in: {r: 0.8301887, g: 0.33207542, b: 0.39752087, a: 1}
+    _out: {r: 1, g: 1, b: 1, a: 1}
+  - _name: _ToonColor
+    _index: 3
+    _active: 0
+    _blocks: []
+    _in: {r: 0.8207547, g: 0.43568307, b: 0.29732996, a: 1}
+    _out: {r: 1, g: 1, b: 1, a: 1}
+  - _name: _ToonColor
+    _index: 4
+    _active: 0
+    _blocks: []
+    _in: {r: 0.43832842, g: 0.8207547, b: 0.29732996, a: 1}
+    _out: {r: 1, g: 1, b: 1, a: 1}
+  - _name: _ToonColor
+    _index: 5
+    _active: 0
+    _blocks: []
+    _in: {r: 0.6547001, g: 0.29732996, b: 0.8207547, a: 1}
+    _out: {r: 1, g: 1, b: 1, a: 1}
+  - _name: _ToonColor
+    _index: 6
+    _active: 0
+    _blocks: []
+    _in: {r: 0.21858312, g: 0.3773585, b: 0.29437104, a: 1}
+    _out: {r: 1, g: 1, b: 1, a: 1}
+  - _name: _ToonColor
+    _index: 7
+    _active: 0
+    _blocks: []
+    _in: {r: 0.21960784, g: 0.23563252, b: 0.3764706, a: 1}
+    _out: {r: 1, g: 1, b: 1, a: 1}
+  _materialIndex: 0
 --- !u!1 &3746802745758280137 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c026f077bd4ff564282eecd7450f7c83, type: 3}

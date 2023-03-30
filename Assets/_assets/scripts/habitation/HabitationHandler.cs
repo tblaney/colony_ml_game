@@ -254,6 +254,7 @@ public class HabitationHandler : MonoBehaviour, IHandler
             if (distance <= 20f)
                 amount++;
         }
+        Debug.Log("Habitation Handler Get Bot Amount To Colonist: " + amount);
         return amount;
     }
 }

@@ -28,7 +28,7 @@ public class EnemyProcessor : MonoBehaviour
     {
         _habitation = habitation;
         _nodeProcessor = nodeProcessor;
-        //ColonyHandler.Instance.NewColony(_spawnAreas[0]);
+        ColonyHandler.Instance.NewColony(_spawnAreas[0]);
     }
     void FixedUpdate()
     {
