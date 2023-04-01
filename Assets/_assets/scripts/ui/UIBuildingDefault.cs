@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class UIBuildingRestMachine : UIBuilding
+public class UIBuildingDefault : UIBuilding
 {
     //[SerializeField] private UIVitality _uiVitality;
 

@@ -204,7 +204,7 @@ PrefabInstance:
       objectReference: {fileID: 3458680771556162313}
     - target: {fileID: 7045727571536413374, guid: 6a757841396c1f74eba89655983c7a88, type: 3}
       propertyPath: m_Name
-      value: PF_UI_Building_Rest
+      value: PF_UI_Building_Default
       objectReference: {fileID: 0}
     - target: {fileID: 7045727571536413375, guid: 6a757841396c1f74eba89655983c7a88, type: 3}
       propertyPath: m_Pivot.x
@@ -315,10 +315,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7066688381210434213}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 883e62054ba4bef4590296e976fb7dec, type: 3}
+  m_Script: {fileID: 11500000, guid: f64f6286a0f4dcc4d941e3c8165946b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _indexBuilding: 1
+  _indexBuilding: 0
   _buttonClose: {fileID: 7613187292205794642}
   _buttonDestroyQueue: {fileID: 7194298831285137371}
 --- !u!114 &7194298831285137371 stripped

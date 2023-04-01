@@ -12,6 +12,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2271551344897365609, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2271551344897365609, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2271551344897365609, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2271551344897365609, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -50,6 +62,10 @@ PrefabInstance:
     - target: {fileID: 2271551344897365609, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2271551344897365609, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5094930069848071660, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
       propertyPath: _controllers.Array.size

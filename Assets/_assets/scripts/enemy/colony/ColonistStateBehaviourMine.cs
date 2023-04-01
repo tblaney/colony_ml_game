@@ -64,6 +64,7 @@ public class ColonistStateBehaviourMine : ColonistStateBehaviour
         {
             targetNode.SetBusy(false);
         }
+        targetNode = null;
         base.StopBehaviour();
     }
 
@@ -85,6 +86,10 @@ public class ColonistStateBehaviourMine : ColonistStateBehaviour
 
     public override float GetStateDistance()
     {
+        if (targetNode != null)
+        {
+            return Vector3.Distance(transform.position, targetNode.GetPosition());
+        }
         NodeObject nodeTemp = HabitationHandler.Instance.GetClosestNodeObjectOfType(Node.Type.Mineral, transform.position);
         if (nodeTemp != null)
             return Vector3.Distance(transform.position, nodeTemp.GetPosition());

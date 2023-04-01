@@ -162,6 +162,7 @@ MonoBehaviour:
     _health:
       _name: 
       _val: 0
+      _timer: 0
     _nodeType: 5
   _interactionTime: 30
   _buildingIndex: 1

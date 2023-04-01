@@ -17,6 +17,17 @@ public class NotificationHandler : MonoBehaviour, IHandler
     {
         Instance = this;
     }
+    public Notification NewNotification(Notification.Type type, string text, Action OnClickFunc = null)
+    {
+        Notification notification = new Notification(type, text);
+        if (OnClickFunc != null)
+            notification.SetClickAction(OnClickFunc);
+
+        NotificationEventArgs args = new NotificationEventArgs(){_notification = notification};
+        OnNotification?.Invoke(this, args);
+
+        return notification;
+    }
     public void NewNotification(Notification notification)
     {
         NotificationEventArgs args = new NotificationEventArgs(){_notification = notification};
@@ -32,8 +43,8 @@ public class NotificationHandler : MonoBehaviour, IHandler
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            //NewNotification(new Notification() {_notification = "test notification please", _type = Notification.Type.General});
-            //NewNotification(new Notification() {_notification = "test notification please", _type = Notification.Type.State});
+            NewNotification(new Notification(Notification.Type.General, "test notification please"){});
+            //NewNotification(new Notification(Notification.Type.State, "test notification please"){});
         }
     }
 
@@ -44,12 +55,11 @@ public class Notification
     public enum Type
     {
         General, //right hand side
-        State, // top
+        Top, // top
         Item, // top left item
     }
     public Type _type;
     public string _notification;
-    public NotificationEvent _event;
     public Action OnClickFunc;
 
     public Notification(Type type, string notification)
@@ -57,16 +67,8 @@ public class Notification
         _type = type;
         _notification = notification;
     }
-}
-
-[Serializable]
-public class NotificationEvent
-{
-    public enum Type
+    public void SetClickAction(Action action)
     {
-        Threat,
-        Injury,
-        Emotional,
+        this.OnClickFunc = action;
     }
-    public Vector3Int _position;
 }

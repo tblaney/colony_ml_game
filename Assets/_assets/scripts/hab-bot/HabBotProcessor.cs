@@ -40,12 +40,23 @@ public class HabBotProcessor : MonoBehaviour
             Destroy(controller.gameObject);
         }
     }
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            foreach (HabBot bot in _habitation._bots)
+            {
+                bot.StateFailure("this is a test failure");
+            }
+        }
+    }
     void SpawnBots()
     {
         foreach (HabBot bot in _habitation._bots)
         {
             //bot.SetState(bot._stateDefault);
-            bot.SetState(HabBot.State.Idle);
+            //bot.SetState(HabBot.State.Idle);
+            bot.RandomizeState();
         }
     }
     void SpawnBot(HabBot bot, Vector3 position, Quaternion rotation)
@@ -53,8 +64,8 @@ public class HabBotProcessor : MonoBehaviour
         GameObject prefab = GetPrefab(bot._state);
         GameObject obj = Instantiate(prefab, position, rotation, this.transform);
         HabBotController botController = obj.GetComponent<HabBotController>();
-        botController.Initialize(bot, DestroyBot);
         _controllers.Add(botController);
+        botController.Initialize(bot, DestroyBot);
     }
     void DestroyBot(HabBotController controller)
     {
@@ -68,15 +79,15 @@ public class HabBotProcessor : MonoBehaviour
             controller.DestroyBot();
     }
     // events
-    private void Bot_OnDeath(object sender, EventArgs e)
+    private void Bot_OnDeath(object sender, HabBot.StateChangeEventArgs e)
     {
-        HabBot bot = sender as HabBot;
+        HabBot bot = e._bot;
+        _habitation.RemoveBot(bot);
         HabBotController controller = GetController(bot);
         if (controller != null)
         {
             controller.DestroyBot();
         }
-        _habitation.RemoveBot(bot);
     }
     private void Bot_StateChange(object sender, HabBot.StateChangeEventArgs e)
     {

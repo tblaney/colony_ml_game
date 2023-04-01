@@ -8,7 +8,7 @@ public class PatrolAgent : HabBotAgent
     public int damage;
     public float hitRadius;
     public float cooldownTime;
-    private EnemyAgent enemy;
+    private IEnemy enemy;
 
 
 
@@ -21,7 +21,7 @@ public class PatrolAgent : HabBotAgent
             if (hit.transform.gameObject.tag == "Enemy")
             {
                 Debug.Log("attack target found");
-                enemy = hit.transform.gameObject.GetComponent<EnemyAgent>();
+                enemy = hit.transform.gameObject.GetComponent<IEnemy>();
                 if (!_cooldown)
                 {
                     Debug.Log("attack is called");
@@ -33,7 +33,7 @@ public class PatrolAgent : HabBotAgent
     void Attack()
     {
         //ensure last bumped enemy is still alive
-        if (enemy != null && enemy.gameObject != null)
+        if (enemy != null )
         {
             Debug.Log("attack hit a non-null enemy");
             //Damage enemy and set cooldown flag. Gain reward if enemy is killed.

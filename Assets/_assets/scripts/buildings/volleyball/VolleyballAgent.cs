@@ -38,15 +38,12 @@ public class VolleyballAgent : Agent
     void Awake()
     {
         Stop();
-        _playing = false;
     }
-    void Stop()
+    public void Stop()
     {
         //SetModel("Volleyball", null, InferenceDevice.Default);
         _playing = false;
-
     }
-
     public void InitializeAgent()
     {
         maskTerrain = LayerMask.GetMask("Terrain");

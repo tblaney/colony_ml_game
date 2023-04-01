@@ -61,7 +61,13 @@ public class UIHabBot : UIObject
     }
     void OnDisable()
     {
-
+        if (_bot != null)
+        {
+            _bot.OnStateChange -= Bot_StateChange;
+            _bot._traits.OnTraitsChange -= Bot_TraitsChange;
+            _bot.OnStateAccessChange -= Bot_StateAccessChange;
+            _bot.OnFailureState -= Bot_FailureState;
+        }
     }
     public void Setup(HabBot bot, Action<UIHabBot> buttonClickFunc)
     {
@@ -78,7 +84,10 @@ public class UIHabBot : UIObject
         _bot.OnStateChange += Bot_StateChange;
         _bot._traits.OnTraitsChange += Bot_TraitsChange;
         _bot.OnStateAccessChange += Bot_StateAccessChange;
+        _bot.OnFailureState += Bot_FailureState;
         _inputFieldName.onValueChanged.AddListener(delegate{InputNameChange();});
+        _buttonMain.GetController().ActivateBehaviour("state fail", false);
+
 
         _colorSwitcher.SetSliderValue(1, _bot._traits._color.r);
         _colorSwitcher.SetSliderValue(2, _bot._traits._color.g);
@@ -99,6 +108,7 @@ public class UIHabBot : UIObject
         {
             UserHandler._target = this._bot;
             UserHandler.Instance.SetUserState(UserController.State.Following);
+            _buttonMain.GetController().ActivateBehaviour("state fail", false);
             _buttonMain.GetController().ActivateBehaviour(1, true);
             _controllerInfo.ActivateBehaviour(2, true);
             _controllerInfo.ActivateBehaviour(1, true);
@@ -148,6 +158,10 @@ public class UIHabBot : UIObject
     public void Bot_StateAccessChange(object sender, EventArgs e)
     {
         Refresh();
+    }
+    public void Bot_FailureState(object sendder, EventArgs e)
+    {
+        _buttonMain.GetController().ActivateBehaviour("state fail", true);
     }
     void ColorSwitcherChangeFunc(Color color)
     {

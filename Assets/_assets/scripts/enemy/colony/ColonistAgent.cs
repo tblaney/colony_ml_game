@@ -66,7 +66,7 @@ public class ColonistAgent : Agent, IEnemy, ITarget
         if (timer > 5f)
         {
             //if (colonist.state == Colonist.State.Heal | colonist.state == Colonist.State.Patrol)
-            if (colonist.state == Colonist.State.Heal | colonist.state == Colonist.State.Patrol)
+            if (colonist.state == Colonist.State.Heal)
                 RequestDecision();
             //RequestAction();
             timer = 0f;
@@ -82,10 +82,21 @@ public class ColonistAgent : Agent, IEnemy, ITarget
         if (colonist.energy <= 0f)
         {
             //Damage(1);
+            SetState((int)Colonist.State.Rest);
         }
     }
     public override void CollectObservations(VectorSensor sensor)
     {
+        //Debug.Log("Colonist Observation 1: " + colonist.traits.laziness);
+        //Debug.Log("Colonist Observation 2: " + colonist.traits.nature);
+        //Debug.Log("Colonist Observation 3: " + colonist.traits.speed);
+        //Debug.Log("Colonist Observation 4: " + colonist.traits.attackStrength);
+        //Debug.Log("Colonist Observation 5: " + colonist.traits.mineStrength);
+        //Debug.Log("Colonist Observation 6: " + colonist.traits.healing);
+        //Debug.Log("Colonist Observation 7: " + colonist.state);
+        //Debug.Log("Colonist Observation 8: " + colonist.health);
+        //Debug.Log("Colonist Observation 9: " + colonist.energy);
+
         sensor.AddObservation(colonist.traits.laziness);
         sensor.AddObservation(colonist.traits.nature);
         sensor.AddObservation(colonist.traits.speed);
@@ -101,14 +112,24 @@ public class ColonistAgent : Agent, IEnemy, ITarget
         ColonistArea area = ColonyHandler.Instance.area;
         sensor.AddObservation(area.colony.wealth);
         sensor.AddObservation(area.colony.food);
+        Debug.Log("Colonist Observation 10: " + area.colony.wealth);
+        Debug.Log("Colonist Observation 11: " + area.colony.food);
+
         //sensor.AddObservation(area.colony.colonists.Count);
         sensor.AddObservation(ColonyHandler.Instance.GetColonistAmount());
         sensor.AddObservation(HabitationHandler.Instance.GetBotAmountToColonist(this));
+        //sensor.AddObservation(1);
+        Debug.Log("Colonist Observation 12: " + ColonyHandler.Instance.GetColonistAmount());
+        Debug.Log("Colonist Observation 13: " + HabitationHandler.Instance.GetBotAmountToColonist(this));
+
 
         List<float> distances = GetStateDistances();
+        int i = 14;
         foreach (float distance in distances)
         {
             sensor.AddObservation(distance);
+            Debug.Log("Colonist Observation " + i.ToString() + ": " + distance);
+            i++;
         }
     }
     //TODO: Make reward cumulative across all agents. (look up SharedReward() ML agents method)
@@ -129,11 +150,11 @@ public class ColonistAgent : Agent, IEnemy, ITarget
     }
     public void SetState(int stateIn)
     {
-        Debug.Log("Colonist Set State: " + this.gameObject + ", " + stateIn);
         Colonist.State state = (Colonist.State)stateIn;
-        materialController.ActivateBehaviour((int)state + 2, true);
+        Debug.Log("Colonist Set State: " + this.gameObject + ", " + state);
         if (state != colonist.state)
         {
+            materialController.ActivateBehaviour(stateIn + 2, true);
             AddReward(-0.05f);
             // changing states
             if (currentBehaviour != null)
@@ -194,7 +215,8 @@ public class ColonistAgent : Agent, IEnemy, ITarget
             return false;
         } else
         {
-            RequestDecision();
+            //RequestDecision();
+            SetState((int)Colonist.State.Patrol);
         }
         return true;
     }

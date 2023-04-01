@@ -29,13 +29,13 @@ public class Node : Queueable, ITarget
     }
     public Type _nodeType;
 
-    public Node(int prefab, Vector3Int position, Type type)
+    public Node(int prefab, Vector3Int position, Type type, int health = 100)
     {
         _prefab = prefab;
         _position = position;
         _nodeType = type;
         _active = true;
-        _health = new Vitality() {_name = "health", _val = 100};
+        _health = new Vitality() {_name = "health", _val = health};
     }
     public Node()
     {

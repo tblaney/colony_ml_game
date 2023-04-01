@@ -40,6 +40,7 @@ public class UINotification : UIObject
     {
         if (e._notification._type != _type)
             return;
+
         Notification notification = e._notification;
         UIButton button;
         if (_dic.TryGetValue(notification, out button))

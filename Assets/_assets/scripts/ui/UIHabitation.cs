@@ -121,7 +121,15 @@ public class UIHabitation : UIObject
         if (building != null)
         {
             UIBuilding uiBuilding = GetUIBuilding(building._index);
-            uiBuilding.Setup(node, building);
+            if (uiBuilding != null)
+            {
+                uiBuilding.Setup(node, building);
+            } else
+            {
+                //_uiNode.Setup(node);
+                uiBuilding = GetUIBuilding(0);
+                uiBuilding.Setup(node, building);
+            }
         } else
         {
             _uiNode.Setup(node);

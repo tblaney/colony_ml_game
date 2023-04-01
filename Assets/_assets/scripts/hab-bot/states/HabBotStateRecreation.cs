@@ -49,6 +49,8 @@ public class HabBotStateRecreation : HabBotState
             if (GetComponent<Rigidbody>() != null)
             {
                 Destroy(GetComponent<Rigidbody>());
+                Collider col = GetComponent<Collider>();
+                col.isTrigger = true;
             }
             _nav.Enable(true);
         } else
@@ -64,7 +66,9 @@ public class HabBotStateRecreation : HabBotState
                 rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
                 rb.interpolation = RigidbodyInterpolation.None;
                 rb.constraints = RigidbodyConstraints.FreezeRotation;
-                GetComponent<Collider>().material = _physicsMaterial;
+                Collider col = GetComponent<Collider>();
+                col.material = _physicsMaterial;
+                col.isTrigger = false;
             }   
             _nav.Enable(false);
         }
@@ -76,6 +80,7 @@ public class HabBotStateRecreation : HabBotState
             _rotator.eulerAngles = new Vector3(0f, 0f, 0f);
         }
         _playing = true;
+        _agent.Stop();
         PhysicsSwitch(false);
     }
     public void StopGame()

@@ -90,7 +90,7 @@ public class NodeProcessor : MonoBehaviour
                         Vector3Int position = GetOpenPosition();
                         if (position == default(Vector3Int))
                             continue;
-                        Node node = new Node(group.GetRandomPrefab(), position, group._type){_propogationFactor = group._propogationFactor};
+                        Node node = new Node(group.GetRandomPrefab(), position, group._type, group._health){_propogationFactor = group._propogationFactor};
                         AssignNode(node);
                     }
                 }
@@ -153,7 +153,7 @@ public class NodeProcessor : MonoBehaviour
         
         for (int i = 0; i < amount; i++)
         {
-            Node node = new Node(group.GetRandomPrefab(), position, group._type){_propogationFactor = group._propogationFactor};
+            Node node = new Node(group.GetRandomPrefab(), position, group._type, group._health){_propogationFactor = group._propogationFactor};
             AssignNode(node);
             nodes.Add(node);
             nodes.AddRange(AddHeight(group, node));
@@ -181,7 +181,7 @@ public class NodeProcessor : MonoBehaviour
         for (int i = 1; i <= amount; i++)
         {
             Vector3Int position = node._position + new Vector3Int(0, 1, 0)*i;
-            Node nodeTemp = new Node(group.GetRandomPrefab(), position, group._type){_propogationFactor = group._propogationFactor};
+            Node nodeTemp = new Node(group.GetRandomPrefab(), position, group._type, group._health){_propogationFactor = group._propogationFactor};
             AssignNode(nodeTemp);
             nodes.Add(nodeTemp);
         }
@@ -447,6 +447,7 @@ public class NodeGroup
     public int _amount;
     public bool _cluster = false;
     public int _clusterHeight = 8;
+    public int _health = 100;
     //public int _clusterAmount = 18;
 
     [Space(10)]

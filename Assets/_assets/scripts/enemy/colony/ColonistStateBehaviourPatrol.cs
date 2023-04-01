@@ -12,6 +12,7 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
     HabBot targetBot;
 
     Vector3 positionCache;
+    bool roaming = false;
     
     public override void StartBehaviour()
     {
@@ -20,8 +21,10 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
         targetBot = null;
         timer = 0f;
         cooldown = false;
+        roaming = false;
 
-        ChaseCheck();
+        if (!ChaseCheck())
+            return;
         if (!chasing)
             RoamRefresh();
         else
@@ -68,7 +71,8 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
         if (timer > 2f)
         {
             timer = 0f;
-            ChaseCheck();
+            if (!ChaseCheck())
+                return;
             if (chasing)
             {
                 nav.Stop();
@@ -92,7 +96,7 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
         nav.MoveTo(positionCache, NavCallbackChase);
     }
 
-    void ChaseCheck()
+    bool ChaseCheck()
     {
         HabBot enemy = HabitationHandler.Instance.GetClosestBot(transform.position);
         if (enemy != null)
@@ -102,8 +106,22 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
             {
                 targetBot = enemy;
                 chasing = true;
+            } else
+            {
+                if (Utils.Tools.IsHit(0.4f))
+                {
+                    if (Utils.Tools.IsHit(0.5f))
+                    {
+                        agent.SetState(2);
+                    } else
+                    {
+                        agent.SetState(5);
+                    }
+                    return false;
+                }
             }
         }
+        return true;
     }
 
     void NavCallbackRoam()
@@ -142,7 +160,7 @@ public class ColonistStateBehaviourPatrol : ColonistStateBehaviour
         }
         cooldown = true;
         Invoke("CooldownCallback", 1f);
-        //agent.RequestDecision();
+        agent.RequestDecision();
     }
 
     void CooldownCallback()

@@ -181,6 +181,26 @@ public class HabitationHandler : MonoBehaviour, IHandler
     {
         return _nodeProcessor.GetClosestNodeObject(type, position, prefabIndex);
     }
+    public List<NodeObject> GetBuiltNodeObjects(int buildingType)
+    {
+        List<NodeObject> objs = new List<NodeObject>();
+        List<Node> buildings = GetNodesByType(Node.Type.Building);
+        foreach (Node node in buildings)
+        {
+            NodeObject obj = GetNodeObject(node);
+            BuiltNodeObject objBuilt = obj as BuiltNodeObject;
+            Building bldg = objBuilt.GetBuilding();
+            if (bldg._index == buildingType)
+            {
+                objs.Add(obj);
+            }
+        }
+        return objs;
+    }
+    public List<Node> GetNodesByType(Node.Type type)
+    {
+        return _nodeProcessor.GetNodesByType(type);
+    }
     public NodeObject GetNodeObject(Node node)
     {
         return _nodeProcessor.GetNodeObject(node);
@@ -218,6 +238,23 @@ public class HabitationHandler : MonoBehaviour, IHandler
         {
             return null;
         }
+    }
+    public NodeObject GetClosestNodeObjectWithOutputItem(ItemInput item, Vector3 position)
+    {
+        int buildingIndex = 3;
+        List<NodeObject> nodes = GetBuiltNodeObjects(buildingIndex);
+        float distanceMin = 10000f;
+        NodeObject closesetNode = null;
+        foreach (NodeObject nodeObject in nodes)
+        {
+            float distance = Vector3.Distance(position, nodeObject.GetPosition());
+            if (distance < distanceMin)
+            {
+                distanceMin = distance;
+                closesetNode = nodeObject;
+            }
+        }
+        return closesetNode;
     }
     public List<HabitationQueue> GetQueues()
     {

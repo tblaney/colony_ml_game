@@ -215,6 +215,10 @@ public class ItemInventory
         } 
         return false;
     }
+    public bool Contains(ItemInput input)
+    {
+        return Contains(input._index, input._amount);
+    }
     public Item GetItem(int index)
     {
         foreach (Item item in _items)

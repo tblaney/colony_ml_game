@@ -6,9 +6,11 @@ using System;
 public class EnemyProcessor : MonoBehaviour
 {
     [Header("Inputs:")]
-    public bool _active;
+    public bool _activeEnemies;
+    public bool _activeColony;
     public List<EnemyPrefab> _prefabs;
     public List<MeshRenderer> _spawnAreas;
+    public MeshRenderer _colonySpawnArea;
     public NodeProcessor _nodeProcessor;
     public float enemySpawnTime;
     public float enemySpawnDev;
@@ -28,11 +30,12 @@ public class EnemyProcessor : MonoBehaviour
     {
         _habitation = habitation;
         _nodeProcessor = nodeProcessor;
-        ColonyHandler.Instance.NewColony(_spawnAreas[0]);
+        if (_activeColony)
+            ColonyHandler.Instance.NewColony(_colonySpawnArea);
     }
     void FixedUpdate()
     {
-        if (!_active)
+        if (!_activeEnemies)
             return;
             
         enemySpawnTimer += Time.deltaTime;

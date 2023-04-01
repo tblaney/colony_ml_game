@@ -6,9 +6,10 @@ using System;
 public class ThreatHandler : MonoBehaviour, IHandler
 {
     public static ThreatHandler Instance;
-    [SerializeField] List<ThreatEnemy> _enemyThreats;
-    [SerializeField] List<ThreatEnvironment> _environmentThreats;
+
     public List<Threat> _threats;
+
+
     public void Initialize()
     {
         Instance = this;
@@ -29,18 +30,19 @@ public class ThreatHandler : MonoBehaviour, IHandler
     }
 }
 [Serializable]
-public abstract class Threat
+public abstract class Threat : MonoBehaviour
 {
-    public enum Type
-    {
-        Enemy,
-        Environmental,
-    }
     public string _name;
     public int _index;
-
-    public Type _type;
+    public int _cost;
     public int _prefab;
+
+    public ThreatController _controller;
+
+    public virtual void Spawn(Vector3 position)
+    {
+
+    }
 }
 [Serializable]
 public class ThreatEnemy : Threat

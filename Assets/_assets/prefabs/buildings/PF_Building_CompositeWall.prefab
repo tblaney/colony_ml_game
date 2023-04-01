@@ -53,7 +53,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6146409238781871401, guid: e3813aec7a3d2a34faf0a59bef6e494c, type: 3}
       propertyPath: m_Name
-      value: PF_Building
+      value: PF_Building_CompositeWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521486001307852843, guid: e3813aec7a3d2a34faf0a59bef6e494c, type: 3}
+      propertyPath: _buildingIndex
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3813aec7a3d2a34faf0a59bef6e494c, type: 3}

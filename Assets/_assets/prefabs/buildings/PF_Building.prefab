@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091083360465268425}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 1, z: 0.5}
+  m_LocalPosition: {x: 0.5, y: 1.5, z: 0.5}
   m_LocalScale: {x: 1, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 7521486001307852843}
   - component: {fileID: 2677118573482455656}
   - component: {fileID: 5268973653890046352}
+  - component: {fileID: 2152191082407101480}
   m_Layer: 6
   m_Name: PF_Building
   m_TagString: Wall
@@ -133,7 +134,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6146409238781871401}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 329.2, y: 30.437, z: 330}
+  m_LocalPosition: {x: 329.2, y: 30, z: 330}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -182,9 +183,11 @@ MonoBehaviour:
     _health:
       _name: 
       _val: 0
+      _timer: 0
     _nodeType: 0
   _interactionTime: 30
   _buildingIndex: 6
+  _interactable: {fileID: 2152191082407101480}
   _materialControllers:
   - {fileID: 4071410628886901739}
 --- !u!114 &2677118573482455656
@@ -218,3 +221,16 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.5, y: 0.5, z: 0.5}
   m_TimeToStationary: 0.5
+--- !u!114 &2152191082407101480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6146409238781871401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37556683956002d4bbecd0f699fe45a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _controllers: []

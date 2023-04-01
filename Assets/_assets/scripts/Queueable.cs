@@ -6,6 +6,7 @@ using System;
 [Serializable]
 public abstract class Queueable 
 {
+    [Header("Queueable Inputs:")]
     public HabBot.State _state;
     public bool _queued;
 

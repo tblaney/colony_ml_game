@@ -29,6 +29,7 @@ public class HabBot : ITarget
     }
     public State _state;
     public State _stateDefault;
+    public State _stateCache;
     public List<Vitality> _vitalities;
     public HabBotTraits _traits;
     public List<HabBotAddon> _addons;
@@ -42,7 +43,8 @@ public class HabBot : ITarget
     public event EventHandler<StateChangeEventArgs> OnStateChange;
     public event EventHandler<StateChangeEventArgs> OnStateAccessChange;
     public event EventHandler OnColorChange;
-    public event EventHandler OnDeath;
+    public event EventHandler<StateChangeEventArgs> OnDeath;
+    public event EventHandler OnFailureState;
     public class StateChangeEventArgs : EventArgs
     {
         public HabBot _bot;
@@ -85,6 +87,7 @@ public class HabBot : ITarget
         _addons.Add(new HabBotAddon(){_type = HabBotAddon.Type.Drill});
         _addons.Add(new HabBotAddon(){_type = HabBotAddon.Type.Axe});
         _addons.Add(new HabBotAddon(){_type = HabBotAddon.Type.Sword});
+        _addons.Add(new HabBotAddon(){_type = HabBotAddon.Type.Welder});
     }
     public void Initialize()
     {
@@ -124,11 +127,20 @@ public class HabBot : ITarget
     {
         _stateDefault = _traits.GetDefaultState();
     }
+    public void RandomizeState()
+    {
+        List<State> states = GetAvailableStates();
+        if (states.Contains(State.Idle))
+            states.Remove(State.Idle);
+        SetState(states[UnityEngine.Random.Range(0, states.Count)]);
+    }
     public void SetState(State state)
     {
         // everything related to bot switching states is executed from this function (state change event)
         if (_stateCooldown | _stateLock)
             return;
+        if (_state != State.Rest)
+            _stateCache = _state;
         _state = state;
         StateChangeEventArgs eventArgs = new StateChangeEventArgs() {_bot = this};
         OnStateChange?.Invoke(null, eventArgs);
@@ -140,10 +152,12 @@ public class HabBot : ITarget
         ActionHandler.Instance.ActionOnDelayUnscaled(5f, OnDelayFunc);
         _stateCooldown = true;
     }
-    public void StateFailure()
+    public void StateFailure(string notification)
     {
         // invoked when the agent cant fulfill its current target
+        // should also be able to broadcast a message
         SetState((State)0);
+        OnFailureState?.Invoke(this, EventArgs.Empty);
     }
     public List<State> GetAvailableStates()
     {
@@ -161,7 +175,7 @@ public class HabBot : ITarget
         HabBotAddon addon = null;
         switch (state)
         {
-            default: return true;
+            default: return false;
             case State.CollectMinerals:
                 addon = GetAddon(HabBotAddon.Type.Drill);
                 if (addon != null)
@@ -173,6 +187,7 @@ public class HabBot : ITarget
                     return true;
                 return false;
             case State.Farm:
+                return false;
                 addon = GetAddon(HabBotAddon.Type.FarmTool);
                 if (addon != null)
                     return true;
@@ -189,7 +204,14 @@ public class HabBot : ITarget
                 return false;
             case State.Rescue:
                 bool botInjured = HabitationHandler.Instance.IsBotInjured();
+                return false;
                 return botInjured;
+            case State.CollectFood:
+            case State.Idle:
+            case State.Roam:
+            case State.Rest:
+            case State.Recreation:
+                return true;
         }
         return false;
     }
@@ -231,7 +253,8 @@ public class HabBot : ITarget
         vitality.Damage(val);
         if (vitality._val <= 0)
         {
-            OnDeath?.Invoke(this, EventArgs.Empty);
+            StateChangeEventArgs eventArgs = new StateChangeEventArgs() {_bot = this};
+            OnDeath?.Invoke(this, eventArgs);
             return false;
         }
         return true;
@@ -263,6 +286,7 @@ public class HabBot : ITarget
         switch (state)
         {
             case State.Build:
+            case State.Craft:
                 return (30f*(1+_traits.GetTraitVal(HabBotTrait.Type.Laziness)))*(1.1f-_traits.GetTraitVal(HabBotTrait.Type.Intelligence))*(1.1f-_traits.GetTraitVal(HabBotTrait.Type.Building));
             case State.Farm:
                 return (30f*(1+_traits.GetTraitVal(HabBotTrait.Type.Laziness)))*(1.1f-_traits.GetTraitVal(HabBotTrait.Type.Intelligence))*(1.1f-_traits.GetTraitVal(HabBotTrait.Type.Farming));
@@ -270,7 +294,11 @@ public class HabBot : ITarget
                 return (30f*(1+_traits.GetTraitVal(HabBotTrait.Type.Laziness)))*(1.1f-_traits.GetTraitVal(HabBotTrait.Type.Intelligence))*(1.1f-_traits.GetTraitVal(HabBotTrait.Type.Machining));
             case State.CollectMinerals:
                 return (5f*(1.1f-_traits.GetTraitVal(HabBotTrait.Type.Strength)));
-        }
+            case State.CollectTrees:
+                return (5f*(1.1f-_traits.GetTraitVal(HabBotTrait.Type.Strength)));
+            case State.CollectFood:
+                return 5f;
+        }   
         return 30f;
     }
     public float GetDrainTimer(string name)
@@ -407,6 +435,8 @@ public class HabBotTrait
     public float _val;
     public bool _editable = false;
     public bool _reversed = false;
+
+    public int _experience; // when this reaches 100 (or a preset threshold), a skill value will increase by 0.1
 
     public HabBotTrait(int index, Type type, float val, bool editable = false)
     {

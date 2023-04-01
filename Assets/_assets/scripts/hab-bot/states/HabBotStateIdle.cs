@@ -10,6 +10,7 @@ public class HabBotStateIdle : HabBotState
         _animator.SetAnimationState("Grounded", 0.2f);
 
         _nav.SetVelocity(Vector3.zero);
+        _nav.Stop();
     }
 
     public override void StopState()

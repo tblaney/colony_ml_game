@@ -35,7 +35,18 @@ public class HabBotStateRest : HabBotState
             if (_timer > 1f)
             {
                 _timer = 0f;
-                _controller.GetBot().GetVitality("energy").Heal(5);
+                HabBot bot = _controller.GetBot();
+                bot.GetVitality("energy").Heal(5);
+                if (bot.GetVitality("energy")._val > 98)
+                {
+                    if (bot._stateCache != HabBot.State.Rest && bot._stateCache != HabBot.State.Idle)
+                    {
+                        bot.SetState(bot._stateCache);
+                    } else
+                    {
+                        bot.RandomizeState();
+                    }
+                }
             }
         }
     }

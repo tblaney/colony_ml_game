@@ -8,6 +8,7 @@ public class TimeHandler : MonoBehaviour, IHandler
     public static TimeHandler Instance;
     public static TimeWorld _timeWorld;
     public float _timeScale = 1f;
+    public int _timeStart = 2;
     public bool _locked;
 
     public void Initialize()
@@ -15,6 +16,7 @@ public class TimeHandler : MonoBehaviour, IHandler
         Instance = this;
         _timeWorld = new TimeWorld(){};
         _timeWorld._dayMinutes = 6;
+        _timeWorld._timer = _timeStart*60f;
         _timeWorld.Initialize();
     }
 

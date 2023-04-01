@@ -8,4 +8,5 @@ public interface IEnemy
     string[] GetStrings(); // name, description
     Vector3 GetPosition();
     ITarget GetTarget();
+    bool Damage(int val);
 }

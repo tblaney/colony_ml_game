@@ -48,11 +48,11 @@ public class NodeSubProcessor : MonoBehaviour
         _nodeObjects = new Dictionary<Node.Type, List<NodeObject>>();
         if (active)
         {
-            _loadingRoutine = StartCoroutine(LoadRoutine());
-            //foreach (Node node in GetNodes())
-            //{
-            //    SpawnNode(node);
-            //}
+            //_loadingRoutine = StartCoroutine(LoadRoutine());
+            foreach (Node node in GetNodes())
+            {
+                SpawnNode(node);
+            }
         } else
         {
             foreach (Node node in GetNodes())
@@ -177,6 +177,9 @@ public class NodeSubProcessor : MonoBehaviour
                 if (node._busy)
                     continue;
                 
+                if (node._position.y != 30)
+                    continue;
+                    
                 if (prefabIndex != 0)
                 {
                     if (node._prefab != prefabIndex)

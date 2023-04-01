@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class HabBotStateFood : HabBotState
+public class HabBotStateCollect : HabBotState
 {
+    [Header("Inputs:")]
+    public HabBot.State _stateQueueable;
+    public Node.Type _nodeType;
+    public bool _requiresAddon;
+    public HabBotAddon.Type _addonType;
+    public int _effectIndexIn = 0;
+    public string _animation;
     NodeObject _targetNode;
     public Vector3Int _offset;
     bool _interacting = false;
@@ -16,11 +23,14 @@ public class HabBotStateFood : HabBotState
     }
     void RefreshTarget()
     {
+        _interacting = false;
+        _controller.ClearAddons();
+
         if (_targetNode != null)
         {
             _targetNode.SetBusy(false);
         }
-        Queueable queueable = HabitationHandler.Instance.GetQueuedObject(HabBot.State.CollectFood);
+        Queueable queueable = HabitationHandler.Instance.GetQueuedObject(_stateQueueable);
         if (queueable != null)
         {
             _targetNode = HabitationHandler.Instance.GetNodeObject(queueable as Node);
@@ -31,7 +41,7 @@ public class HabBotStateFood : HabBotState
             _nav.MoveTo(_targetNode.GetPosition() + _offset, PathCallback);
             return;
         }
-        _targetNode = HabitationHandler.Instance.GetClosestNodeObjectOfType(Node.Type.Food, transform.position);
+        _targetNode = HabitationHandler.Instance.GetClosestNodeObjectOfType(_nodeType, transform.position);
         if (_targetNode == null)
         {
             //stop state
@@ -60,13 +70,22 @@ public class HabBotStateFood : HabBotState
             float distance = GetDistanceToTarget();
             if (distance < _interactionDistance)
             {
-                _animator.SetAnimationState("Drill", 0.2f);
-                if (_effectIndex == 0)
-                    _effectIndex = EffectHandler.Instance.SpawnEffect(1, transform.position + transform.forward);
-                _targetNode.Damage(_controller.GetBot().GetDamage(HabBot.State.CollectFood));
-                Invoke("PathCallback", _controller.GetBot().GetInteractTime(HabBot.State.CollectFood));
+                if (_animation != "")
+                    _animator.SetAnimationState("_animation", 0.2f);
+                if (_effectIndex == 0 && _effectIndexIn != 0)
+                    _effectIndex = EffectHandler.Instance.SpawnEffect(_effectIndexIn, transform.position + transform.forward);
+                bool isAlive = _targetNode.Damage(_controller.GetBot().GetDamage(_stateQueueable));
+                if (!isAlive)
+                {
+                    RefreshTarget();
+                    return;
+                } else
+                {
+                    Invoke("PathCallback", _controller.GetBot().GetInteractTime(_stateQueueable));
+                }
                 _interacting = true;
-                _controller.ActivateAddon(HabBotAddon.Type.Drill);
+                if (_requiresAddon)
+                    _controller.ActivateAddon(_addonType);
             } else
             {
                 StopState();
@@ -93,6 +112,11 @@ public class HabBotStateFood : HabBotState
     }
     public override void UpdateState()
     {
+        if (_targetNode == null)
+        {
+            RefreshTarget();
+            return;
+        }
         float distance = GetDistanceToTarget();
         if (distance < 4f)
         {
