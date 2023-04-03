@@ -193,10 +193,17 @@ public class HabBot : ITarget
                     return true;
                 return false;
             case State.Build:
+                // check to see if we even have anything queued
+                if (!HabitationHandler.Instance.QueuePoppable(HabBot.State.Build))
+                    return false;
                 addon = GetAddon(HabBotAddon.Type.Welder);
                 if (addon != null)
                     return true;
                 return false;
+            case State.Craft:
+                if (!HabitationHandler.Instance.QueuePoppable(HabBot.State.Craft))
+                    return false;
+                return true;
             case State.Patrol:
                 addon = GetAddon(HabBotAddon.Type.Sword);
                 if (addon != null)

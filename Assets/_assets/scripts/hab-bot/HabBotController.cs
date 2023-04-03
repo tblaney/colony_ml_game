@@ -8,7 +8,6 @@ public class HabBotController : MonoBehaviour
     HabBot _bot;
     [SerializeField] private HabBotState _state;
     [SerializeField] private MaterialController _materialController;
-    [SerializeField] private UIHabBotWorld _uiHabBot;
     [SerializeField] private List<HabBotAddonObject> _addons;
     [SerializeField] private InventoryObject _inventoryObject;
     [SerializeField] private Interactable _interactable;
@@ -27,7 +26,7 @@ public class HabBotController : MonoBehaviour
 
         this._bot = bot;
         SetupState();
-        _uiHabBot.Initialize(_bot);
+        //_uiHabBot.Initialize(_bot);
         ClearAddons();
 
         _inventoryObject.Initialize(_bot._inventoryIndex, true);
@@ -44,7 +43,7 @@ public class HabBotController : MonoBehaviour
     }
     void SetupState()
     {
-        _state.Initialize();
+        _state.SetupState(_bot);
         _state.StartState();
     }
     void RefreshColor()
@@ -59,7 +58,10 @@ public class HabBotController : MonoBehaviour
             _state.UpdateState();
 
         RestCheck();
-        _animator.SetFloat("Speed", _nav.GetVelocity().magnitude);
+        float magnitude = _nav.GetVelocity().magnitude;
+        if (magnitude < 0.2f)
+            magnitude = 0f;
+        _animator.SetFloat("Speed", magnitude);
         _bot._position = transform.position;
         _bot._velocity = _nav.GetVelocity();
     }

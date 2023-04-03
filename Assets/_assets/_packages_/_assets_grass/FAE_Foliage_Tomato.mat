@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FAE_Foliage_Tomato
+  m_Shader: {fileID: 4800000, guid: db729061c820d5742bdc514c1b209afe, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: b52f211dca5e2a74a811ec3d1899b7d1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AmbientOcclusion: 0
+    - _BendingInfluence: 0.224
+    - _Cutoff: 0.5
+    - _FlatLighting: 0
+    - _GlobalWindMotion: 1
+    - _LeafFlutter: 0.196
+    - _MaxWindStrength: 0.126967
+    - _TransmissionAmount: 2.696819
+    - _TransmissionSize: 1.41
+    - _WindAmplitudeMultiplier: 10.8
+    - _WindSwinging: 0
+    - _WindTint: -0.358
+    - __dirty: 1
+    m_Colors:
+    - _Color: {r: 0.8396226, g: 0.67781293, b: 0.3120861, a: 1}
+  m_BuildTextureStacks: []

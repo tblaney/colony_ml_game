@@ -237,7 +237,7 @@ public class ItemInventory
         }
         return null;
     }
-    int GetItemAmount()
+    public int GetItemAmount()
     {
         int i = 0 ;
         foreach (Item item in _items)
@@ -245,6 +245,16 @@ public class ItemInventory
             i += item._amount;
         }
         return i;
+    }
+    public bool HasCapacity(List<ItemInput> itemsIn)
+    {
+        int amountIn = 0;
+        foreach (ItemInput item in itemsIn)
+        {
+            amountIn+=item._amount;
+        }
+        int amountCurrent = GetItemAmount();
+        return (amountCurrent+amountIn) < _itemCapacity;
     }
 }
 

@@ -57,27 +57,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4226402615805939588, guid: 9d3eec430a3e5be4597afc20189e9733, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.2
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4226402615805939588, guid: 9d3eec430a3e5be4597afc20189e9733, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.2
+      value: 3.3333333
       objectReference: {fileID: 0}
     - target: {fileID: 4226402615805939588, guid: 9d3eec430a3e5be4597afc20189e9733, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.2
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4226402615805939588, guid: 9d3eec430a3e5be4597afc20189e9733, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4233863775832966622, guid: 9d3eec430a3e5be4597afc20189e9733, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 4300000, guid: 7180f845a92d53348b21dd62b798f273, type: 3}
+      objectReference: {fileID: 4300000, guid: 6d4f4001daaf7a640bb1c960299192d4, type: 3}
+    - target: {fileID: 4243969652992154122, guid: 9d3eec430a3e5be4597afc20189e9733, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7d8f19a3b5ecda042bc22c47c1622a38, type: 2}
     - target: {fileID: 6146409238781871401, guid: 9d3eec430a3e5be4597afc20189e9733, type: 3}
       propertyPath: m_Name
       value: PF_Food_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 8488635851522689992, guid: 9d3eec430a3e5be4597afc20189e9733, type: 3}
+      propertyPath: _itemInput._name
+      value: Wheat Grass
+      objectReference: {fileID: 0}
+    - target: {fileID: 8488635851522689992, guid: 9d3eec430a3e5be4597afc20189e9733, type: 3}
+      propertyPath: _itemInput._index
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8488635851522689992, guid: 9d3eec430a3e5be4597afc20189e9733, type: 3}
+      propertyPath: _itemInput._amount
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d3eec430a3e5be4597afc20189e9733, type: 3}

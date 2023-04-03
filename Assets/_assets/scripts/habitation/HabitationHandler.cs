@@ -294,6 +294,16 @@ public class HabitationHandler : MonoBehaviour, IHandler
         Debug.Log("Habitation Handler Get Bot Amount To Colonist: " + amount);
         return amount;
     }
+
+    public bool QueuePoppable(HabBot.State state)
+    {
+        HabitationQueue queue = GetQueue(state);
+        if (queue != null)
+        {
+            return queue._queueables.Count > 0;
+        }
+        return false;
+    }
 }
 
 [Serializable]

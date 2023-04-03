@@ -185,14 +185,15 @@ MonoBehaviour:
     _health:
       _name: 
       _val: 0
+      _timer: 0
     _nodeType: 0
   _interactionTime: 30
   _itemInput:
     _state: 0
     _queued: 0
-    _name: 
-    _index: 0
-    _amount: 0
+    _name: Earth Block
+    _index: 1
+    _amount: 1
   _interactable: {fileID: 4277110242045676517}
 --- !u!114 &2677118573482455656
 MonoBehaviour:

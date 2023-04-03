@@ -33,6 +33,8 @@ public class UIBuildingStorage : UIBuilding
     }
     void RefreshItems()
     {
+        int inventoryAmount = _inventory.GetItemAmount();
+        _controller.SetText(inventoryAmount.ToString() + "/" + _inventory._itemCapacity.ToString(), "inventory capacity");
         List<Item> items = _inventory._items;
         Vector2 rect = _buttonItemDefault.GetComponent<RectTransform>().sizeDelta;
         int i = 0;

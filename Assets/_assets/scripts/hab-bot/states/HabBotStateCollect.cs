@@ -71,12 +71,13 @@ public class HabBotStateCollect : HabBotState
             if (distance < _interactionDistance)
             {
                 if (_animation != "")
-                    _animator.SetAnimationState("_animation", 0.2f);
+                    _animator.SetAnimationState(_animation, 0.2f);
                 if (_effectIndex == 0 && _effectIndexIn != 0)
                     _effectIndex = EffectHandler.Instance.SpawnEffect(_effectIndexIn, transform.position + transform.forward);
                 bool isAlive = _targetNode.Damage(_controller.GetBot().GetDamage(_stateQueueable));
                 if (!isAlive)
                 {
+                    StopState();
                     RefreshTarget();
                     return;
                 } else
@@ -114,13 +115,16 @@ public class HabBotStateCollect : HabBotState
     {
         if (_targetNode == null)
         {
+            StopState();
             RefreshTarget();
             return;
         }
         float distance = GetDistanceToTarget();
         if (distance < 4f)
         {
-            UpdateRotation((_targetNode.GetPosition() - transform.position).normalized);
+            Vector3 dir = (_targetNode.GetPosition() - transform.position).normalized;
+            dir.y = 0f;
+            UpdateRotation(dir);
         }
     }
 }   

@@ -13,6 +13,7 @@ public abstract class HabBotState : MonoBehaviour
     protected HabBotController _controller;
     protected NavigationController _nav;
     protected AnimatorHandler _animator;
+    protected HabBot _bot;
 
     void Awake()
     {
@@ -21,9 +22,13 @@ public abstract class HabBotState : MonoBehaviour
         _animator = GetComponent<AnimatorHandler>();
         Initialize();
     } 
+    public void SetupState(HabBot bot)
+    {
+        _bot = bot;
+    }
     public virtual void Initialize()
     {
-
+        
     }
     void OnDisable()
     {

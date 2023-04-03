@@ -7,11 +7,11 @@ public class HabBotStateCraft : HabBotState
 {
     public int _effectIndexIn;
     ItemInput _itemToCraft;
-    NodeObject _targetNode;
+    NodeObject _targetNode = null;
+    List<NodeObject> _targetNodes;
+    List<ItemInput> _itemsToRetrieve;
     int _effectIndex;
     bool _buildStarted;
-
-    List<NodeObject> _targetItemStorage;
     int _indexTargetItem;
 
     public enum Stage
@@ -25,53 +25,88 @@ public class HabBotStateCraft : HabBotState
     public override void StartState()
     {
         _stage = Stage.ItemGather;
+        _targetNode = null;
 
         Queueable queueable = HabitationHandler.Instance.GetQueuedObject(HabBot.State.Craft);
         if (queueable == null)
         {
-            _controller.SetState((int)HabBot.State.Idle);
+            _bot.StateFailure("No object to queue");
             return;
         } else
         {
             _itemToCraft = queueable as ItemInput;
         }
+        InventoryCheck();
+        RefreshTarget();
     }
-    void Refresh()
+    void RefreshTarget()
     {
         switch (_stage)
         {
             case Stage.ItemGather:
-                List<ItemInput> items = InventoryCheck();
-                if (items.Count > 0)
+                if (_itemsToRetrieve.Count > 0 && _indexTargetItem < _itemsToRetrieve.Count)
                 {
                     // need to collect items before we move forward
-                    
+                    NodeObject node = _targetNodes[_indexTargetItem];
+                    _nav.MoveTo(node.GetPosition(), RetrieveCallback);
                 } else
                 {
                     _stage = Stage.Craft;
-                    Refresh();
+                    RefreshTarget();
                 }
                 break;
             case Stage.Craft:
+                _targetNode = HabitationHandler.Instance.GetClosestNodeObjectWithOutputItem(_itemToCraft, transform.position);
+                if (_targetNode != null)
+                {
+
+                } else
+                {
+                    _controller.GetBot().StateFailure("This bot can't carry the necessary items. Consider stockpiling.");
+                    return;
+                }
                 break;
         }
     }
-    List<ItemInput> InventoryCheck()
+    void InventoryCheck()
     {
+        _itemsToRetrieve = new List<ItemInput>();
+        _targetNodes = new List<NodeObject>();
+        _indexTargetItem = 0;
         // check to see if hab bot has necessary items in inventory
         Item item = ItemHandler.Instance.GetUnlinkedItem(_itemToCraft._index);
         List<ItemInput> output = new List<ItemInput>();
         List<ItemInput> requirements = item._options._recipe;
         HabBot bot = _controller.GetBot();
         ItemInventory inventory = ItemHandler.Instance.GetItemInventory(bot._inventoryIndex);
+        if (!inventory.HasCapacity(requirements))
+        {
+            bot.StateFailure("This bot can't carry the necessary items. Consider stockpiling.");
+            return;
+        }
         foreach (ItemInput itemInput in requirements)
         {
             if (!inventory.Contains(itemInput))
             {
-                output.Add(itemInput);
+                NodeObject node = HabitationHandler.Instance.GetClosestNodeObjectWithItem(itemInput, transform.position);
+                if (node == null)
+                {
+                    // cant fulfill request
+                    bot.StateFailure("This bot couldn't locate the necessary items to build this item. You might be missing items.");
+                    return;
+                }
+                _itemsToRetrieve.Add(itemInput);   
+                _targetNodes.Add(node);
             }
         }
-        return output;
+    }
+    void RetrieveCallback()
+    {
+        // need to extract item from that inventory
+        _targetNodes[_indexTargetItem].gameObject.GetComponent<InventoryObject>().RemoveItem(_itemsToRetrieve[_indexTargetItem]);
+        ItemHandler.Instance.GetItemInventory(_controller.GetBot()._inventoryIndex).AddItem(_itemsToRetrieve[_indexTargetItem]);
+        InventoryCheck();
+        RefreshTarget();
     }
     void BeginItemGrab()
     {
@@ -110,22 +145,6 @@ public class HabBotStateCraft : HabBotState
             HabitationHandler.Instance.AddObjectToQueue(HabBot.State.Craft, _itemToCraft as Queueable);
             StartState();
         }
-    }
-    void BuildCompleteCallback()
-    {
-        /*
-        BuiltNodeBCraft crafter = _targetNode as BuiltNodeObjectCraft;
-        if (crafter != null)
-        {
-            crafter.FinishCraft();
-            StartState();
-            return;
-        } else
-        {
-            HabitationHandler.Instance.AddObjectToQueue(HabBot.State.Build, _targetNode as Queueable);
-            StartState();
-        }
-        */
     }
     public override void StopState()
     {
