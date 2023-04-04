@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class UIItemMenu : UIObject
 {
@@ -22,6 +23,28 @@ public class UIItemMenu : UIObject
         _habitation = habitation;
         Refresh();
         Activate(false);
+        Subscribe(true);
+    }
+    void Subscribe(bool val)
+    {
+        if (_habitation == null)
+            return;
+        foreach (int inv in _habitation._itemInventories)
+        {
+            ItemInventory inventory = ItemHandler.Instance.GetItemInventory(inv);
+            if (val)
+                inventory.OnInventoryChange += Habitation_InventoryChange;
+            else   
+                inventory.OnInventoryChange -= Habitation_InventoryChange;
+        }
+    }
+    void OnDisable()
+    {
+        Subscribe(false);
+    }   
+    void Habitation_InventoryChange(object sender, EventArgs e)
+    {
+        Refresh();  
     }
     public override void Activate(bool active = true)
     {

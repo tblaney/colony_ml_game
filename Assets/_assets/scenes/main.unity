@@ -1977,9 +1977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _items:
-  - _state: 0
-    _queued: 0
-    _name: Earth Block
+  - _name: Earth Block
     _index: 1
     _amount: 0
     _options:
@@ -1988,9 +1986,7 @@ MonoBehaviour:
       _addonType: 0
       _description: 
       _recipe: []
-  - _state: 0
-    _queued: 0
-    _name: Sword Addon
+  - _name: Sword Addon
     _index: 2
     _amount: 0
     _options:
@@ -1999,9 +1995,7 @@ MonoBehaviour:
       _addonType: 0
       _description: 
       _recipe: []
-  - _state: 0
-    _queued: 0
-    _name: Axe Addon
+  - _name: Axe Addon
     _index: 3
     _amount: 0
     _options:
@@ -2010,9 +2004,7 @@ MonoBehaviour:
       _addonType: 1
       _description: 
       _recipe: []
-  - _state: 0
-    _queued: 0
-    _name: Drill Addon
+  - _name: Drill Addon
     _index: 4
     _amount: 0
     _options:
@@ -2021,9 +2013,7 @@ MonoBehaviour:
       _addonType: 2
       _description: 
       _recipe: []
-  - _state: 0
-    _queued: 0
-    _name: Farm Tool Addon
+  - _name: Farm Tool Addon
     _index: 5
     _amount: 0
     _options:
@@ -2032,9 +2022,7 @@ MonoBehaviour:
       _addonType: 3
       _description: 
       _recipe: []
-  - _state: 0
-    _queued: 0
-    _name: Welder Addon
+  - _name: Welder Addon
     _index: 6
     _amount: 0
     _options:
@@ -2043,9 +2031,7 @@ MonoBehaviour:
       _addonType: 4
       _description: 
       _recipe: []
-  - _state: 0
-    _queued: 0
-    _name: Wheat Grass
+  - _name: Wheat Grass
     _index: 7
     _amount: 0
     _options:
@@ -2054,9 +2040,7 @@ MonoBehaviour:
       _addonType: 4
       _description: 
       _recipe: []
-  - _state: 0
-    _queued: 0
-    _name: Fiddlehead
+  - _name: Fiddlehead
     _index: 8
     _amount: 0
     _options:
@@ -2065,9 +2049,7 @@ MonoBehaviour:
       _addonType: 4
       _description: 
       _recipe: []
-  - _state: 0
-    _queued: 0
-    _name: Iron Ore
+  - _name: Iron Ore
     _index: 9
     _amount: 0
     _options:
@@ -2076,9 +2058,7 @@ MonoBehaviour:
       _addonType: 4
       _description: 
       _recipe: []
-  - _state: 0
-    _queued: 0
-    _name: Diamond
+  - _name: Diamond
     _index: 10
     _amount: 0
     _options:
@@ -2087,9 +2067,7 @@ MonoBehaviour:
       _addonType: 4
       _description: 
       _recipe: []
-  - _state: 0
-    _queued: 0
-    _name: Gold Ore
+  - _name: Gold Ore
     _index: 11
     _amount: 0
     _options:
@@ -2098,9 +2076,7 @@ MonoBehaviour:
       _addonType: 4
       _description: 
       _recipe: []
-  - _state: 0
-    _queued: 0
-    _name: Tomato
+  - _name: Tomato
     _index: 12
     _amount: 0
     _options:
@@ -2109,10 +2085,35 @@ MonoBehaviour:
       _addonType: 4
       _description: 
       _recipe: []
-  - _state: 0
-    _queued: 0
-    _name: Corn
+  - _name: Corn
     _index: 13
+    _amount: 0
+    _options:
+      _type: 0
+      _addon: 1
+      _addonType: 4
+      _description: 
+      _recipe: []
+  - _name: Oak Wood
+    _index: 14
+    _amount: 0
+    _options:
+      _type: 0
+      _addon: 1
+      _addonType: 4
+      _description: 
+      _recipe: []
+  - _name: Spruce Wood
+    _index: 15
+    _amount: 0
+    _options:
+      _type: 0
+      _addon: 1
+      _addonType: 4
+      _description: 
+      _recipe: []
+  - _name: Apple
+    _index: 16
     _amount: 0
     _options:
       _type: 0
@@ -3014,19 +3015,19 @@ MonoBehaviour:
     - _probabilityRange:
       - 0
       - 0.2
-      _prefabIndex: 12
+      _prefabIndex: 27
     - _probabilityRange:
       - 0.2
       - 0.5
       _prefabIndex: 13
     - _probabilityRange:
       - 0.5
-      - 0.7
+      - 0.95
       _prefabIndex: 14
     - _probabilityRange:
-      - 0.7
+      - 0.95
       - 1
-      _prefabIndex: 27
+      _prefabIndex: 12
     _type: 3
     _amount: 500
     _cluster: 0
@@ -3053,10 +3054,10 @@ MonoBehaviour:
       - 1
       _prefabIndex: 28
     _type: 1
-    _amount: 5000
+    _amount: 1200
     _cluster: 0
     _clusterHeight: 0
-    _health: 40
+    _health: 20
     _propogationFactor: 0
   _objectsToSave:
   - {fileID: 2077465448}
@@ -3535,6 +3536,7 @@ MonoBehaviour:
   _movementSpeed: 40
   _sprinting: 0
   _mousePosition: {x: 0, y: 0}
+  _active: 1
 --- !u!1 &691422595
 GameObject:
   m_ObjectHideFlags: 0
@@ -9532,6 +9534,8 @@ MonoBehaviour:
     _prefab: {fileID: 4429560816973708524, guid: fd4781f902c20a64b8df64c1000f9c57, type: 3}
   - _state: 10
     _prefab: {fileID: 4429560816973708524, guid: 07c404133cfecf647aa2b03b3e273710, type: 3}
+  - _state: 11
+    _prefab: {fileID: 4429560816973708524, guid: cfd50b86903110a4cba713638bc13e37, type: 3}
   _controllerLoading:
   - {fileID: 1887394346}
   - {fileID: 647473866}
@@ -10934,9 +10938,7 @@ MonoBehaviour:
     _prefabBuilt: 6
     _buildTime: 60
     _itemRequirements:
-    - _state: 0
-      _queued: 0
-      _name: Earth Block
+    - _name: Earth Block
       _index: 1
       _amount: 10
     _itemOutputs: []
@@ -10947,9 +10949,7 @@ MonoBehaviour:
     _prefabBuilt: 18
     _buildTime: 60
     _itemRequirements:
-    - _state: 0
-      _queued: 0
-      _name: Earth Block
+    - _name: Earth Block
       _index: 1
       _amount: 10
     _itemOutputs: []
@@ -10960,22 +10960,25 @@ MonoBehaviour:
     _prefabBuilt: 20
     _buildTime: 60
     _itemRequirements:
-    - _state: 0
-      _queued: 0
-      _name: Earth Block
+    - _name: Earth Block
       _index: 1
       _amount: 10
     _itemOutputs:
-    - _state: 0
-      _queued: 0
-      _name: Earth Block
-      _index: 1
-      _amount: 10
-    - _state: 0
-      _queued: 0
-      _name: Earth Block
-      _index: 1
-      _amount: 10
+    - _name: Sword Addon
+      _index: 2
+      _amount: 1
+    - _name: Axe Addon
+      _index: 3
+      _amount: 1
+    - _name: Drill Addon
+      _index: 4
+      _amount: 1
+    - _name: Farm Tool Addon
+      _index: 5
+      _amount: 1
+    - _name: Welder Addon
+      _index: 5
+      _amount: 1
   - _name: Volleyball
     _description: A volleyball court for your bots to blow off steam.
     _index: 4
@@ -10983,20 +10986,14 @@ MonoBehaviour:
     _prefabBuilt: 22
     _buildTime: 60
     _itemRequirements:
-    - _state: 0
-      _queued: 0
-      _name: Earth Block
+    - _name: Earth Block
       _index: 1
       _amount: 10
     _itemOutputs:
-    - _state: 0
-      _queued: 0
-      _name: Earth Block
+    - _name: Earth Block
       _index: 1
       _amount: 10
-    - _state: 0
-      _queued: 0
-      _name: Earth Block
+    - _name: Earth Block
       _index: 1
       _amount: 10
   - _name: Composite Wall
@@ -11007,20 +11004,14 @@ MonoBehaviour:
     _prefabBuilt: 24
     _buildTime: 60
     _itemRequirements:
-    - _state: 0
-      _queued: 0
-      _name: Earth Block
+    - _name: Earth Block
       _index: 1
       _amount: 10
     _itemOutputs:
-    - _state: 0
-      _queued: 0
-      _name: Earth Block
+    - _name: Earth Block
       _index: 1
       _amount: 10
-    - _state: 0
-      _queued: 0
-      _name: Earth Block
+    - _name: Earth Block
       _index: 1
       _amount: 10
 --- !u!1001 &2077465446

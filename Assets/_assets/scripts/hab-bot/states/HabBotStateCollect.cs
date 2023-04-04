@@ -77,6 +77,12 @@ public class HabBotStateCollect : HabBotState
                 bool isAlive = _targetNode.Damage(_controller.GetBot().GetDamage(_stateQueueable));
                 if (!isAlive)
                 {
+                    ResourceNodeObject resource = _targetNode as ResourceNodeObject;
+                    ItemInventory itemInventory = ItemHandler.Instance.GetItemInventory(_bot._inventoryIndex);
+                    foreach (ItemInput item in resource.GetItemInputs())
+                    {
+                        itemInventory.AddItem(item);
+                    }
                     StopState();
                     RefreshTarget();
                     return;
@@ -128,3 +134,4 @@ public class HabBotStateCollect : HabBotState
         }
     }
 }   
+

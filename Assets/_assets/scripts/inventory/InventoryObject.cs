@@ -37,6 +37,10 @@ public class InventoryObject : MonoBehaviour
     {
         _inventory.AddItem(input);
     }
+    public void AddItem(int index, int amount)
+    {
+        _inventory.AddItem(index, amount);
+    }
     public void RemoveItem(ItemInput input)
     {
         _inventory.RemoveItem(input);

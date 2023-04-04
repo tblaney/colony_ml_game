@@ -22,11 +22,6 @@ public class ItemHandler : MonoBehaviour, IHandler
         {
             inventory._items.Add(item.DuplicateItem());
         }
-        inventory.AddItem(2, 1);
-        inventory.AddItem(3, 1);
-        inventory.AddItem(4, 1);
-        inventory.AddItem(5, 1);
-        inventory.AddItem(6, 1);
         return inventory;
     }
     public ItemInventory GetItemInventory(int index)
@@ -37,6 +32,16 @@ public class ItemHandler : MonoBehaviour, IHandler
                 return inventory;
         }
         return null;
+    }
+    public List<ItemInventory> GetItemInventories(List<int> indices)
+    {
+        List<ItemInventory> inventories = new List<ItemInventory>();
+        foreach (ItemInventory inventory in _inventories)
+        {
+            if (indices.Contains(inventory._index))
+                inventories.Add(inventory);
+        }
+        return inventories;
     }
     public Item GetItem(int itemIndex, int inventoryIndex)
     {
@@ -154,6 +159,8 @@ public class ItemInventory
     public int _index;
     public InventoryObject _obj;
 
+    public event EventHandler OnInventoryChange;
+
     public ItemInventory(int index, int capacity)
     {
         _index = index;
@@ -169,10 +176,12 @@ public class ItemInventory
         if (GetItemAmount() + amount > _itemCapacity)
             return;
         
+
         Item itemTemp = GetItem(name);
         if (itemTemp != null)
         {
             itemTemp.Add(amount);
+            OnInventoryChange?.Invoke(this, EventArgs.Empty);
         } 
     }
     public void AddItem(int index, int amount)
@@ -185,6 +194,7 @@ public class ItemInventory
         if (itemTemp != null)
         {
             itemTemp.Add(amount);
+            OnInventoryChange?.Invoke(this, EventArgs.Empty);
         } 
     }
     public void AddItem(ItemInput itemInput)
@@ -199,6 +209,8 @@ public class ItemInventory
             itemTemp._amount -= amount;
             if (itemTemp._amount <= 0)
                 _items.Remove(itemTemp);
+            
+            OnInventoryChange?.Invoke(this, EventArgs.Empty);
         }
     }
     public void RemoveItem(ItemInput itemInput)
@@ -256,6 +268,10 @@ public class ItemInventory
         int amountCurrent = GetItemAmount();
         return (amountCurrent+amountIn) < _itemCapacity;
     }
+    public bool CapacityCheck()
+    {
+        return GetItemAmount() < _itemCapacity;
+    }
 }
 
 
@@ -265,4 +281,17 @@ public class ItemInput : Queueable
     public string _name;
     public int _index;
     public int _amount;
+}
+
+[Serializable]
+public class ItemInputChance
+{
+    public ItemInput _item;
+    public Vector2Int _amountRange;
+    public float _probability = 0.5f;
+
+    public bool IsHit()
+    {
+        return Utils.Tools.IsHit(_probability);
+    }
 }

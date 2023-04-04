@@ -55,7 +55,7 @@ public abstract class UIBuilding : UIObject
     }
     void RefreshBuilding()
     {
-        if (_node._queued)
+        if (_node.IsQueued())
         {
             _controller.ActivateBehaviour("queue color on");
         } else
@@ -66,7 +66,7 @@ public abstract class UIBuilding : UIObject
         _controller.SetText(_building._description, "description");
         _buttonDestroyQueue.OnPointerClickFunc = () =>
         {
-            if (_node._queued)
+            if (_node.IsQueued())
             {
                 // dequeue
                 HabitationHandler.Instance.RemoveObjectFromQueue(HabBot.State.Destroy, _node);

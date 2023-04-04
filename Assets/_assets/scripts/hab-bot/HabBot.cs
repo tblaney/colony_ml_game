@@ -204,6 +204,12 @@ public class HabBot : ITarget
                 if (!HabitationHandler.Instance.QueuePoppable(HabBot.State.Craft))
                     return false;
                 return true;
+            case State.Stockpile:
+                ItemInventory inventory = ItemHandler.Instance.GetItemInventory(_inventoryIndex);
+                List<int> availableInventories = HabitationHandler.Instance.GetItemInventories(false);
+                if (inventory.GetItemAmount() > 0 && availableInventories.Count > 0)
+                    return true;
+                return false;
             case State.Patrol:
                 addon = GetAddon(HabBotAddon.Type.Sword);
                 if (addon != null)
@@ -285,6 +291,8 @@ public class HabBot : ITarget
                 return (int)(1+(20f * _traits.GetTraitVal(HabBotTrait.Type.Strength)* _traits.GetTraitVal(HabBotTrait.Type.Mining)));
             case State.CollectTrees:
                 return (int)(20f * _traits.GetTraitVal(HabBotTrait.Type.Strength)* _traits.GetTraitVal(HabBotTrait.Type.Foraging));
+            case State.CollectFood:
+                return (int)(20f *  _traits.GetTraitVal(HabBotTrait.Type.Foraging));
         }
         return 0;
     }

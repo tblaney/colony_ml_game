@@ -83,6 +83,14 @@ PrefabInstance:
       propertyPath: _itemInput._amount
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 8488635851522689992, guid: 256f5b81b65d74a4f8057e490e566a31, type: 3}
+      propertyPath: _itemInputs.Array.data[0]._item._name
+      value: Iron Ore
+      objectReference: {fileID: 0}
+    - target: {fileID: 8488635851522689992, guid: 256f5b81b65d74a4f8057e490e566a31, type: 3}
+      propertyPath: _itemInputs.Array.data[0]._item._index
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 8839611551169399589, guid: 256f5b81b65d74a4f8057e490e566a31, type: 3}
       propertyPath: m_Mesh
       value: 

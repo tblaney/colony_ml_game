@@ -37,6 +37,7 @@ public class UIVitality : UIObject
     void OnEnable()
     {
         Subscribe();
+        Refresh();
     }
     void OnDisable()
     {
@@ -44,9 +45,17 @@ public class UIVitality : UIObject
     }
     void VitalityRefresh(object sender, EventArgs e)
     {
+        Refresh(0.25f);
+    }
+
+    void Refresh(float time = 0f)
+    {
+        if (_vitality == null)
+            return;
+            
         float valNormalized = _vitality.GetVitalityNormalized();
         Vector3 scale = new Vector3(1f, valNormalized, 1f);
-        _controller.SetScale(scale, 1, 0.25f);
+        _controller.SetScale(scale, 1, time);
         _controller.SetText(_vitality._val.ToString(), 2);
     }
 }

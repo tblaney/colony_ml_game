@@ -80,7 +80,6 @@ public class HabBotStateRecreation : HabBotState
             _rotator.eulerAngles = new Vector3(0f, 0f, 0f);
         }
         _playing = true;
-        _agent.Stop();
         PhysicsSwitch(false);
     }
     public void StopGame()
@@ -90,6 +89,7 @@ public class HabBotStateRecreation : HabBotState
             _rotator.eulerAngles = new Vector3(0f, 180f, 0f);
         }
         _playing = false;
+        _agent.Stop();
         PhysicsSwitch(true);
     }
     public override void StopState()

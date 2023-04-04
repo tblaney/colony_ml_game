@@ -13,10 +13,19 @@ public class CameraTargetController : MonoBehaviour
     public float _movementSpeed = 12f;
     public bool _sprinting;
     public Vector2 _mousePosition;
+    public bool _active = true;
     ITarget _target;
+    Coroutine _update;
 
-
+    void Start()
+    {
+        //_update = StartCoroutine(UpdateRoutine());
+    }
     void Update()
+    {
+        UpdateCamera();
+    }
+    void UpdateCamera()
     {
         Vector3 targetPosition = transform.position;
         float movementSpeed = _movementSpeed;
@@ -73,6 +82,15 @@ public class CameraTargetController : MonoBehaviour
         } else
         {
             _mousePosition = default(Vector2);
+        }
+    }
+
+    private IEnumerator UpdateRoutine()
+    {
+        while (_active)
+        {
+            UpdateCamera();
+            yield return null;
         }
     }
 }

@@ -50,7 +50,7 @@ public class UIHabitationQueue : UIObject
     }
     void ButtonClickCallback(Queueable queueable)
     {
-        switch (queueable._state)
+        switch (queueable.GetState())
         {
             case HabBot.State.CollectMinerals:
                 Node node = queueable as Node;

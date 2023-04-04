@@ -79,12 +79,15 @@ MonoBehaviour:
       _timer: 0
     _nodeType: 0
   _interactionTime: 30
-  _itemInput:
-    _state: 0
-    _queued: 0
-    _name: Fiddlehead
-    _index: 8
-    _amount: 5
+  _itemInputs:
+  - _item:
+      _state: 0
+      _queued: 0
+      _name: Fiddlehead
+      _index: 8
+      _amount: 0
+    _amountRange: {x: 1, y: 4}
+    _probability: 1
   _interactable: {fileID: 0}
 --- !u!114 &2677118573482455656
 MonoBehaviour:

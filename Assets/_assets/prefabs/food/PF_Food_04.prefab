@@ -95,5 +95,13 @@ PrefabInstance:
       propertyPath: _itemInput._amount
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 8488635851522689992, guid: 9d3eec430a3e5be4597afc20189e9733, type: 3}
+      propertyPath: _itemInputs.Array.data[0]._item._name
+      value: Corn
+      objectReference: {fileID: 0}
+    - target: {fileID: 8488635851522689992, guid: 9d3eec430a3e5be4597afc20189e9733, type: 3}
+      propertyPath: _itemInputs.Array.data[0]._item._index
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d3eec430a3e5be4597afc20189e9733, type: 3}

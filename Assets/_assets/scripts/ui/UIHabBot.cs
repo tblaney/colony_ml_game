@@ -67,6 +67,8 @@ public class UIHabBot : UIObject
             _bot._traits.OnTraitsChange -= Bot_TraitsChange;
             _bot.OnStateAccessChange -= Bot_StateAccessChange;
             _bot.OnFailureState -= Bot_FailureState;
+            ItemInventory inventory = ItemHandler.Instance.GetItemInventory(_bot._inventoryIndex);
+            inventory.OnInventoryChange -= Inventory_Change;
         }
     }
     public void Setup(HabBot bot, Action<UIHabBot> buttonClickFunc)
@@ -81,6 +83,8 @@ public class UIHabBot : UIObject
             i++;
         }
         _buttonMain.OnPointerClickFunc = () => { buttonClickFunc(this); };
+        ItemInventory inventory = ItemHandler.Instance.GetItemInventory(_bot._inventoryIndex);
+        inventory.OnInventoryChange += Inventory_Change;
         _bot.OnStateChange += Bot_StateChange;
         _bot._traits.OnTraitsChange += Bot_TraitsChange;
         _bot.OnStateAccessChange += Bot_StateAccessChange;
@@ -162,6 +166,10 @@ public class UIHabBot : UIObject
     public void Bot_FailureState(object sendder, EventArgs e)
     {
         _buttonMain.GetController().ActivateBehaviour("state fail", true);
+    }
+    void Inventory_Change(object sender, EventArgs e)
+    {
+        Refresh();
     }
     void ColorSwitcherChangeFunc(Color color)
     {
@@ -264,7 +272,8 @@ public class UIHabBot : UIObject
     void RefreshInventoryAddons()
     {
         ClearInventoryAddons();
-        List<Item> items = ItemHandler.Instance.GetItemInventory(_bot._inventoryIndex)._items;
+        ItemInventory inventory = ItemHandler.Instance.GetItemInventory(_bot._inventoryIndex);
+        List<Item> items = inventory._items;
         List<HabBotAddon> addons = _bot._addons;
         int y = 0;
         Vector2 size = _controllerInventoryItem.GetComponent<RectTransform>().sizeDelta;
@@ -295,6 +304,9 @@ public class UIHabBot : UIObject
         }
         _controllerAddonItem.transform.parent.GetComponent<RectTransform>().sizeDelta = new Vector2(size.x, size.y*y + 26f);
         _uiAddons.RefreshAddonOptions();
+
+        string capacity = inventory.GetItemAmount().ToString() + "/" + inventory._itemCapacity.ToString();
+        _controller.SetText(capacity, "inventory capacity");
     }
     public HabBot GetBot()
     {

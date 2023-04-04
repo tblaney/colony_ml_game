@@ -6,9 +6,8 @@ using System;
 [Serializable]
 public abstract class Queueable 
 {
-    [Header("Queueable Inputs:")]
-    public HabBot.State _state;
-    public bool _queued;
+    protected HabBot.State _state;
+    protected bool _queued;
 
     public virtual void AddQueueable()
     {
@@ -17,6 +16,22 @@ public abstract class Queueable
     public virtual void DestroyQueueable()
     {
         HabitationHandler.Instance.RemoveObjectFromQueue(_state, this);
+    }
+    public HabBot.State GetState()
+    {
+        return _state;
+    }
+    public void SetState(HabBot.State state)
+    {
+        _state = state;
+    }
+    public bool IsQueued()
+    {
+        return _queued;
+    }
+    public void SetQueued(bool val)
+    {
+        _queued = val;
     }
 }
 

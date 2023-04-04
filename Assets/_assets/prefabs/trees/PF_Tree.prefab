@@ -77,14 +77,18 @@ MonoBehaviour:
     _health:
       _name: 
       _val: 0
+      _timer: 0
     _nodeType: 0
   _interactionTime: 30
-  _itemInput:
-    _state: 0
-    _queued: 0
-    _name: Earth Block
-    _index: 1
-    _amount: 10
+  _itemInputs:
+  - _item:
+      _state: 0
+      _queued: 0
+      _name: Oak Wood
+      _index: 14
+      _amount: 4
+    _amountRange: {x: 2, y: 5}
+    _probability: 1
   _interactable: {fileID: 0}
 --- !u!114 &2677118573482455656
 MonoBehaviour:

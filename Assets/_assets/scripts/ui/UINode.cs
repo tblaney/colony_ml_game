@@ -56,7 +56,7 @@ public class UINode : UIObject
     }
     void Refresh()
     {
-        if (_node._queued)
+        if (_node.IsQueued())
         {
             _controller.ActivateBehaviour("queue color on");
         } else
@@ -68,7 +68,7 @@ public class UINode : UIObject
         _controller.SetText(Node.GetDescription(_node), "description");
         _buttonQueue.OnPointerClickFunc = () =>
         {
-            if (_node._queued)
+            if (_node.IsQueued())
             {
                 // dequeue
                 HabitationHandler.Instance.RemoveObjectFromQueue(_node.GetState(), _node);

@@ -125,13 +125,13 @@ public class HabitationHandler : MonoBehaviour, IHandler
     }
     public void AddObjectToQueue(HabBot.State state, Queueable obj)
     {
-        if (obj._queued)
+        if (obj.IsQueued())
             return;
         Debug.Log("Queue Object: " + state + ", " + obj);
         HabitationQueue queue = GetQueue(state);
         if (queue != null)
         {
-            obj._queued = true;
+            obj.SetQueued(true);
             queue.Add(obj);
         }
     }
@@ -140,7 +140,7 @@ public class HabitationHandler : MonoBehaviour, IHandler
         HabitationQueue queue = GetQueue(state);
         if (queue != null)
         {
-            obj._queued = false;
+            obj.SetQueued(false);
             queue.Remove(obj);
         }
     }
