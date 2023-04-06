@@ -73,7 +73,7 @@ public class UIItemMenu : UIObject
             controller.SetText(item._name, "name");
             controller.SetText(item._options._description, "description");
             controller.SetText(item._amount.ToString(), "amount");
-            controller.SetText("(" + item._options._type.ToString() + ")", "type");
+            controller.SetText("(" + item._type.ToString() + ")", "type");
             _controllers.Add(controller);
             y++;
         }

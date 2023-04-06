@@ -82,7 +82,7 @@ public class UIHabBot : UIObject
             vitality.Setup(_bot._vitalities[i]);
             i++;
         }
-        _buttonMain.OnPointerClickFunc = () => { buttonClickFunc(this); };
+        _buttonMain.OnPointerClickFunc = () => { ClearButtonTooltip(); buttonClickFunc(this); };
         ItemInventory inventory = ItemHandler.Instance.GetItemInventory(_bot._inventoryIndex);
         inventory.OnInventoryChange += Inventory_Change;
         _bot.OnStateChange += Bot_StateChange;
@@ -166,6 +166,20 @@ public class UIHabBot : UIObject
     public void Bot_FailureState(object sendder, EventArgs e)
     {
         _buttonMain.GetController().ActivateBehaviour("state fail", true);
+        _buttonMain.OnPointerEnterFunc = () =>
+        {
+            UIHandler.Instance.ActivateTooltip(true, _bot._notification);
+        };
+        _buttonMain.OnPointerExitFunc = () =>
+        {
+            UIHandler.Instance.ActivateTooltip(false);
+        };
+    }
+    void ClearButtonTooltip()
+    {
+        _buttonMain.OnPointerEnterFunc = null;
+        _buttonMain.OnPointerExitFunc = null;
+        _bot._notification = "";
     }
     void Inventory_Change(object sender, EventArgs e)
     {
@@ -229,7 +243,7 @@ public class UIHabBot : UIObject
             button.Activate(true);
             UIController controller = button.GetController();
             controller.FormList();
-            controller.SetText(state.ToString(), 1);
+            controller.SetText(Habitation._stateParameters.GetParameter(state)._name, 1);
             button.OnPointerClickFunc = () =>
             {
                 if (_bot != null)
@@ -253,7 +267,7 @@ public class UIHabBot : UIObject
     {
         UIController controller = _buttonStateSelector.GetController();
         controller.FormList();
-        controller.SetText(_bot._state.ToString(), 1);
+        controller.SetText(Habitation._stateParameters.GetParameter(_bot._state)._name, 1);
     }
 
     void ClearInventoryAddons()

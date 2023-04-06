@@ -16,7 +16,10 @@ public class ColonistArea : MonoBehaviour
     
     MeshRenderer planeRest;
     SimpleMultiAgentGroup agentGroup;
-    List<ColonistAgent> colonistAgents;
+    public List<ColonistAgent> colonistAgents;
+    Action OnDeathFunc;
+    Action OnSpawnFunc;
+    Action OnColonyDeathFunc;
 
     //---setup---//
     void Awake()
@@ -24,9 +27,13 @@ public class ColonistArea : MonoBehaviour
         agentGroup = new SimpleMultiAgentGroup();
         colonistAgents = new List<ColonistAgent>();
     }
-    public void Initialize(MeshRenderer planeRest)
+    public void Initialize(MeshRenderer planeRest, int amount, Action OnSpawnFunc, Action OnDeathFunc, Action OnColonyDeathFunc)
     {
         this.planeRest = planeRest;
+        this.OnSpawnFunc = OnSpawnFunc;
+        this.OnDeathFunc = OnDeathFunc;
+        this.OnColonyDeathFunc = OnColonyDeathFunc;
+        parameters.colonistAmountStart = amount;
         Reset();
         _active = true;
     }
@@ -35,8 +42,7 @@ public class ColonistArea : MonoBehaviour
         CancelInvoke();
         ClearAll();
 
-        colony.wealth = 0;
-        colony.food = 0;
+        colony.Reset();
         SetupColonists();
         // spawn agents
         foreach (Colonist colonist in colony.colonists)
@@ -58,6 +64,12 @@ public class ColonistArea : MonoBehaviour
             colonist.Initialize();
             colony.colonists.Add(colonist);
         }
+    }
+    void ColonyDeath()
+    {
+        colony.Reset();
+        if (OnColonyDeathFunc != null)
+            OnColonyDeathFunc();
     }
     void ClearAll()
     {
@@ -92,6 +104,8 @@ public class ColonistArea : MonoBehaviour
         agent.Setup(colonist, DestroyColonist, Colonist.State.Collect);
         agentGroup.RegisterAgent(agent);
         colonistAgents.Add(agent);
+        if (OnSpawnFunc != null)
+            OnSpawnFunc();
     }
     public void DestroyColonist(ColonistAgent agent)
     {
@@ -101,12 +115,15 @@ public class ColonistArea : MonoBehaviour
             colonistAgents.Remove(agent);
             agentGroup.UnregisterAgent(agent);
             colony.colonists.Remove(agent.colonist);
+            if (OnDeathFunc != null)
+                OnDeathFunc();
         }
-        if (colonistAgents.Count <= 1)
+        if (colonistAgents.Count < 1)
         {
             // can no longer reproduce so we must fail the game
             AddGroupReward(-10f);
             _active = false;
+            ColonyDeath();
         }
     }
     //---gets---//
@@ -186,6 +203,12 @@ public struct Colony
     public int food;
     public List<Colonist> colonists;
 
+    public void Reset()
+    {
+        colonists = new List<Colonist>();
+        wealth = 0;
+        food = 0;
+    }
 }
 
 [Serializable]

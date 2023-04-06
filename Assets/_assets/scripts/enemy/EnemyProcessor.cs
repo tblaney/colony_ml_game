@@ -53,7 +53,7 @@ public class EnemyProcessor : MonoBehaviour
         int spawnPlaneId = UnityEngine.Random.Range(0, _spawnAreas.Count);
         foreach(string enemyType in enemiesToSpawn)
         {
-            Vector3Int position = _nodeProcessor.GetOpenPosition(_spawnAreas[spawnPlaneId]);
+            Vector3Int position = _nodeProcessor.GetOpenPositionBounds(_spawnAreas[spawnPlaneId].bounds);
             Quaternion rotation = Quaternion.identity;
             SpawnEnemy(enemyType, position, rotation);
         }
@@ -64,11 +64,11 @@ public class EnemyProcessor : MonoBehaviour
         GameObject obj = Instantiate(enemyPrefab, position, rotation, this.transform);
         EnemyAgent agent = obj.GetComponent<EnemyAgent>(); 
         agent.Setup(DestroyEnemy);
-        HabitationHandler.Instance._enemies.Add(agent);
+        //HabitationHandler.Instance._enemies.Add(agent);
     }
     public void DestroyEnemy(EnemyAgent enemy)
     {
-       HabitationHandler.Instance._enemies.Remove(enemy);
+       //HabitationHandler.Instance._enemies.Remove(enemy);
         enemy.DestroyAgent();
     }
     public GameObject GetEnemyPrefab(string type)

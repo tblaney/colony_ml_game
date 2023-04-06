@@ -64,6 +64,11 @@ public class CameraController : MonoBehaviour
         _targetController.SetManual();
         _zoomLocked = false;
     }
+    public void SetMove(Vector3 position)
+    {
+        _targetController.SetMove(position);
+        _zoomLocked = false;
+    }
     public void SetFOV(float val)
     {
         _zoomLocked = true;

@@ -243,10 +243,9 @@ public class NodeProcessor : MonoBehaviour
         }
         return default(Vector3Int);
     }
-    public Vector3Int GetOpenPosition(MeshRenderer planeBounds)
+    public Vector3Int GetOpenPositionBounds(Bounds bounds)
     {
         // try for 30 iterations
-        Bounds bounds = planeBounds.bounds;
         for (int i = 0; i < 30; i++)
         {
             Vector3Int position = new Vector3Int(UnityEngine.Random.Range((int)bounds.min.x, (int)bounds.max.x), (int)bounds.center.y, UnityEngine.Random.Range((int)bounds.min.z, (int)bounds.max.z));

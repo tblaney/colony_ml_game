@@ -39,6 +39,7 @@ public class HabBot : ITarget
     public bool _stateCooldown;
     public Vector3 _position;
     public Vector3 _velocity;
+    public string _notification;
     float _timer;
     // events
     public event EventHandler<StateChangeEventArgs> OnStateChange;
@@ -50,7 +51,6 @@ public class HabBot : ITarget
     {
         public HabBot _bot;
     }
-
     public void InitializeRandom(int index)
     {
         _name = "00" + index.ToString();
@@ -162,6 +162,7 @@ public class HabBot : ITarget
         // invoked when the agent cant fulfill its current target
         // should also be able to broadcast a message
         SetState((State)0);
+        _notification = notification;
         OnFailureState?.Invoke(this, EventArgs.Empty);
     }
     public List<State> GetAvailableStates()
@@ -228,6 +229,7 @@ public class HabBot : ITarget
                 return true;
             case State.Idle:
             case State.Roam:
+            case State.Eat:
                 return false;
             case State.Rest:
             case State.Recreation:
@@ -508,7 +510,6 @@ public class Vitality
         return (float)((float)_val/100f);
     }
 }
-
 [Serializable]
 public class HabBotAddon
 {

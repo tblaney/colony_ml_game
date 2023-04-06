@@ -9,12 +9,10 @@ public class HabitationHandler : MonoBehaviour, IHandler
     [Header("Inputs:")]
     public NodeProcessor _nodeProcessor;
     public HabBotProcessor _botProcessor;
-    public EnemyProcessor _enemyProcessor;
     public HabitationParameters _parametersIn;
     public MeshRenderer _restBoundsDefault;
     public HabBotStateParameters _stateParameters;
 
-    public List<EnemyAgent> _enemies;
 
     [Header("Debug:")]
     public Habitation _habitation;
@@ -28,7 +26,6 @@ public class HabitationHandler : MonoBehaviour, IHandler
         _parameters = _parametersIn;
         _nodeProcessor.Initialize();
         _botProcessor.Initialize();
-        _enemies = new List<EnemyAgent>();
         _queues = new List<HabitationQueue>();
 
         _queues.Add(new HabitationQueue(HabBot.State.Build){});
@@ -63,7 +60,6 @@ public class HabitationHandler : MonoBehaviour, IHandler
          _habitation.Initialize(_stateParameters);
         Destroy(_restBoundsDefault.gameObject);
         SpawnHabitation();
-        _enemyProcessor.Setup(_habitation, _nodeProcessor);
         UIHandler.Instance.InitializeHabitation(_habitation);
     }
     void Update()
@@ -264,6 +260,10 @@ public class HabitationHandler : MonoBehaviour, IHandler
     public int GetBotAmount()
     {
         return _habitation._bots.Count;
+    }
+    public int GetItemAmount()
+    {
+        return _habitation.GetItemCount();
     }
     public int GetBotAmountToColonists(List<ColonistAgent> colonists)
     {

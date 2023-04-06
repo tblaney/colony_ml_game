@@ -18,7 +18,7 @@ public class ColonyHandler : MonoBehaviour, IHandler
     }
     public void NewColony(MeshRenderer planeRest)
     {
-        area.Initialize(planeRest);
+        //area.Initialize(planeRest, ColonyDeathCallback);
     }
     public void AddFood(int amount, int areaIdx)
     {

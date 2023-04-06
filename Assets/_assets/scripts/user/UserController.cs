@@ -15,6 +15,7 @@ public class UserController : MonoBehaviour
         Viewing,
         Following,
         Building,
+        Move,
     }
 
     void Awake()

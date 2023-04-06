@@ -19,6 +19,9 @@ public class EnemyController : MonoBehaviour
     }
     void Update()
     {
-        _animator.SetFloat("Speed", _nav.GetVelocity().magnitude);
+        float magnitude = _nav.GetVelocity().magnitude;
+        if (magnitude < 0.2f)
+            magnitude = 0f;
+        _animator.SetFloat("Speed", magnitude);
     }
 }

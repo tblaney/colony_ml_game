@@ -15,6 +15,13 @@ public class ItemHandler : MonoBehaviour, IHandler
         Instance = this;
         _inventories = new List<ItemInventory>();
     }
+    public void Load(List<ItemInventory> inventories)
+    {
+        if (inventories != null)
+        {
+            _inventories = inventories;
+        }
+    }
     public ItemInventory GenerateDefaultItemInventory()
     {
         ItemInventory inventory = new ItemInventory(GetOpenIndex(), 100);
@@ -113,6 +120,16 @@ public class Item : Queueable
     public int _amount;
     public ItemOptions _options;
 
+    public enum Type
+    {
+        Object,
+        Machinery,
+        Resource,
+        Food,
+        Addon,
+    }
+    public Type _type;
+
     public void Add(int val)
     {
         _amount += val;
@@ -143,7 +160,6 @@ public class Item : Queueable
 public struct ItemOptions
 {
     [Header("Item Options:")]
-    public Node.Type _type;
     public bool _addon;
     public HabBotAddon.Type _addonType;
     public string _description;

@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -32,7 +32,8 @@ public class EnemyAgent : MonoBehaviour, IEnemy, ITarget
     public EnemyStateBehaviour currentState;
     protected NavigationController nav;
 
-    void Awake() {
+    void Awake() 
+    {        
         //Need to initialize enemy stats on awake to properly set enemy behaviour
         if (randomize)
         {

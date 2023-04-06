@@ -35,6 +35,10 @@ namespace Utils
             }
             return boundsList;
         }
+        public static Vector3 GetRandomPositionInBounds(Bounds bounds)
+        {
+            return new Vector3(UnityEngine.Random.Range(bounds.min.x, bounds.max.x), bounds.center.y, UnityEngine.Random.Range(bounds.min.z, bounds.max.z));
+        }
         public static Vector3Int VectorToInt(Vector3 vectorIn)
         {
             return new Vector3Int((int)vectorIn.x, (int)vectorIn.y, (int)vectorIn.z);

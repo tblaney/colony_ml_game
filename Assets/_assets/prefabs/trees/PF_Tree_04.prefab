@@ -91,13 +91,5 @@ PrefabInstance:
       propertyPath: _itemInput._amount
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 8488635851522689992, guid: a2ad37f3436267447af9a2f03874c352, type: 3}
-      propertyPath: _itemInputs.Array.data[0]._item._name
-      value: Spruce Wood
-      objectReference: {fileID: 0}
-    - target: {fileID: 8488635851522689992, guid: a2ad37f3436267447af9a2f03874c352, type: 3}
-      propertyPath: _itemInputs.Array.data[0]._item._index
-      value: 15
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2ad37f3436267447af9a2f03874c352, type: 3}

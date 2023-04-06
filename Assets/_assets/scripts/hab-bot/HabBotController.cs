@@ -57,6 +57,7 @@ public class HabBotController : MonoBehaviour
         if (_state != null)
             _state.UpdateState();
 
+        StockpileCheck();
         RestCheck();
         float magnitude = _nav.GetVelocity().magnitude;
         if (magnitude < 0.2f)
@@ -75,12 +76,33 @@ public class HabBotController : MonoBehaviour
     }
     //----------------------------------------------------------//
     // checks
-    void RestCheck()
+    bool RestCheck()
     {
-        if (_bot.GetVitality("energy")._val < 5) // on scale 1-100 so, will automatically rest when this occurs no matter the state that is persisting
+        if (_bot._state != HabBot.State.Rest && _bot.GetVitality("energy")._val < 5) // on scale 1-100 so, will automatically rest when this occurs no matter the state that is persisting
         {
-            SetState(HabBot.State.Rest);
+            _bot.SetState(HabBot.State.Rest, true);
+            return true;
         }
+        return false;
+    }
+    bool StockpileCheck()
+    {
+        ItemInventory inventory = ItemHandler.Instance.GetItemInventory(_bot._inventoryIndex);
+        if (_bot._state != HabBot.State.Stockpile && !inventory.CapacityCheck())
+        {
+            SetState(HabBot.State.Stockpile);
+            return true;
+        }
+        return false;
+    }
+    bool EatCheck()
+    {
+        if (_bot._state != HabBot.State.Eat && _bot.GetVitality("hunger")._val < 5)
+        {
+            _bot.SetState(HabBot.State.Eat, true);
+            return true;
+        }
+        return false;
     }
     void Bot_ColorChange(object sender, EventArgs e)
     {

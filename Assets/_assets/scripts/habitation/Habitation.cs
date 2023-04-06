@@ -144,6 +144,16 @@ public class Habitation
         }
         return null;
     }
+    public int GetItemCount()
+    {
+        List<Item> items = GetAllItems();
+        int amount = 0;
+        foreach (Item item in items)
+        {
+            amount += item._amount;
+        }
+        return amount;
+    }
 }
 [Serializable]
 public class HabBotStateParameters

@@ -8,6 +8,7 @@ public class CameraTargetController : MonoBehaviour
     {
         Manual,
         Follow,
+        Move,
     }
     public State _state;
     public float _movementSpeed = 12f;
@@ -16,6 +17,7 @@ public class CameraTargetController : MonoBehaviour
     public bool _active = true;
     ITarget _target;
     Coroutine _update;
+    Vector3 _targetPosition;
 
     void Start()
     {
@@ -30,11 +32,11 @@ public class CameraTargetController : MonoBehaviour
         Vector3 targetPosition = transform.position;
         float movementSpeed = _movementSpeed;
         float sprintFactor = 1f;
+        float x = Input.GetAxis("Horizontal");
+        float y = Input.GetAxis("Vertical");
         switch (_state)
         {
             case State.Manual:
-                float x = Input.GetAxis("Horizontal");
-                float y = Input.GetAxis("Vertical");
                 Vector3 moveDirection = (new Vector3(transform.forward.x, 0f, transform.forward.z))*y + transform.right*x;
                 moveDirection = moveDirection.normalized;
                 targetPosition = transform.position + moveDirection;
@@ -52,6 +54,23 @@ public class CameraTargetController : MonoBehaviour
                 sprintFactor = 0.6f;
                 movementSpeed = 6f;
                 break;
+            case State.Move:
+                if (Mathf.Abs(x) > 0.1f | Mathf.Abs(y) > 0.1f)
+                {
+                    SetManual();
+                    return;
+                }
+                if (_targetPosition != default(Vector3))
+                {
+                    targetPosition = _targetPosition;
+                    sprintFactor = 0.6f;
+                    movementSpeed = 6f;
+                } else
+                {
+                    SetManual();
+                    return;
+                }
+                break;
         }
 
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.unscaledDeltaTime*movementSpeed*sprintFactor);
@@ -61,12 +80,20 @@ public class CameraTargetController : MonoBehaviour
     public void SetTarget(ITarget followTarget)
     {
         _target = followTarget;
+        _targetPosition = default(Vector3);
         _state = State.Follow;
     }
     public void SetManual()
     {
         _target = null;
+        _targetPosition = default(Vector3);
         _state = State.Manual;
+    }
+    public void SetMove(Vector3 target)
+    {
+        _targetPosition = target;
+        _target = null;
+        _state = State.Move;
     }
     void RotateUpdate()
     {

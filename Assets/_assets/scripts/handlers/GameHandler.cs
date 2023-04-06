@@ -40,11 +40,15 @@ public class GameHandler : MonoBehaviour
         if (saveIndex == 0)
         {
             SaveSystem.SetIndex(SaveSystem.GetOpenIndex());
+            ItemHandler.Instance.Load(null);
             HabitationHandler.Instance.Load();
+            ThreatHandler.Instance.Load(null);
         } else
         {
             SaveData data = SaveSystem.Load(saveIndex);
+            ItemHandler.Instance.Load(data._inventories);
             HabitationHandler.Instance.Load(data._habitation, data._nodes);
+            ThreatHandler.Instance.Load(data._threatSystem);
         }
     }
     public void Pause()
