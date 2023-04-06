@@ -26,6 +26,7 @@ public class HabBot : ITarget
         Machine,
         Haul,
         Destroy,
+        Eat,
     }
     public State _state;
     public State _stateDefault;
@@ -134,11 +135,15 @@ public class HabBot : ITarget
             states.Remove(State.Idle);
         SetState(states[UnityEngine.Random.Range(0, states.Count)]);
     }
-    public void SetState(State state)
+    public void SetState(State state, bool forceUpdate = false)
     {
+        Debug.Log("Hab Bot State Change: " + _name + ", " + state + ", " + _stateCooldown + ", " + _stateLock);
         // everything related to bot switching states is executed from this function (state change event)
-        if (_stateCooldown | _stateLock)
-            return;
+        if (!forceUpdate)
+        {
+            if (_stateCooldown | _stateLock)
+                return;
+        }
         if (_state != State.Rest)
             _stateCache = _state;
         _state = state;
@@ -220,8 +225,10 @@ public class HabBot : ITarget
                 return false;
                 return botInjured;
             case State.CollectFood:
+                return true;
             case State.Idle:
             case State.Roam:
+                return false;
             case State.Rest:
             case State.Recreation:
                 return true;
@@ -336,6 +343,18 @@ public class HabBot : ITarget
     public int GetHealth()
     {
         return GetVitality("health")._val;
+    }
+    public void MachineApply(ItemInput itemIn)
+    {
+        Item item = ItemHandler.Instance.GetItem(itemIn._index, _inventoryIndex);
+        if (item._options._addon)
+        {
+            _addons.Add(new HabBotAddon(){_type = item._options._addonType});
+        } else if (item._options._heal > 0)
+        {
+            // heal bot
+            GetVitality("health").Heal(item._options._heal);
+        }
     }
 }
 

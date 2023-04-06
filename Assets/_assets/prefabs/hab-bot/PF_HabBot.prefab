@@ -277,6 +277,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1191534443939327167}
   - component: {fileID: 7092635719756661552}
+  - component: {fileID: 9089152396341921885}
   m_Layer: 7
   m_Name: Spot Light
   m_TagString: Untagged
@@ -311,7 +312,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2
+  m_Intensity: 1.4
   m_Range: 42.62
   m_SpotAngle: 82.6
   m_InnerSpotAngle: 21.80208
@@ -361,6 +362,34 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &9089152396341921885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8264830973130290109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d28cfd63e8cfeb54b9fde44d4864f791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _points:
+  - _name: Midnight
+    _hour: 0
+    _intensity: 1.4
+    _doRotation: 0
+    _rotation: {x: 0, y: 0, z: 0, w: 0}
+  - _name: Day
+    _hour: 6
+    _intensity: 0
+    _doRotation: 0
+    _rotation: {x: 0, y: 0, z: 0, w: 0}
+  - _name: Evening
+    _hour: 18
+    _intensity: 0
+    _doRotation: 0
+    _rotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1001 &1045157510455949041
 PrefabInstance:
   m_ObjectHideFlags: 0

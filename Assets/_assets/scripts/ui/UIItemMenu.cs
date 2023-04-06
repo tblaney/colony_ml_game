@@ -29,6 +29,8 @@ public class UIItemMenu : UIObject
     {
         if (_habitation == null)
             return;
+        
+        Debug.Log("UI Item Menu Subscribe: " + _habitation._itemInventories.Count);
         foreach (int inv in _habitation._itemInventories)
         {
             ItemInventory inventory = ItemHandler.Instance.GetItemInventory(inv);
@@ -44,6 +46,7 @@ public class UIItemMenu : UIObject
     }   
     void Habitation_InventoryChange(object sender, EventArgs e)
     {
+        Debug.Log("Habitation Inventory Change");
         Refresh();  
     }
     public override void Activate(bool active = true)

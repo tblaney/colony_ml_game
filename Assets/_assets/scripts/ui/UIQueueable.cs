@@ -50,6 +50,7 @@ public class UIQueueable : UIObject
                     break;
                 case HabBot.State.Craft:
                     ItemInput item = queueable as ItemInput;
+                    Debug.Log("Craft Queue: " + item._name);
                     controller.SetText(item._name, "name");
                     break;
                 case HabBot.State.Haul:

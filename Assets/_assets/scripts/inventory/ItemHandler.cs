@@ -148,6 +148,8 @@ public struct ItemOptions
     public HabBotAddon.Type _addonType;
     public string _description;
     public List<ItemInput> _recipe;
+
+    public int _heal;
 }
 
 [Serializable]
@@ -208,7 +210,7 @@ public class ItemInventory
         {
             itemTemp._amount -= amount;
             if (itemTemp._amount <= 0)
-                _items.Remove(itemTemp);
+                itemTemp._amount = 0;
             
             OnInventoryChange?.Invoke(this, EventArgs.Empty);
         }

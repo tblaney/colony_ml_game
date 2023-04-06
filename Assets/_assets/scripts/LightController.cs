@@ -60,11 +60,12 @@ public class LightController : MonoBehaviour
 }
 
 [Serializable]
-public struct LightPoint
+public class LightPoint
 {
     public string _name;
     public float _hour;
     public float _intensity;
+    public bool _doRotation = true;
     public Quaternion _rotation;
     public static LightPoint Lerp(LightPoint p1, LightPoint p2, float hour)
     {
@@ -72,7 +73,8 @@ public struct LightPoint
         float val = (hour - p1._hour)/difference;
         LightPoint point = new LightPoint();
         point._intensity = Mathf.Lerp(p1._intensity, p2._intensity, val);
-        point._rotation = Quaternion.Lerp(p1._rotation, p2._rotation, val);
+        if (p1._doRotation && p2._doRotation)
+            point._rotation = Quaternion.Lerp(p1._rotation, p2._rotation, val);
         return point;
     }
 }

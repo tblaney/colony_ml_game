@@ -59,7 +59,7 @@ public class HabBotStateCraft : HabBotState
                 _targetNode = HabitationHandler.Instance.GetClosestNodeObjectWithOutputItem(_itemToCraft, transform.position);
                 if (_targetNode != null)
                 {
-
+                    _nav.MoveTo(_targetNode.GetPosition(), CraftCallback);
                 } else
                 {
                     _controller.GetBot().StateFailure("This bot can't carry the necessary items. Consider stockpiling.");
@@ -108,9 +108,28 @@ public class HabBotStateCraft : HabBotState
         InventoryCheck();
         RefreshTarget();
     }
-    void BeginItemGrab()
+    void CraftCallback()
     {
-
+        if (_targetNode == null)
+        {
+            return;
+        }
+        float distance = Vector3.Distance(transform.position, _targetNode.GetPosition());
+        if (distance < _interactionDistance)
+        {
+            ItemInventory inventory = ItemHandler.Instance.GetItemInventory(_bot._inventoryIndex);
+            Item item = ItemHandler.Instance.GetUnlinkedItem(_itemToCraft._index);
+            List<ItemInput> requirements = item._options._recipe;
+            foreach (ItemInput requirement in requirements)
+            {
+                inventory.RemoveItem(requirement);
+            }
+            inventory.AddItem(_itemToCraft);
+            _bot.SetState(_bot._stateCache);
+        } else
+        {
+            StartState();
+        }
     }
     void RefreshCraftingTarget()
     {

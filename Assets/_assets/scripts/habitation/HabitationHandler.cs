@@ -19,7 +19,7 @@ public class HabitationHandler : MonoBehaviour, IHandler
     [Header("Debug:")]
     public Habitation _habitation;
 
-    List<HabitationQueue> _queues;
+    public List<HabitationQueue> _queues;
     public static HabitationParameters _parameters;
 
     public void Initialize()
@@ -62,9 +62,9 @@ public class HabitationHandler : MonoBehaviour, IHandler
         }
          _habitation.Initialize(_stateParameters);
         Destroy(_restBoundsDefault.gameObject);
-        UIHandler.Instance.InitializeHabitation(_habitation);
         SpawnHabitation();
         _enemyProcessor.Setup(_habitation, _nodeProcessor);
+        UIHandler.Instance.InitializeHabitation(_habitation);
     }
     void Update()
     {
@@ -128,6 +128,7 @@ public class HabitationHandler : MonoBehaviour, IHandler
         if (obj.IsQueued())
             return;
         Debug.Log("Queue Object: " + state + ", " + obj);
+        obj.SetState(state);
         HabitationQueue queue = GetQueue(state);
         if (queue != null)
         {

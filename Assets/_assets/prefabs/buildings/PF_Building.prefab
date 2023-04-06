@@ -118,7 +118,6 @@ GameObject:
   - component: {fileID: 7521486001307852843}
   - component: {fileID: 2677118573482455656}
   - component: {fileID: 5268973653890046352}
-  - component: {fileID: 2152191082407101480}
   m_Layer: 6
   m_Name: PF_Building
   m_TagString: Wall
@@ -168,8 +167,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _node:
-    _state: 0
-    _queued: 0
     _name: 
     _prefab: 9
     _inventoryIndex: 0
@@ -187,7 +184,7 @@ MonoBehaviour:
     _nodeType: 0
   _interactionTime: 30
   _buildingIndex: 6
-  _interactable: {fileID: 2152191082407101480}
+  _interactable: {fileID: 0}
   _materialControllers:
   - {fileID: 4071410628886901739}
 --- !u!114 &2677118573482455656
@@ -221,16 +218,3 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.5, y: 0.5, z: 0.5}
   m_TimeToStationary: 0.5
---- !u!114 &2152191082407101480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6146409238781871401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37556683956002d4bbecd0f699fe45a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _controllers: []

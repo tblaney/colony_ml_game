@@ -8,7 +8,7 @@ public class BuildingNodeObject : NodeObject
 {
     [Header("Inputs:")]
     public int _buildingIndex;
-    [SerializeField] private InteractableBuilding _interactable;
+    //[SerializeField] private InteractableBuilding _interactable;
     [SerializeField] private List<MaterialController> _materialControllers;
     Building _building;
     // cache:
@@ -21,7 +21,7 @@ public class BuildingNodeObject : NodeObject
         _building = BuildingHandler.Instance.GetBuilding(_buildingIndex);
         _canPlace = false;
         HabitationHandler.Instance.AddObjectToQueue(this._node.GetState(), this._node);
-        _interactable.Setup(_building);
+        //_interactable.Setup(_building);
     }
     public void UpdatePosition(Vector3Int position)
     {
