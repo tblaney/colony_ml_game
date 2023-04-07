@@ -11,7 +11,7 @@ public class HabBotProcessor : MonoBehaviour
     */
     [Header("Inputs:")]
     public List<HabBotPrefab> _prefabs;
-    public List<HabBotController> _controllerLoading;
+    public List<GameObject> _deleteOnRun;
 
     public NodeProcessor _nodeProcessor;
     
@@ -35,9 +35,9 @@ public class HabBotProcessor : MonoBehaviour
     }
     void Start()
     {
-        foreach (HabBotController controller in _controllerLoading)
+        foreach (GameObject obj in _deleteOnRun)
         {
-            Destroy(controller.gameObject);
+            Destroy(obj);
         }
     }
     void Update()

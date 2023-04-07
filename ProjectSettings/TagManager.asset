@@ -13,6 +13,13 @@ TagManager:
   - Agent 1
   - Agent 2
   - Agent
+  - blueGoal
+  - purpleGoal
+  - ball
+  - boundary
+  - wall
+  - blueBoundary
+  - purpleBoundary
   layers:
   - Default
   - TransparentFX
@@ -24,7 +31,7 @@ TagManager:
   - Agents
   - Terrain
   - Render
-  - 
+  - Highlight
   - 
   - 
   - 

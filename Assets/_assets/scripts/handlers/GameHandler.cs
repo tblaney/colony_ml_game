@@ -6,6 +6,7 @@ public class GameHandler : MonoBehaviour
 {
     public static GameHandler Instance;
     public static bool _paused = false;
+    public bool _loadOnStart = true;
 
     void Awake()
     {
@@ -22,7 +23,8 @@ public class GameHandler : MonoBehaviour
     }
     void Start()
     {
-        Load(0);
+        if (_loadOnStart)
+            Load(0);
     }
     public void Save()
     {

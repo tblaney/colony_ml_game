@@ -5,22 +5,47 @@ using System;
 
 public abstract class Interactable : MonoBehaviour
 {
-    [SerializeField] private List<MaterialController> _controllers;
+    [Header("Renderer Inputs:")]
+    public List<MeshRenderer> _renderers;
+    [Header("Material Inputs:")]
+    public List<MaterialController> _controllers;
     public Action<bool> InteractHoverFunc;
-    
+    List<GameObject> _objs;
+
+    void Awake()
+    {
+        _objs = new List<GameObject>();
+    }
     public virtual void InteractHover(bool isIn)
     {
-        float val = 1f;
-        if (!isIn)
-            val = 0f;
+        Debug.Log("Interact Hover: " + this.gameObject.name + ", " + isIn);
 
-        if (_controllers != null)
+        float val = 0f;
+        if (isIn)
+            val = 1f;
+        foreach (MaterialController controller in _controllers)
         {
-            foreach (MaterialController controller in _controllers)
-            {
-                controller.SetFloat(val, 1);
-            }
+            controller.SetFloat(val, 1);
         }
+        if (isIn)
+        {   
+            Clear();
+            foreach (MeshRenderer mesh in _renderers)
+            {
+                _objs.Add(HighlightHandler.Instance.NewHighlightObject(mesh));
+            }
+        } else
+        {
+            Clear();
+        }
+    }
+    void Clear()
+    {
+        foreach (GameObject obj in _objs)
+        {
+            Destroy(obj);
+        }
+        _objs.Clear();
     }
     public abstract void Interact();
 }

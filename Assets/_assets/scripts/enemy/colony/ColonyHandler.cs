@@ -20,21 +20,21 @@ public class ColonyHandler : MonoBehaviour, IHandler
     {
         //area.Initialize(planeRest, ColonyDeathCallback);
     }
-    public void AddFood(int amount, int areaIdx)
+    public void AddFood(int amount)
     {
         if (area == null)
             return;
         
         area.AddFood(amount);
     }
-    public void RemoveFood(int amount, int areaIdx)
+    public void RemoveFood(int amount)
     {
         if (area == null)
             return;
         
         area.UseFood(amount);
     }
-    public void AddWealth(int amount, int areaIdx)
+    public void AddWealth(int amount)
     {
         if (area == null)
             return;

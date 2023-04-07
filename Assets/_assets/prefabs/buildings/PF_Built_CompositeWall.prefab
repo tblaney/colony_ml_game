@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 5094930069848071660, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
       propertyPath: _controllers.Array.data[0]
       value: 
-      objectReference: {fileID: 1968604704744590181}
+      objectReference: {fileID: 2003672501715749153}
     - target: {fileID: 6146409238781871401, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
       propertyPath: m_Name
       value: PF_Built_CompositeWall
@@ -94,7 +94,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1091083360465268425, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
   m_PrefabInstance: {fileID: 1103911089605069171}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1968604704744590181
+--- !u!114 &2003672501715749153
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

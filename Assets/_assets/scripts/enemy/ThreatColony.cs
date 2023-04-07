@@ -15,7 +15,10 @@ public class ThreatColony : Threat
         int amountTotal = UnityEngine.Random.Range(_amountRange.x, _amountRange.y);
         if (amount != 0)
             amountTotal = amount;
-        _area.Initialize((_colonySpawnAreas[UnityEngine.Random.Range(0, _colonySpawnAreas.Count)]), amountTotal, ColonistSpawnCallback, ColonistDeathCallback, ColonyDeathCallback);
+
+        MeshRenderer renderer = _colonySpawnAreas[UnityEngine.Random.Range(0, _colonySpawnAreas.Count)];
+        _bounds = renderer.bounds;
+        _area.Initialize(renderer, amountTotal, ColonistSpawnCallback, ColonistDeathCallback, ColonyDeathCallback);
     }
     void ColonistDeathCallback()
     {

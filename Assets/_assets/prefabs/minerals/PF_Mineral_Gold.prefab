@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1091083360465268425, guid: 256f5b81b65d74a4f8057e490e566a31, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2271551344897365609, guid: 256f5b81b65d74a4f8057e490e566a31, type: 3}
       propertyPath: m_RootOrder
@@ -91,7 +91,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300004, guid: 5c0487c6c06185a42be5655405749149, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6156347176237434728, guid: 256f5b81b65d74a4f8057e490e566a31, type: 3}
+    - {fileID: 4202397324361776729, guid: 256f5b81b65d74a4f8057e490e566a31, type: 3}
+    - {fileID: 2583404041888844608, guid: 256f5b81b65d74a4f8057e490e566a31, type: 3}
+    - {fileID: 6773409958311020326, guid: 256f5b81b65d74a4f8057e490e566a31, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 256f5b81b65d74a4f8057e490e566a31, type: 3}
 --- !u!1 &2544828270995048969 stripped
 GameObject:
@@ -139,3 +143,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controllers: []
+--- !u!114 &2974911262101433083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8735061324097315305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f13f42112a552354988a63573e49f5d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabPrototype: {fileID: 11400000, guid: aa70d5d80e7013840926683f0bad218a, type: 2}
+--- !u!114 &7003822143508585585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8735061324097315305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af364fdba3900e7439da4d2db3e16fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gpuiPrefab: {fileID: 0}

@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Toon_TerrainUnity
-  m_Shader: {fileID: 4800000, guid: 3cf40fd6f875da84cb206c4be9283284, type: 3}
+  m_Shader: {fileID: 4800000, guid: 3ae3bc96142a59b43b5ba1b56b362227, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -20,6 +20,26 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 8f8cca0520dbcdb42b9512a4e9c904c9, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -28,7 +48,19 @@ Material:
         m_Texture: {fileID: 2800000, guid: e4dce1f5bb303564cac9347669973bb3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Normal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -43,10 +75,21 @@ Material:
     m_Ints: []
     m_Floats:
     - _Angle: 89
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
     - _EdgeWidth: 0.88
     - _FirstOutlineWidth: 0.025
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
     - _NoiseScale: 0.33
+    - _OcclusionStrength: 1
     - _OutlineOpacity: 0
+    - _Parallax: 0.02
     - _RampSmooth: 0
     - _RampThreshold: 0.6
     - _RimPower: 4
@@ -56,15 +99,21 @@ Material:
     - _SecondOutlineWidth: 0
     - _Shininess: 0.2
     - _SideScale: 0.89
+    - _SmoothnessTextureChannel: 0
     - _SnowAmount: 0
     - _SpecSmooth: 0.1
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
     - _TextureInfluence: 1
     - _ToonSteps: 3.95
     - _TopScale: 1
     - _TopSpread: 0.51
     - _TopThreshold: 1.42
+    - _UVSec: 0
+    - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FirstOutlineColor: {r: 1, g: 1, b: 1, a: 0.5}
     - _GridColorSpecial: {r: 0, g: 0, b: 0, a: 1}
     - _GridColorX: {r: 0, g: 0, b: 0, a: 1}

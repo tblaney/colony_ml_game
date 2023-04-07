@@ -53,6 +53,7 @@ public class ColonistStateBehaviourMine : ColonistStateBehaviour
         {
             targetNode = null;
             agent.RequestDecision();
+            ColonyHandler.Instance.AddWealth(1);
             return;
         }
         Invoke("CollectibleInteract", 0.5f);

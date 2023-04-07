@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3902535484950304682}
   - component: {fileID: 8839611551169399589}
   - component: {fileID: 7567328675204524891}
-  - component: {fileID: 8241256376030227337}
   m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
@@ -84,29 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8241256376030227337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1091083360465268425}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85096ead772674641b879e928cdb7d28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _behavioursFloat:
-  - _name: _OutlineOpacity
-    _index: 1
-    _active: 0
-    _blocks: []
-    _in: 1
-    _out: 0
-    _time: 0
-    _hardIn: 0
-  _behavioursColor: []
-  _materialIndex: 0
 --- !u!1 &6146409238781871401
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,6 +97,8 @@ GameObject:
   - component: {fileID: 2677118573482455656}
   - component: {fileID: 7494914336930777883}
   - component: {fileID: 4277110242045676517}
+  - component: {fileID: 2583404041888844608}
+  - component: {fileID: 6773409958311020326}
   m_Layer: 6
   m_Name: PF_Mineral
   m_TagString: Mineral
@@ -170,8 +148,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _node:
-    _state: 0
-    _queued: 0
     _name: 
     _prefab: 0
     _inventoryIndex: 0
@@ -190,8 +166,6 @@ MonoBehaviour:
   _interactionTime: 30
   _itemInputs:
   - _item:
-      _state: 0
-      _queued: 0
       _name: Earth Block
       _index: 1
       _amount: 1
@@ -241,5 +215,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c4db88996bf03a41b65d7a9039e441f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _controllers:
-  - {fileID: 8241256376030227337}
+  _renderers:
+  - {fileID: 7567328675204524891}
+--- !u!114 &2583404041888844608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6146409238781871401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f13f42112a552354988a63573e49f5d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabPrototype: {fileID: 11400000, guid: 9993c5f01dcac7b419262ee923814552, type: 2}
+--- !u!114 &6773409958311020326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6146409238781871401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af364fdba3900e7439da4d2db3e16fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gpuiPrefab: {fileID: 0}

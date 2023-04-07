@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Toon_TerrainUnity_02
-  m_Shader: {fileID: 4800000, guid: 3cf40fd6f875da84cb206c4be9283284, type: 3}
+  m_Shader: {fileID: 4800000, guid: 37005ec52b50c924e8502923768078c0, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4

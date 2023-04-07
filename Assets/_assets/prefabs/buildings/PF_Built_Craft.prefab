@@ -74,7 +74,7 @@ PrefabInstance:
     - target: {fileID: 5094930069848071660, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
       propertyPath: _controllers.Array.data[0]
       value: 
-      objectReference: {fileID: 5292180687569244054}
+      objectReference: {fileID: 7813742478525099147}
     - target: {fileID: 6146409238781871401, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
       propertyPath: m_Name
       value: PF_Built_Craft
@@ -184,7 +184,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d9a8dbe37507e4743b2b23682ffd59cd, type: 3}
   m_PrefabInstance: {fileID: 3546323536172419137}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5292180687569244054
+--- !u!114 &7813742478525099147
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

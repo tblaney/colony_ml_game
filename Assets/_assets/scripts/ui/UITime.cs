@@ -29,7 +29,7 @@ public class UITime : UIObject
             if (i == 0)
                 valTemp = 1f;
             _timeDic.Add(rect.anchoredPosition, valTemp);
-            val += 2.5f;
+            val += 1f;
             i++;
         }
         _button.OnPointerDownFunc = () =>

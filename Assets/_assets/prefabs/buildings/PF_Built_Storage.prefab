@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 246973046024301482}
   - component: {fileID: 217322463531241492}
   - component: {fileID: 229210336939607660}
-  - component: {fileID: 4145242536477640285}
+  - component: {fileID: 1597318982879697228}
   m_Layer: 0
   m_Name: chest_wood_lid_LOD0
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4145242536477640285
+--- !u!114 &1597318982879697228
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 248609459846635178}
   - component: {fileID: 219543554031611338}
   - component: {fileID: 227557072108399456}
-  - component: {fileID: 5660114404525618866}
+  - component: {fileID: 1540830050934894270}
   m_Layer: 0
   m_Name: chest_wood_LOD0
   m_TagString: Untagged
@@ -192,7 +192,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5660114404525618866
+--- !u!114 &1540830050934894270
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -289,11 +289,11 @@ PrefabInstance:
     - target: {fileID: 5094930069848071660, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
       propertyPath: _controllers.Array.data[0]
       value: 
-      objectReference: {fileID: 5660114404525618866}
+      objectReference: {fileID: 1540830050934894270}
     - target: {fileID: 5094930069848071660, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
       propertyPath: _controllers.Array.data[1]
       value: 
-      objectReference: {fileID: 4145242536477640285}
+      objectReference: {fileID: 1597318982879697228}
     - target: {fileID: 6146409238781871401, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
       propertyPath: m_Name
       value: PF_Built_Storage

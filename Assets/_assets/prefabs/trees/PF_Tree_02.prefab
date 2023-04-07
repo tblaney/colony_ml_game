@@ -67,5 +67,38 @@ PrefabInstance:
       propertyPath: _itemInputs.Array.data[0]._item._index
       value: 14
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4665817789869109213, guid: a2ad37f3436267447af9a2f03874c352, type: 3}
+    - {fileID: 5359492166115569769, guid: a2ad37f3436267447af9a2f03874c352, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a2ad37f3436267447af9a2f03874c352, type: 3}
+--- !u!1 &650113343122248133 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6146409238781871401, guid: a2ad37f3436267447af9a2f03874c352, type: 3}
+  m_PrefabInstance: {fileID: 6650061859557659884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7037233349726221723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650113343122248133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af364fdba3900e7439da4d2db3e16fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gpuiPrefab: {fileID: 0}
+--- !u!114 &7930983964401384066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650113343122248133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f13f42112a552354988a63573e49f5d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabPrototype: {fileID: 11400000, guid: 501f674ae3c169c468f846ba2c5b9da3, type: 2}

@@ -150,7 +150,7 @@ public abstract class Threat : MonoBehaviour, ITarget
     // cache:
     public Func<Bounds, Vector3Int> GetOpenPositionFunc;
     protected int _amountActive;
-    Bounds _bounds;
+    public Bounds _bounds;
     Notification _notification;
     protected List<IEnemy> _enemies;
 
@@ -182,12 +182,18 @@ public abstract class Threat : MonoBehaviour, ITarget
     {
         UserHandler._target = this;
         UserHandler.Instance.SetUserState(UserController.State.Move);
-        NotificationHandler.Instance.ClearNotification(_notification);
-        _notification = null;
     }
     public abstract void Spawn(Bounds bounds, int amount = 0);
     public Vector3 GetPosition()
     {
         return _bounds.center;
+    }
+    protected void OnDestroy()
+    {
+        if (_notification != null)
+        {
+            NotificationHandler.Instance.ClearNotification(_notification);
+            _notification = null;
+        }
     }
 }

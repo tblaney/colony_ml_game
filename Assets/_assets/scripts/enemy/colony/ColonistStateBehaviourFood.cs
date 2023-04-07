@@ -53,6 +53,7 @@ public class ColonistStateBehaviourFood : ColonistStateBehaviour
         {
             targetNode = null;
             agent.RequestDecision();
+            ColonyHandler.Instance.AddFood(1);
             return;
         }
         Invoke("CollectibleInteract", 0.5f);
