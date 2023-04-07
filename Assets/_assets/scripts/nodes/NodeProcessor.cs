@@ -19,6 +19,9 @@ public class NodeProcessor : MonoBehaviour
     NodeProcessorCaster _caster;
     public static NodeActions _nodeActions;
     public static NodeStatus _nodeStatus;
+    public static event EventHandler OnProcessorReady;
+
+    public bool _checkedActive = false;
 
 
     void OnDisable()
@@ -97,6 +100,10 @@ public class NodeProcessor : MonoBehaviour
             }
         } else
         {
+            foreach (NodeSubProcessor processor in _processors)
+            {
+                processor.Reset();
+            }
             foreach (Node node in nodes)
             {
                 AssignNode(node);
@@ -113,9 +120,28 @@ public class NodeProcessor : MonoBehaviour
     }
     void Update()
     {
-        if (!_performProcessing)
-            return;
         if (_processors == null)
+            return;
+        if (!_checkedActive)
+        {
+            bool passed = true;
+            foreach (NodeSubProcessor processor in _processors)
+            {
+                if (!processor._active)
+                {
+                    Debug.Log("Node Processor Fail: " + processor._index);
+                    passed = false;
+                    break;
+                }
+            }
+            if (passed)
+            {
+                Debug.Log("All Processors Active");
+                _checkedActive = true;
+                OnProcessorReady?.Invoke(this, EventArgs.Empty);
+            } 
+        }
+        if (!_performProcessing)
             return;
         foreach (NodeSubProcessor processor in _processors)
         {

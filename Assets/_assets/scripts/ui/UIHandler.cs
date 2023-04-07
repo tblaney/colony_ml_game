@@ -10,6 +10,8 @@ public class UIHandler : MonoBehaviour, IHandler
     public UIHabitation _uiHabitation;
     public UITooltip _uiTooltip;
     public UINotification _uiNoficiation;
+    public UIMenu _uiMenu;
+    public UIExit _uiExit;
     public static event EventHandler OnStateViewToggle;
     public static event EventHandler OnNullClick;
 
@@ -28,6 +30,14 @@ public class UIHandler : MonoBehaviour, IHandler
             // null click
             OnNullClick?.Invoke(this, EventArgs.Empty);
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {   
+            _uiExit.Activate(!_uiExit._active);
+        }
+    }
+    public void MenuStart()
+    {
+        _uiMenu.Setup();
     }
     void MouseUpdate()
     {

@@ -55,8 +55,8 @@ public class HabBotProcessor : MonoBehaviour
         foreach (HabBot bot in _habitation._bots)
         {
             //bot.SetState(bot._stateDefault);
-            //bot.SetState(HabBot.State.Idle);
-            bot.RandomizeState();
+            bot.SetState(HabBot.State.Idle);
+            //bot.RandomizeState();
         }
     }
     void SpawnBot(HabBot bot, Vector3 position, Quaternion rotation)

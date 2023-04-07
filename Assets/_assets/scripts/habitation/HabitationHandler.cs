@@ -301,6 +301,8 @@ public class HabitationHandler : MonoBehaviour, IHandler
         HabitationQueue queue = GetQueue(state);
         if (queue != null)
         {
+            if (queue._queueables == null)
+                return false;
             return queue._queueables.Count > 0;
         }
         return false;

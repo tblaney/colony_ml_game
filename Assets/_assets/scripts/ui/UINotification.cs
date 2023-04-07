@@ -33,6 +33,7 @@ public class UINotification : UIObject
         UIButton button = obj.GetComponent<UIButton>();
         UIController controller = button.GetController();
         controller.SetText(e._notification._notification, "notification");
+        //controller.SetTextColor();
         button.OnPointerClickFunc = e._notification.OnClickFunc;
         _dic.Add(e._notification, button);
     }

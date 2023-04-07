@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public abstract class Queueable 
+public class Queueable 
 {
     protected HabBot.State _state;
     protected bool _queued;

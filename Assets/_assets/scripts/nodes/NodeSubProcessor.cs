@@ -42,25 +42,31 @@ public class NodeSubProcessor : MonoBehaviour
 
         Load(false);
     }
+    public void Reset()
+    {
+        _nodes = new Dictionary<Node.Type, Dictionary<Vector3Int, Node>>();
+        _nodeObjects = new Dictionary<Node.Type, List<NodeObject>>();
+    }
     //___load&unload___//
     public void Load(bool active = true)
     {
         _nodeObjects = new Dictionary<Node.Type, List<NodeObject>>();
         if (active)
         {
-            //_loadingRoutine = StartCoroutine(LoadRoutine());
-            foreach (Node node in GetNodes())
-            {
-                SpawnNode(node);
-            }
+            _active = false;
+            _loadingRoutine = StartCoroutine(LoadRoutine());
+            //foreach (Node node in GetNodes())
+            //{
+            //    SpawnNode(node);
+            //}
         } else
         {
             foreach (Node node in GetNodes())
             {
                 UnloadNode(node);
             }
+            _active = active;
         }
-        _active = active;
     }
     public void LoadCheck(Vector3 position)
     {
@@ -278,5 +284,6 @@ public class NodeSubProcessor : MonoBehaviour
                 yield return null;
         }
         _loading = false;
+        _active = true;
     }
 }

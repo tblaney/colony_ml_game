@@ -25,6 +25,8 @@ public class GameHandler : MonoBehaviour
     {
         if (_loadOnStart)
             Load(0);
+        else
+            UIHandler.Instance.MenuStart();
     }
     public void Save()
     {
@@ -34,6 +36,8 @@ public class GameHandler : MonoBehaviour
         {
             _habitation = habitation,
             _nodes = nodeSaves,
+            _inventories = ItemHandler.Instance._inventories,
+            _threatSystem = ThreatHandler.Instance._threatSystem,
         };
         SaveSystem.Save(data);
     }
@@ -41,7 +45,7 @@ public class GameHandler : MonoBehaviour
     {
         if (saveIndex == 0)
         {
-            SaveSystem.SetIndex(SaveSystem.GetOpenIndex());
+            SaveSystem.SetIndex(1);
             ItemHandler.Instance.Load(null);
             HabitationHandler.Instance.Load();
             ThreatHandler.Instance.Load(null);
