@@ -7,6 +7,7 @@ public class UINotification : UIObject
     public Notification.Type _type;
     [SerializeField] private Transform _container;
     [SerializeField] private string _prefabNotificationName;
+    [SerializeField] private List<Color> _colors = new List<Color>(){Color.white};
 
     Dictionary<Notification, UIButton> _dic;
     public override void Initialize()
@@ -33,7 +34,7 @@ public class UINotification : UIObject
         UIButton button = obj.GetComponent<UIButton>();
         UIController controller = button.GetController();
         controller.SetText(e._notification._notification, "notification");
-        //controller.SetTextColor();
+        //controller.SetTextColor(_colors[e._notification._importance], "notification");
         button.OnPointerClickFunc = e._notification.OnClickFunc;
         _dic.Add(e._notification, button);
     }
@@ -51,3 +52,4 @@ public class UINotification : UIObject
         }
     }
 }
+

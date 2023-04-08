@@ -61,6 +61,7 @@ public class Notification
     public Type _type;
     public string _notification;
     public Action OnClickFunc;
+    public int _importance = 0;
 
     public Notification(Type type, string notification)
     {

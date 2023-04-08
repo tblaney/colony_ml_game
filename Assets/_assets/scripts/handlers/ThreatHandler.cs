@@ -175,7 +175,10 @@ public abstract class Threat : MonoBehaviour, ITarget
     }
     void SetupNotification()
     {
-        Notification notification = NotificationHandler.Instance.NewNotification(Notification.Type.General, _notificationText, NotificationClickCallback);
+        Notification notification = new Notification(Notification.Type.General, _notificationText);
+        notification._importance = 1;
+        notification.OnClickFunc = NotificationClickCallback;
+        NotificationHandler.Instance.NewNotification(notification);
         _notification = notification;
     }
     void NotificationClickCallback()
