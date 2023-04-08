@@ -1,0 +1,47 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1678756820",
+        "python_version": "3.8.0 (tags/v3.8.0:fa919fd, Oct 14 2019, 19:37:50) [MSC v.1916 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\trave\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\mlagents-learn ./config/poca/colonygame.yaml --torch-device cuda --run-id test_run_51",
+        "mlagents_version": "0.26.0",
+        "mlagents_envs_version": "0.26.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "1.7.1+cu110",
+        "numpy_version": "1.23.4",
+        "end_time_seconds": "1678756831"
+    },
+    "total": 10.786449,
+    "count": 1,
+    "self": 0.010548399999999347,
+    "children": {
+        "run_training.setup": {
+            "total": 0.275544,
+            "count": 1,
+            "self": 0.275544
+        },
+        "TrainerController.start_learning": {
+            "total": 10.5003566,
+            "count": 1,
+            "self": 0.000370199999998988,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 10.4999672,
+                    "count": 1,
+                    "self": 10.4999672
+                },
+                "trainer_threads": {
+                    "total": 1.1999999998124622e-06,
+                    "count": 1,
+                    "self": 1.1999999998124622e-06
+                },
+                "TrainerController._save_models": {
+                    "total": 1.8000000000739647e-05,
+                    "count": 1,
+                    "self": 1.8000000000739647e-05
+                }
+            }
+        }
+    }
+}

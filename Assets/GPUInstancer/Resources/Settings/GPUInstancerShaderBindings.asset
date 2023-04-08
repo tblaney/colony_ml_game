@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d8588b9b4d4e344b3c6c8da8806a1c, type: 3}
+  m_Name: GPUInstancerShaderBindings
+  m_EditorClassIdentifier: 
+  shaderInstances:
+  - name: Custom/ToonOutlineTriplanar
+    instancedShader: {fileID: 4800000, guid: 37005ec52b50c924e8502923768078c0, type: 3}
+    modifiedDate: 04/06/2023 17:23:46.727
+    isOriginalInstanced: 0
+    extensionCode: 
+  - name: Custom/ToonOutline
+    instancedShader: {fileID: 4800000, guid: 47ab71b066a551a4cb9b1f603bd4143d, type: 3}
+    modifiedDate: 04/06/2023 17:23:47.398
+    isOriginalInstanced: 0
+    extensionCode: 
+  - name: SyntyStudios/Trees
+    instancedShader: {fileID: 4800000, guid: 051954eb205520e4cb30f9569f141270, type: 3}
+    modifiedDate: 04/06/2023 17:23:48.381
+    isOriginalInstanced: 0
+    extensionCode: 
+  - name: Toon/Basic/ToonTerrain
+    instancedShader: {fileID: 4800000, guid: 3ae3bc96142a59b43b5ba1b56b362227, type: 3}
+    modifiedDate: 04/06/2023 17:23:49.085
+    isOriginalInstanced: 0
+    extensionCode: 
+  - name: GPUInstancer/Toon/Basic/ToonTerrain
+    instancedShader: {fileID: 4800000, guid: 3ae3bc96142a59b43b5ba1b56b362227, type: 3}
+    modifiedDate: 04/06/2023 16:25:56.207
+    isOriginalInstanced: 1
+    extensionCode: 
+  - name: GPUInstancer/Custom/ToonOutlineTriplanar
+    instancedShader: {fileID: 4800000, guid: 37005ec52b50c924e8502923768078c0, type: 3}
+    modifiedDate: 04/06/2023 16:28:01.113
+    isOriginalInstanced: 1
+    extensionCode: 
+  - name: GPUInstancer/Custom/ToonOutline
+    instancedShader: {fileID: 4800000, guid: 47ab71b066a551a4cb9b1f603bd4143d, type: 3}
+    modifiedDate: 04/06/2023 17:19:20.219
+    isOriginalInstanced: 1
+    extensionCode: 
+  - name: Toon/Basic/ToonBase
+    instancedShader: {fileID: 4800000, guid: a293b4cfd4c5609429bb2603fdaec908, type: 3}
+    modifiedDate: 04/06/2023 17:59:38.786
+    isOriginalInstanced: 0
+    extensionCode: 
+  - name: GPUInstancer/Toon/Basic/ToonBase
+    instancedShader: {fileID: 4800000, guid: a293b4cfd4c5609429bb2603fdaec908, type: 3}
+    modifiedDate: 04/06/2023 17:59:44.054
+    isOriginalInstanced: 1
+    extensionCode: 
+  - name: FAE/Grass
+    instancedShader: {fileID: 4800000, guid: 3601900cf67238848bdaa367566a13a2, type: 3}
+    modifiedDate: 04/06/2023 21:15:57.148
+    isOriginalInstanced: 0
+    extensionCode: 

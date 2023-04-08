@@ -1,0 +1,315 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+
+public class ItemHandler : MonoBehaviour, IHandler
+{
+    public static ItemHandler Instance;
+    [Header("Inputs:")]
+    public List<Item> _items;
+    public List<ItemInventory> _inventories;
+
+    public void Initialize()
+    {
+        Instance = this;
+        _inventories = new List<ItemInventory>();
+    }
+    public void Load(List<ItemInventory> inventories)
+    {
+        if (inventories != null)
+        {
+            _inventories = inventories;
+        }
+    }
+    public ItemInventory GenerateDefaultItemInventory()
+    {
+        ItemInventory inventory = new ItemInventory(GetOpenIndex(), 100);
+        foreach (Item item in _items)
+        {
+            inventory._items.Add(item.DuplicateItem());
+        }
+        return inventory;
+    }
+    public ItemInventory GetItemInventory(int index)
+    {
+        foreach (ItemInventory inventory in _inventories)
+        {
+            if (inventory._index == index)
+                return inventory;
+        }
+        return null;
+    }
+    public List<ItemInventory> GetItemInventories(List<int> indices)
+    {
+        List<ItemInventory> inventories = new List<ItemInventory>();
+        foreach (ItemInventory inventory in _inventories)
+        {
+            if (indices.Contains(inventory._index))
+                inventories.Add(inventory);
+        }
+        return inventories;
+    }
+    public Item GetItem(int itemIndex, int inventoryIndex)
+    {
+        ItemInventory inventory = GetItemInventory(inventoryIndex);
+        if (inventory != null)
+        {
+            return inventory.GetItem(itemIndex);
+        }
+        return null;
+    }
+    public void LoadInventory(ItemInventory inventory)
+    {
+        _inventories.Add(inventory);
+    }
+    public int NewInventory(int itemCapacity = 100)
+    {
+        int val = GetOpenIndex();
+        if (val != -1)
+        {
+            ItemInventory inventory = GenerateDefaultItemInventory();
+            inventory._itemCapacity = itemCapacity;
+            _inventories.Add(inventory);
+            return inventory._index;
+        }
+        return -1;
+    }
+    public void DestroyInventory(int index)
+    {
+        ItemInventory inventory = GetItemInventory(index);
+        if (inventory != null)
+        {
+            if (_inventories.Contains(inventory))
+                _inventories.Remove(inventory);
+        }
+    }
+    int GetOpenIndex()
+    {
+        List<int> currentInts = new List<int>();
+        foreach (ItemInventory inventory in _inventories)
+        {
+            currentInts.Add(inventory._index);
+        }
+        for (int i = 0; i < 30; i++)
+        {
+            int val = UnityEngine.Random.Range(0, 500);
+            if (!currentInts.Contains(val))
+                return val;
+        }
+        return -1;
+    }
+    public Item GetUnlinkedItem(int index)
+    {
+        foreach (Item item in _items)
+        {
+            if (item._index == index)
+                return item.DuplicateItem();
+        }
+        return null;
+    }
+}
+
+[Serializable]
+public class Item : Queueable
+{
+    [Header("Input:")]
+    public string _name;
+    public int _index;
+    [Header("Debug:")]
+    public int _amount;
+    public ItemOptions _options;
+
+    public enum Type
+    {
+        Object,
+        Machinery,
+        Resource,
+        Food,
+        Addon,
+    }
+    public Type _type;
+
+    public void Add(int val)
+    {
+        _amount += val;
+    }
+    public void Remove(int val)
+    {
+        _amount -= val;
+        if (_amount < 0)
+            _amount = 0;
+    }
+    public ItemInput GetItemInput()
+    {
+        return new ItemInput(){_name = this._name, _amount = this._amount, _index = this._index};
+    }
+    public Item DuplicateItem()
+    {
+        return new Item() 
+        {
+            _name = this._name,
+            _index = this._index,
+            _amount = this._amount,
+            _options = this._options,
+        };
+    }
+}
+
+[Serializable]
+public struct ItemOptions
+{
+    [Header("Item Options:")]
+    public bool _addon;
+    public HabBotAddon.Type _addonType;
+    public string _description;
+    public List<ItemInput> _recipe;
+
+    public int _heal;
+}
+
+[Serializable]
+public class ItemInventory
+{
+    // for saving
+    public List<Item> _items;
+    public int _itemCapacity;
+    public int _index;
+    public InventoryObject _obj;
+
+    public event EventHandler OnInventoryChange;
+
+    public ItemInventory(int index, int capacity)
+    {
+        _index = index;
+        _itemCapacity = capacity;
+        _items = new List<Item>();
+    }
+    public void ClaimInventory(InventoryObject obj)
+    {
+        _obj = obj;
+    }
+    public void AddItem(string name, int amount)
+    {
+        if (GetItemAmount() + amount > _itemCapacity)
+            return;
+        
+
+        Item itemTemp = GetItem(name);
+        if (itemTemp != null)
+        {
+            itemTemp.Add(amount);
+            OnInventoryChange?.Invoke(this, EventArgs.Empty);
+        } 
+    }
+    public void AddItem(int index, int amount)
+    {
+        Debug.Log("Item Inventory Add Item: " + index + ", " + amount);
+        if (GetItemAmount() + amount > _itemCapacity)
+            return;
+        
+        Item itemTemp = GetItem(index);
+        if (itemTemp != null)
+        {
+            itemTemp.Add(amount);
+            OnInventoryChange?.Invoke(this, EventArgs.Empty);
+        } 
+    }
+    public void AddItem(ItemInput itemInput)
+    {
+        AddItem(itemInput._name, itemInput._amount);
+    }
+    public void RemoveItem(string name, int amount)
+    {
+        Item itemTemp = GetItem(name);
+        if (itemTemp != null)
+        {
+            itemTemp._amount -= amount;
+            if (itemTemp._amount <= 0)
+                itemTemp._amount = 0;
+            
+            OnInventoryChange?.Invoke(this, EventArgs.Empty);
+        }
+    }
+    public void RemoveItem(ItemInput itemInput)
+    {
+        RemoveItem(itemInput._name, itemInput._amount);
+    }
+    public bool Contains(int resourceIndex, int amount)
+    {
+        Item item = GetItem(resourceIndex);
+        if (item != null)
+        {
+            if (item._amount >= amount)
+                return true;
+        } 
+        return false;
+    }
+    public bool Contains(ItemInput input)
+    {
+        return Contains(input._index, input._amount);
+    }
+    public Item GetItem(int index)
+    {
+        foreach (Item item in _items)
+        {
+            if (item._index == index)
+                return item;
+        }
+        return null;
+    }
+    public Item GetItem(string name)
+    {
+        foreach (Item item in _items)
+        {
+            if (item._name == name)
+                return item;
+        }
+        return null;
+    }
+    public int GetItemAmount()
+    {
+        int i = 0 ;
+        foreach (Item item in _items)
+        {
+            i += item._amount;
+        }
+        return i;
+    }
+    public bool HasCapacity(List<ItemInput> itemsIn)
+    {
+        int amountIn = 0;
+        foreach (ItemInput item in itemsIn)
+        {
+            amountIn+=item._amount;
+        }
+        int amountCurrent = GetItemAmount();
+        return (amountCurrent+amountIn) < _itemCapacity;
+    }
+    public bool CapacityCheck()
+    {
+        return GetItemAmount() < _itemCapacity;
+    }
+}
+
+
+[Serializable]
+public class ItemInput : Queueable
+{
+    public string _name;
+    public int _index;
+    public int _amount;
+}
+
+[Serializable]
+public class ItemInputChance
+{
+    public ItemInput _item;
+    public Vector2Int _amountRange;
+    public float _probability = 0.5f;
+
+    public bool IsHit()
+    {
+        return Utils.Tools.IsHit(_probability);
+    }
+}

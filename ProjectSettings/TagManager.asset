@@ -5,9 +5,21 @@ TagManager:
   serializedVersion: 2
   tags:
   - Wall
-  - Poison
   - Food
+  - Mineral
+  - Rest
+  - Blocker
+  - Enemy
+  - Agent 1
+  - Agent 2
   - Agent
+  - blueGoal
+  - purpleGoal
+  - ball
+  - boundary
+  - wall
+  - blueBoundary
+  - purpleBoundary
   layers:
   - Default
   - TransparentFX
@@ -15,11 +27,11 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Obstacles
+  - Agents
+  - Terrain
+  - Render
+  - Highlight
   - 
   - 
   - 
@@ -44,4 +56,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 3886577025
     locked: 0
