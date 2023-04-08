@@ -94,7 +94,7 @@ public class HabBotProcessor : MonoBehaviour
         // we basically need to get the associated spawned bot, destroy it, and respawn it in same position/rotation
         HabBot bot = e._bot;
         HabBotController botController = GetController(bot);
-        //Debug.Log("Bot State Change");
+
         BuiltNodeObject obj = _nodeProcessor.GetClosestNodeObject(Node.Type.Building, e._bot._position, 6) as BuiltNodeObject;
         Debug.Log("Bot State Change: " + obj);
         Vector3 position = (obj._behaviour as BuiltNodeBehaviourRestMachine).GetZonePosition();

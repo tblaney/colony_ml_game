@@ -36,10 +36,6 @@ public class UIExit : UIObject
     {
         GameHandler.Instance.Save();
 
-        Invoke("CloseApplication", 1f);
-    }
-    void CloseApplication()
-    {
         Application.Quit();
     }
 }

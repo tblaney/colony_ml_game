@@ -321,6 +321,18 @@ PrefabInstance:
       propertyPath: _rotator
       value: 
       objectReference: {fileID: 5631488333919606818}
+    - target: {fileID: 8990776719369498151, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9029978668760218586, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9029978668760218586, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26125a3be1328254db014aa511a7dc47, type: 3}
 --- !u!1 &2095859433644819831 stripped
