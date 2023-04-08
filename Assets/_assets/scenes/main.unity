@@ -1922,6 +1922,8 @@ MonoBehaviour:
   _type: 0
   _container: {fileID: 852329501}
   _prefabNotificationName: ui notification
+  _colors:
+  - {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &366143004
 GameObject:
   m_ObjectHideFlags: 0
@@ -4546,6 +4548,8 @@ MonoBehaviour:
   _type: 1
   _container: {fileID: 1930951057}
   _prefabNotificationName: ui notification top
+  _colors:
+  - {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &702466526
 GameObject:
   m_ObjectHideFlags: 0
@@ -8836,7 +8840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeScale: 1
-  _timeStart: 0
+  _timeStart: 2
   _locked: 0
 --- !u!1 &1535753995 stripped
 GameObject:

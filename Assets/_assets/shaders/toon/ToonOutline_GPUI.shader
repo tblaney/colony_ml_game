@@ -50,7 +50,6 @@ Shader "GPUInstancer/Custom/ToonOutline"
 #include "./../../../GPUInstancer/Shaders/Include/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
-#include "UnityCG.cginc"
 
 			struct v2f {
 				float4 pos : SV_POSITION;
@@ -91,12 +90,11 @@ Shader "GPUInstancer/Custom/ToonOutline"
 		Tags{ "Queue" = "Geometry" "RenderType" = "Opaque" }
 
 		CGPROGRAM
-		#include "UnityCG.cginc"
-		#include "./../../../GPUInstancer/Shaders/Include/GPUInstancerInclude.cginc"
-		#pragma instancing_options procedural:setupGPUI
-		#pragma multi_compile_instancing
-		#include "UnityCG.cginc"
-		#pragma surface surf Toon addshadow fullforwardshadows 
+#include "UnityCG.cginc"
+#include "./../../../GPUInstancer/Shaders/Include/GPUInstancerInclude.cginc"
+#pragma instancing_options procedural:setupGPUI
+#pragma multi_compile_instancing
+		#pragma surface surf Toon addshadow fullforwardshadows exclude_path:deferred exclude_path:prepass
         #pragma target 3.0
 
         

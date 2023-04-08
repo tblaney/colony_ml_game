@@ -42,7 +42,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _EdgeWidth: 0.69
+    - _EdgeWidth: 0
     - _GridOpacity: 0
     - _NoiseScale: -0.92
     - _RampSmooth: 0
@@ -51,8 +51,9 @@ Material:
     - _Scale: -0.35
     - _SideScale: 0.38
     - _SnowAmount: 0
+    - _TextureInfluence: 1
     - _ToonSteps: 2.49
-    - _TopSpread: 3.13
+    - _TopSpread: 0.88
     - _TopThreshold: 0.9
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

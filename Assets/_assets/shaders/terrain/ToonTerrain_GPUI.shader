@@ -33,7 +33,6 @@ Shader "GPUInstancer/Toon/Basic/ToonTerrain"
 #include "./../../../GPUInstancer/Shaders/Include/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
-#include "UnityCG.cginc"
         
         #pragma surface surf Toon addshadow fullforwardshadows exclude_path:deferred exclude_path:prepass
         #pragma target 3.0
