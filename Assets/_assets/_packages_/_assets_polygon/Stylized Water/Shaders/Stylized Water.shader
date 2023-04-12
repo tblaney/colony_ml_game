@@ -264,10 +264,18 @@
                 // ------------------------ //
                 // DEPTH AND DISTANCE MASKS //
                 // ------------------------ //
+                float persp = LinearEyeDepth(fragDepth);
+                float ortho = (_ProjectionParams.z-_ProjectionParams.y)*(1-fragDepth)+_ProjectionParams.y;
+                float depth = lerp(persp,ortho,unity_OrthoParams.w);
+
+                float persp2 = LinearEyeDepth(i.vertex.z);
+                float ortho2 = (_ProjectionParams.z-_ProjectionParams.y)*(1-i.vertex.z)+_ProjectionParams.y;
+                float depth2 = lerp(persp2,ortho2,unity_OrthoParams.w);
 
                 // Calculate the distance the viewing ray travels underwater,
                 // as well as the transmittance for that distance.
-                float opticalDepth = abs(LinearEyeDepth(fragDepth) - LinearEyeDepth(i.vertex.z));
+                float opticalDepth = abs(depth - depth2);
+
                 float transmittance = exp(-_DepthDensity * opticalDepth);
 
                 // Also calculate how far away the fragment is from the camera.

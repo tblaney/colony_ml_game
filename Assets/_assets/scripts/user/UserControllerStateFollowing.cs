@@ -14,7 +14,7 @@ public class UserControllerStateFollowing : UserControllerState
         if (target != null)
         {
             _cam.SetTargetFollow(target);
-            _cam.SetFOV(10f);
+            _cam.SetFOV(18f);
         } else
         {
             StopState();

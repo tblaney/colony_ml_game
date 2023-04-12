@@ -28,8 +28,8 @@ public class CameraController : MonoBehaviour
     {
         if (_zoomLocked)
         {
-            float fovNew = Mathf.Lerp(cam.fieldOfView, _fov, Time.deltaTime*4f);
-            cam.fieldOfView = fovNew;
+            float fovNew = Mathf.Lerp(cam.orthographicSize, _fov, Time.deltaTime*4f);
+            cam.orthographicSize = fovNew;
             return;
         }
         
@@ -38,13 +38,13 @@ public class CameraController : MonoBehaviour
         
         if (Input.mouseScrollDelta.y != 0f)
         {
-            float targetFOV = cam.fieldOfView - Input.mouseScrollDelta.y*16;
-            float val = Mathf.Lerp(cam.fieldOfView, targetFOV, Time.deltaTime*5f);
+            float targetFOV = cam.orthographicSize - Input.mouseScrollDelta.y*16;
+            float val = Mathf.Lerp(cam.orthographicSize, targetFOV, Time.deltaTime*5f);
             if (val > zoomRange[1])
                 val = zoomRange[1];
             if (val < zoomRange[0])
                 val = zoomRange[0];
-            cam.fieldOfView = val;
+            cam.orthographicSize = val;
         }
     }
     public Vector3 GetCenterTerrainPosition()

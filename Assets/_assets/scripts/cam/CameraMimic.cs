@@ -13,6 +13,6 @@ public class CameraMimic : MonoBehaviour
     }
     void Update()
     {
-        _cam.fieldOfView = _target.fieldOfView;
+        _cam.orthographicSize = _target.orthographicSize;
     }
 }
